@@ -12,89 +12,54 @@ import (
 )
 import "../Model"
 
-type filelistResponce struct {
+type fileListResponse struct {
 	FileList []string `json:"files"`
 }
 
 func AddDirectoryEndpoints(e *echo.Echo, albumManager *Model.AlbumManager) {
-	directoryEndpoint := e.Group("/api/directory/:albumId")
+	directoryEndpoint := e.Group("/api/directory/:albumId/:destDirIdx")
 
-	// `source`	endpoint
-	sourceEndpoint := directoryEndpoint.Group("/source")
-
-	// -- get all picture file-names in source directory
-	sourceEndpoint.GET("/", func(ctx echo.Context) error {
+	// -- get all picture file-names in selected directory
+	directoryEndpoint.GET("/", func(ctx echo.Context) error {
 		albumId := ctx.Param(albumIdParamName)
 		album := albumManager.Get(albumId)
 		if album == nil {
-			return returnAlbumNotFoundResponce(ctx)
-		}
-
-		files, err := ioutil.ReadDir(album.SourceDirEntry.FullPath)
-		if err != nil {
-			log.Error(err)
-			return ctx.String(http.StatusInternalServerError, "error occurred when reading directory")
-		}
-
-		return ctx.JSON(http.StatusOK, createFileListResponce(files))
-	})
-
-	// -- get picture in source directory
-	sourceEndpoint.GET("/:fileName", func(ctx echo.Context) error {
-		albumId := ctx.Param(albumIdParamName)
-		album := albumManager.Get(albumId)
-		if album == nil {
-			return returnAlbumNotFoundResponce(ctx)
-		}
-
-		// TODO: sanitize `fileName` if necessary
-		return ctx.File(filepath.Join(album.SourceDirEntry.FullPath, ctx.Param(fileNameParamName)))
-	})
-
-	// `arranged` endpoints
-	arrangedEndpoint := directoryEndpoint.Group("/arranged/:destDirIdx")
-
-	// -- get all picture file-names in selected destination directory
-	arrangedEndpoint.GET("/", func(ctx echo.Context) error {
-		albumId := ctx.Param(albumIdParamName)
-		album := albumManager.Get(albumId)
-		if album == nil {
-			return returnAlbumNotFoundResponce(ctx)
+			return returnAlbumNotFoundResponse(ctx)
 		}
 
 		destDirIndex, err := strconv.Atoi(ctx.Param(destDirIndexParamName))
-		if err != nil || destDirIndex < 0 || destDirIndex >= len(album.ArrangedDirEntries) {
-			return returnInvalidDestDirIndexReponce(ctx, ctx.Param(destDirIndexParamName))
+		if err != nil || destDirIndex < 0 || destDirIndex >= len(album.DirEntries) {
+			return returnInvalidDirIndexResponse(ctx, ctx.Param(destDirIndexParamName))
 		}
 
-		files, err := ioutil.ReadDir(album.ArrangedDirEntries[destDirIndex].FullPath)
+		files, err := ioutil.ReadDir(album.DirEntries[destDirIndex].FullPath)
 		if err != nil {
 			log.Error(err)
 			return ctx.String(http.StatusInternalServerError, "error occurred when reading directory")
 		}
 
-		return ctx.JSON(http.StatusOK, createFileListResponce(files))
+		return ctx.JSON(http.StatusOK, createFileListResponse(files))
 	})
 
 	// -- get picture in selected destination directory
-	arrangedEndpoint.GET("/:fileName", func(ctx echo.Context) error {
+	directoryEndpoint.GET("/:fileName", func(ctx echo.Context) error {
 		albumId := ctx.Param(albumIdParamName)
 		album := albumManager.Get(albumId)
 		if album == nil {
-			return returnAlbumNotFoundResponce(ctx)
+			return returnAlbumNotFoundResponse(ctx)
 		}
 
 		destDirIndex, err := strconv.Atoi(ctx.Param(destDirIndexParamName))
-		if err != nil || destDirIndex < 0 || destDirIndex >= len(album.ArrangedDirEntries) {
-			return returnInvalidDestDirIndexReponce(ctx, ctx.Param(destDirIndexParamName))
+		if err != nil || destDirIndex < 0 || destDirIndex >= len(album.DirEntries) {
+			return returnInvalidDirIndexResponse(ctx, ctx.Param(destDirIndexParamName))
 		}
 
 		// TODO: sanitize `fileName` if necessary
-		return ctx.File(filepath.Join(album.ArrangedDirEntries[destDirIndex].FullPath, ctx.Param(fileNameParamName)))
+		return ctx.File(filepath.Join(album.DirEntries[destDirIndex].FullPath, ctx.Param(fileNameParamName)))
 	})
 }
 
-func returnAlbumNotFoundResponce(ctx echo.Context) error {
+func returnAlbumNotFoundResponse(ctx echo.Context) error {
 	albumId := ctx.Param(albumIdParamName)
 	return ctx.String(http.StatusNotFound, strings.Join([]string{
 		"Album not found (album ID: ",
@@ -103,16 +68,16 @@ func returnAlbumNotFoundResponce(ctx echo.Context) error {
 	}, ""))
 }
 
-func returnInvalidDestDirIndexReponce(ctx echo.Context, indexStr string) error {
+func returnInvalidDirIndexResponse(ctx echo.Context, indexStr string) error {
 	return ctx.String(http.StatusNotFound, strings.Join([]string{
-		"Destination directory index is invalid or out of range (index: ",
+		"Directory index is invalid or out of range (index: ",
 		indexStr,
 		")",
 	}, ""))
 }
 
-func createFileListResponce(fileInfos []os.FileInfo) filelistResponce {
-	ret := filelistResponce{[]string{}}
+func createFileListResponse(fileInfos []os.FileInfo) fileListResponse {
+	ret := fileListResponse{[]string{}}
 	for _, v := range fileInfos {
 		if v.IsDir() {
 			continue

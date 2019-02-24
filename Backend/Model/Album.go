@@ -1,19 +1,14 @@
 package Model
 
 type Album struct {
-	Label              string     `json:"label"`
-	SourceDirEntry     DirEntry   `json:"source"`
-	ArrangedDirEntries []DirEntry `json:"arranged"`
+	Label      string     `json:"label"`
+	DirEntries []DirEntry `json:"directories"`
 }
 
 func NewAlbum(label string) *Album {
 	return &Album{
-		Label: label,
-		SourceDirEntry: DirEntry{
-			Label:    "",
-			FullPath: "",
-		},
-		ArrangedDirEntries: []DirEntry{},
+		Label:      label,
+		DirEntries: []DirEntry{},
 	}
 }
 
@@ -21,9 +16,8 @@ func (a *Album) DeepCopy() *Album {
 	ret := new(Album)
 
 	ret.Label = a.Label
-	ret.SourceDirEntry = a.SourceDirEntry
-	ret.ArrangedDirEntries = make([]DirEntry, len(a.ArrangedDirEntries))
-	copy(ret.ArrangedDirEntries, a.ArrangedDirEntries)
+	ret.DirEntries = make([]DirEntry, len(a.DirEntries))
+	copy(ret.DirEntries, a.DirEntries)
 
 	return ret
 }

@@ -38,7 +38,7 @@ func AddAlbumEndpoints(e *echo.Echo, albumManager *Model.AlbumManager) {
 	albumEndpoint.GET("/:id", func(ctx echo.Context) error {
 		ret := albumManager.Get(ctx.Param("id"))
 		if ret == nil {
-			return returnAlbumNotFoundResponce(ctx);
+			return returnAlbumNotFoundResponse(ctx);
 		}
 		return ctx.JSON(http.StatusOK, ret)
 	})
