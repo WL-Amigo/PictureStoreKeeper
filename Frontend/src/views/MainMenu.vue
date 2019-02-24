@@ -2,7 +2,7 @@
 section.section
   .container
     .buttons-container
-      router-link.button.is-primary.button-item(:to="{name: 'arrange', params: { id: id }}") 画像を整理する
+      router-link.button.is-primary.button-item(:to="{name: 'directory-selector-before-arrange', params: { id: id }}") 画像を整理する
       router-link.button.is-primary.button-item(:to="{name: 'gallery', params: { id: id }}") ギャラリー
       router-link.button.is-primary.button-item(:to="{name: 'album-settings', params: { id: id }}") 設定
 </template>

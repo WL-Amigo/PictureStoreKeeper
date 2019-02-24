@@ -9,8 +9,8 @@ section.section.fullheight-section
             .sub-img(v-for="imgSrc in nextImageSrcs" :key="imgSrc")
               image-container(:src="imgSrc")
     .columns.fullwidth(v-if="album != null")
-      .column(v-for="(dest, dIdx) in album.arranged" :key="dest.label")
-        button.button.is-fullwidth(@click="onMove(dIdx)") {{ dest.label }}
+      .column(v-for="dest in destinationDirs" :key="dest.id")
+        button.button.is-fullwidth(@click="onMove(dest.id)") {{ dest.label }}
     .columns.fullwidth(v-if="album != null")
       .column: button.button.is-fullwidth(@click="onSkip()") とりあえずスキップ
       .column: button.button.is-fullwidth.is-static() 破棄する(未実装)
@@ -36,22 +36,23 @@ export default class PictureArranger extends Vue {
   private m_DirectoryAPIService!: DirectoryAPIService;
   @Inject("MoveAPIService") private m_MoveAPIService!: MoveAPIService;
 
-  private id: string = "";
+  private albumId: string = "";
+  private dirId: number = -1;
   private album: Album | null = null;
   private imageSrcList: Array<string> = [];
 
   async mounted() {
-    this.id = this.$route.params["id"];
-    this.album = await this.m_AlbumAPIService.getAlbumAsync(this.id);
-    this.imageSrcList = await this.m_DirectoryAPIService.getAllFilesInSource(
-      this.id
-    );
+    this.albumId = this.$route.params["albumId"];
+    this.dirId = parseInt(this.$route.params["dirId"]);
+    this.album = await this.m_AlbumAPIService.getAlbumAsync(this.albumId);
+    this.imageSrcList = await this.m_DirectoryAPIService.getAllFiles(this.albumId, this.dirId);
   }
 
   get currentHeadImageSrc() {
     return this.imageSrcList.length >= 1
-      ? this.m_DirectoryAPIService.toSourceFileURL(
-          this.id,
+      ? this.m_DirectoryAPIService.toFileURL(
+          this.albumId,
+          this.dirId,
           this.imageSrcList[0]
         )
       : "";
@@ -64,14 +65,23 @@ export default class PictureArranger extends Vue {
     return subSrcs.map(fn =>
       fn.length === 0
         ? ""
-        : this.m_DirectoryAPIService.toSourceFileURL(this.id, fn)
+        : this.m_DirectoryAPIService.toFileURL(this.albumId, this.dirId, fn)
     );
   }
 
+  get destinationDirs() {
+    return this.album!.directories
+    .map((v, i) => {
+      return { ...v, id: i }
+    })
+    .filter(v => v.id != this.dirId);
+  }
+
   async onMove(destIndex: number) {
-    let result = await this.m_MoveAPIService.movePictureToArrangedAsync(
-      this.id,
+    let result = await this.m_MoveAPIService.movePictureAsync(
+      this.albumId,
       this.imageSrcList[0],
+      this.dirId,
       destIndex
     );
     console.log(result ? "move 成功" : "move 失敗");
