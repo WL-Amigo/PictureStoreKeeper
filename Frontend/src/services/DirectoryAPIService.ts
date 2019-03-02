@@ -5,8 +5,8 @@ export class DirectoryAPIService {
         private readonly m_host: string
     ) {}
 
-    public async getAllFilesInSource(id: string) {
-        let resp = await fetch((new URL(`/api/directory/${id}/source/`, this.m_host)).toString());
+    public async getAllFiles(albumId: string, dirId: number) {
+        let resp = await fetch((new URL(`/api/directory/${albumId}/${dirId}`, this.m_host)).toString());
         if(!resp.ok) {
             throw "getAllFilesInSource: failed";
         }
@@ -14,7 +14,7 @@ export class DirectoryAPIService {
         return (<Array<string>>(await resp.json())['files']);
     }
 
-    public toSourceFileURL(id: string, fileName: string) {
-        return (new URL(`/api/directory/${id}/source/${fileName}`, this.m_host)).toString()
+    public toFileURL(albumId: string, dirId: number, fileName: string) {
+        return (new URL(`/api/directory/${albumId}/${dirId}/${fileName}`, this.m_host)).toString()
     }
 }

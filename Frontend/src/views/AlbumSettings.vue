@@ -5,17 +5,15 @@ section.section
     div(v-if="album != null")
       b-field(label="アルバムの名前")
         b-input(v-model="album.label")
-      b-field(label="未整理ディレクトリ")
-        b-input(v-model="album.source.fullpath")
-      b-field(label="整理先ディレクトリ")
-      .columns.arranged-entity-container(v-for="(aEntry, aIdx) in album.arranged" :key="aIdx")
+      b-field(label="ディレクトリ")
+      .columns.arranged-entity-container(v-for="(aEntry, aIdx) in album.directories" :key="aIdx")
         .column.is-2: b-field(label="ラベル"): b-input(v-model="aEntry.label")
         .column.is-9: b-field(label="パス"):   b-input(v-model="aEntry.fullpath")
         .column.is-1: .buttons-container
-          button.button.is-danger(@click="deleteArrangedDirEntry(aIdx)")
+          button.button.is-danger(@click="deleteDirEntry(aIdx)")
             span.icon: i.fas.fa-trash-alt
       .columns 
-        .column: button.button.is-fullwidth.add-entity-button(@click="addArrangedDirEntry()")
+        .column: button.button.is-fullwidth.add-entity-button(@click="addDirEntry()")
           span.icon: i.fas.fa-plus-circle
           span 追加する
       button.button(@click="saveAlbumAndReturnToMenu") 保存してメニューに戻る
@@ -63,12 +61,12 @@ export default class AlbumSettings extends Vue {
     }
   }
 
-  addArrangedDirEntry() {
-    this.album!.arranged.push({ label: "", fullpath: "" });
+  addDirEntry() {
+    this.album!.directories.push({ label: "", fullpath: "" });
   }
 
-  deleteArrangedDirEntry(index: number) {
-    this.album!.arranged.splice(index, 1);
+  deleteDirEntry(index: number) {
+    this.album!.directories.splice(index, 1);
   }
 
   get isLoading() {

@@ -1,7 +1,8 @@
 
 
 interface MoveFilePayload {
-    arranged_dir_index: number,
+    source_dir_index: number,
+    destination_dir_index: number,
     file_name: string
 }
 
@@ -10,12 +11,13 @@ export class MoveAPIService {
         private readonly m_host: string
     ){}
 
-    public async movePictureToArrangedAsync(albumID: string, fileName: string, arrangedDirIndex: number){
+    public async movePictureAsync(albumID: string, fileName: string, sourceDirIndex: number, destDirIndex: number){
         let payload: MoveFilePayload = {
-            arranged_dir_index: arrangedDirIndex,
+            source_dir_index: sourceDirIndex,
+            destination_dir_index: destDirIndex,
             file_name: fileName
         };
-        let resp = await fetch((new URL(`/api/move/${albumID}/source`, this.m_host)).toString(), {
+        let resp = await fetch((new URL(`/api/move/${albumID}`, this.m_host)).toString(), {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
