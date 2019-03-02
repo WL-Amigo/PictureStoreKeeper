@@ -17,7 +17,7 @@ export class MoveAPIService {
             destination_dir_index: destDirIndex,
             file_name: fileName
         };
-        let resp = await fetch((new URL(`/api/move/${albumID}/`, this.m_host)).toString(), {
+        let resp = await fetch((new URL(`/api/move/${albumID}`, this.m_host)).toString(), {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json; charset=utf-8",

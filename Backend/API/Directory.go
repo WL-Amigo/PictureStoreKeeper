@@ -20,7 +20,7 @@ func AddDirectoryEndpoints(e *echo.Echo, albumManager *Model.AlbumManager) {
 	directoryEndpoint := e.Group("/api/directory/:albumId/:destDirIdx")
 
 	// -- get all picture file-names in selected directory
-	directoryEndpoint.GET("/", func(ctx echo.Context) error {
+	directoryEndpoint.GET("", func(ctx echo.Context) error {
 		albumId := ctx.Param(albumIdParamName)
 		album := albumManager.Get(albumId)
 		if album == nil {

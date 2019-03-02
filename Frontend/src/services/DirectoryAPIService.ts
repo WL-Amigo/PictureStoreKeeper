@@ -6,7 +6,7 @@ export class DirectoryAPIService {
     ) {}
 
     public async getAllFiles(albumId: string, dirId: number) {
-        let resp = await fetch((new URL(`/api/directory/${albumId}/${dirId}/`, this.m_host)).toString());
+        let resp = await fetch((new URL(`/api/directory/${albumId}/${dirId}`, this.m_host)).toString());
         if(!resp.ok) {
             throw "getAllFilesInSource: failed";
         }

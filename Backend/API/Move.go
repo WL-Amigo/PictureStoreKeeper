@@ -20,7 +20,7 @@ func AddMoveEndpoints(e *echo.Echo, albumManager *Model.AlbumManager) {
 	moveEndpoint := e.Group("/api/move/:albumId")
 
 	// move file from destination to source
-	moveEndpoint.POST("/", func(ctx echo.Context) error {
+	moveEndpoint.POST("", func(ctx echo.Context) error {
 		// error checks
 		payload := new(moveFilePayload)
 		if err := ctx.Bind(payload); err != nil {

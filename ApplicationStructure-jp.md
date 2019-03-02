@@ -89,14 +89,8 @@
       * *GET*: アルバム情報を返す
       * *POST*: アルバム情報を更新する
   * `directory`
-    * `/:album-id`
-      * `/source` *GET*: 未整理フォルダの中身の画像のリストを返す
-        * `/:file-name` *GET*: 未整理フォルダ内の画像データを返す
-        * `/thumb/:file-name` *GET*: サムネイル用にバックエンド側で決め打ちしたサイズにリサイズした画像データを返す 
-      * `/arranged/:dest-dir-idx` *GET*: 整理フォルダの中身の画像のリストを返す
-        * `/:file-name` *GET*: 指定されている整理フォルダ内の画像データを返す
-        * `/thumb/:file-name` *GET*: サムネイル用にバックエンド側で決め打ちしたサイズにリサイズした画像データを返す
+    * `/:album-id/:dir-index` *GET*: 指定されたディレクトリ内の画像ファイル名のリストを返す
+      * `/:file-name` *GET*: 指定されているディレクトリ内の指定された画像データを返す
+      * `/thumb/:file-name` *GET*: サムネイル用にバックエンド側で決め打ちしたサイズにリサイズした画像データを返す *(未実装)*
   * `move`
-    * `/:album-id`
-      * `/source` *POST*: ペイロードで指定された画像ファイルを指定された整理フォルダへ移す
-      * `/arranged/:dest-dir-idx` *POST*: ペイロードで指定された画像ファイルを未整理フォルダへ移す
+    * `/:album-id` POST: ペイロードで指定された画像ファイル(`file_name`)を、指定されたディレクトリ(`source_dir_index`)から指定されたディレクトリ(`destination_dir_index`)へ移す
