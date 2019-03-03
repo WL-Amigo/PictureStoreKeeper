@@ -12,16 +12,21 @@ import (
 func main() {
 	e := echo.New()
 
+	// Get Settings
+	settings := Model.LoadSettings()
+
 	// Allow cross-origin access
-	// TODO: control by environment variable
-	e.Use(middleware.CORS())
+	if settings.AllowCrossOriginAccess {
+		e.Use(middleware.CORS())
+	}
 
 	// Enable logging
-	// TODO: control by environment variable
-	e.Use(middleware.Logger())
+	if settings.EnableLogging {
+		e.Use(middleware.Logger())
+	}
 
 	// initialize AlbumManager
-	albumManager := Model.LoadAlbumManager()
+	albumManager := Model.LoadAlbumManager(settings)
 
 	// register all endpoints
 	API.AddAlbumEndpoints(e, albumManager)

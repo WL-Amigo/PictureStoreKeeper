@@ -8,11 +8,13 @@ import (
 	"strconv"
 )
 
+// TODO: move to Model/Settings
 const albumDataPathEnvKey = "PSK_ALBUM_DATA_PATH"
 
 type AlbumManager struct {
-	Albums  map[string]*AlbumContainer `json:"albumMap"`
-	Counter uint64            `json:"_identifierCount"`
+	Albums   map[string]*AlbumContainer `json:"albumMap"`
+	Counter  uint64                     `json:"_identifierCount"`
+	settings *Settings                  `json:"-"`
 }
 
 type IDAlbumLabelPair struct {
@@ -20,7 +22,7 @@ type IDAlbumLabelPair struct {
 	Label string `json:"label"`
 }
 
-func LoadAlbumManager() *AlbumManager {
+func LoadAlbumManager(settings *Settings) *AlbumManager {
 	// アルバムデータは、環境変数 `PSK_ALBUM_DATA_PATH` があればそこから、無ければ実行ディレクトリの "albums.json" を読み込む
 	albumDataPath := getAlbumDataPath()
 
@@ -33,6 +35,10 @@ func LoadAlbumManager() *AlbumManager {
 		ret.Counter = 0
 		ret.Albums = make(map[string]*AlbumContainer, 0)
 	}
+
+	// set dependencies
+	ret.settings = settings
+
 	return ret
 }
 
@@ -41,7 +47,12 @@ func (m *AlbumManager) persistent() {
 	albumDataPath := getAlbumDataPath()
 
 	// アルバムデータを上書き保存する
-	data, _ := json.Marshal(m)
+	var data []byte
+	if m.settings.IndentData {
+		data, _ = json.MarshalIndent(m, "", "  ")
+	} else {
+		data, _ = json.Marshal(m)
+	}
 	_ = ioutil.WriteFile(albumDataPath, data, 0664)
 }
 
