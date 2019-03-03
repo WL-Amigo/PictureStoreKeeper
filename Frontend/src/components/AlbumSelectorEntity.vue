@@ -2,7 +2,7 @@
 .album-sel-entity
   i.fas.fa-book.fa-5x
   .album-data
-    p {{ album.label }}
+    p {{ label }}
 </template>
 
 <script lang="ts">
@@ -11,7 +11,7 @@ import { Album } from "../models/Album";
 
 @Component({})
 export default class AlbumSelectorEntry extends Vue {
-  @Prop() private album!: Album;
+  @Prop() private label!: string;
 }
 </script>
 

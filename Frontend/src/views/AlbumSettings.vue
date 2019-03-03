@@ -21,7 +21,6 @@ section.section
 
 <script lang="ts">
 import { Component, Vue, Inject } from "vue-property-decorator";
-import { IDAndAlbumPair } from "../models/IDAndAlbumPair";
 import { Album } from "../models/Album";
 import { AlbumAPIService } from "@/services/AlbumAPIService";
 

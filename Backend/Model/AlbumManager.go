@@ -11,13 +11,13 @@ import (
 const albumDataPathEnvKey = "PSK_ALBUM_DATA_PATH"
 
 type AlbumManager struct {
-	Albums  map[string]*Album `json:"albumMap"`
+	Albums  map[string]*AlbumContainer `json:"albumMap"`
 	Counter uint64            `json:"_identifierCount"`
 }
 
-type IDAlbumPair struct {
+type IDAlbumLabelPair struct {
 	ID    string `json:"id"`
-	Album *Album `json:"album"`
+	Label string `json:"label"`
 }
 
 func LoadAlbumManager() *AlbumManager {
@@ -31,7 +31,7 @@ func LoadAlbumManager() *AlbumManager {
 		_ = json.Unmarshal(data, ret)
 	} else {
 		ret.Counter = 0
-		ret.Albums = make(map[string]*Album, 0)
+		ret.Albums = make(map[string]*AlbumContainer, 0)
 	}
 	return ret
 }
@@ -56,25 +56,25 @@ func (m *AlbumManager) Create(label string) string {
 	return id
 }
 
-func (m *AlbumManager) Get(id string) *Album {
+func (m *AlbumManager) Get(id string) *AlbumContainer {
 	ret, ok := m.Albums[id]
 	if !ok {
 		// TODO: ログを吐く
 		return nil
 	}
-	return ret
+	return ret.DeepCopy()
 }
 
-func (m *AlbumManager) GetAllAlbums() []IDAlbumPair {
-	ret := make([]IDAlbumPair, 0)
+func (m *AlbumManager) GetAllAlbumIdentifiers() []IDAlbumLabelPair {
+	ret := make([]IDAlbumLabelPair, 0)
 	for key, value := range m.Albums {
-		ret = append(ret, IDAlbumPair{key, value})
+		ret = append(ret, IDAlbumLabelPair{key, value.AlbumPublic.Label})
 	}
 	sort.Slice(ret, func(i, j int) bool { return ret[i].ID < ret[j].ID })
 	return ret
 }
 
-func (m *AlbumManager) UpdateOrInsert(id string, album *Album) {
+func (m *AlbumManager) UpdateOrInsert(id string, album *AlbumContainer) {
 	m.Albums[id] = album.DeepCopy()
 	m.persistent()
 }

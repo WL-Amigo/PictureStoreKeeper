@@ -1,4 +1,4 @@
-import { IDAndAlbumPair } from '@/models/IDAndAlbumPair';
+import { IDAndLabelPair } from '@/models/IDAndLabelPair';
 import { Album } from '@/models/Album'
 
 export class AlbumAPIService {
@@ -12,7 +12,7 @@ export class AlbumAPIService {
       throw "getAllAlbumsAsync: failed";
     }
 
-    return <Array<IDAndAlbumPair>>(await resp.json());
+    return <Array<IDAndLabelPair>>(await resp.json());
   }
   
   public async getAlbumAsync(id: string) {

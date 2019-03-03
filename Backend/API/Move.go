@@ -32,18 +32,19 @@ func AddMoveEndpoints(e *echo.Echo, albumManager *Model.AlbumManager) {
 			return returnAlbumNotFoundResponse(ctx)
 		}
 
+		albumPublic := &album.AlbumPublic
 		sourceDirIndex := payload.SourceDirIndex
 		destDirIndex := payload.DestDirIndex
-		if sourceDirIndex < 0 || destDirIndex >= len(album.DirEntries) {
+		if sourceDirIndex < 0 || destDirIndex >= len(albumPublic.DirEntries) {
 			return returnInvalidDirIndexResponse(ctx, strconv.Itoa(sourceDirIndex))
 		}
-		if destDirIndex < 0 || destDirIndex >= len(album.DirEntries) {
+		if destDirIndex < 0 || destDirIndex >= len(albumPublic.DirEntries) {
 			return returnInvalidDirIndexResponse(ctx, strconv.Itoa(destDirIndex))
 		}
 
 		// move file arranged directory to source
-		sourceFullPath := filepath.Join(album.DirEntries[sourceDirIndex].FullPath, payload.FileName)
-		destFullPath := filepath.Join(album.DirEntries[destDirIndex].FullPath, payload.FileName)
+		sourceFullPath := filepath.Join(albumPublic.DirEntries[sourceDirIndex].FullPath, payload.FileName)
+		destFullPath := filepath.Join(albumPublic.DirEntries[destDirIndex].FullPath, payload.FileName)
 		if err := os.Rename(sourceFullPath, destFullPath); err != nil {
 			log.Error(err)
 			return ctx.String(http.StatusInternalServerError, "error occurred when moving file")
