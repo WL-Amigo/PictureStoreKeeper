@@ -13,7 +13,7 @@ section.section.fullheight-section
         button.button.is-fullwidth(@click="onMove(dest.id)") {{ dest.label }}
     .columns.fullwidth(v-if="album != null")
       .column: button.button.is-fullwidth(@click="onSkip()") とりあえずスキップ
-      .column: button.button.is-fullwidth.is-static() 破棄する(未実装)
+      .column: button.button.is-fullwidth(@click="onDelete()") 破棄する
 </template>
 
 <script lang="ts">
@@ -85,6 +85,15 @@ export default class PictureArranger extends Vue {
       destIndex
     );
     console.log(result ? "move 成功" : "move 失敗");
+    this.imageSrcList.splice(0, 1);
+  }
+
+  async onDelete() {
+    let result = await this.m_MoveAPIService.deletePictureAsync(
+      this.albumId,
+      this.imageSrcList[0],
+      this.dirId
+    );
     this.imageSrcList.splice(0, 1);
   }
 

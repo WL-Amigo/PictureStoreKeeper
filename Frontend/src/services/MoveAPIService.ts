@@ -6,6 +6,11 @@ interface MoveFilePayload {
     file_name: string
 }
 
+interface DeleteFilePayload {
+    source_dir_index: number,
+    file_name: string
+}
+
 export class MoveAPIService {
     public constructor(
         private readonly m_host: string
@@ -25,6 +30,23 @@ export class MoveAPIService {
             body: JSON.stringify(payload),
         });
         
+        return resp.ok;
+    }
+
+    public async deletePictureAsync(albumID: string, fileName: string, sourceDirIndex: number) {
+        let payload: DeleteFilePayload = {
+            source_dir_index: sourceDirIndex,
+            file_name: fileName
+        };
+        let resp = await fetch((new URL(`/api/move/${albumID}/delete`, this.m_host)).toString(), {
+            method: 'POST',
+            // TODO: commonize content-type:json header
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify(payload),
+        });
+
         return resp.ok;
     }
 }

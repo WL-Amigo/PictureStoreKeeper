@@ -1,7 +1,7 @@
 <template lang="pug">
 section.section
   .container
-    entity(v-for="iaap in idAndAlbumPairs" :key="iaap.id" :album="iaap.album" @click.native="onEntityClicked(iaap.id)")
+    entity(v-for="iaap in idAndLabelPairs" :key="iaap.id" :label="iaap.label" @click.native="onEntityClicked(iaap.id)")
     .fullwidth-button.add-button(@click="isCreateAlbumPromptActive = true")
       span.icon: i.fas.fa-plus-circle
       span 追加する
@@ -14,7 +14,7 @@ import { Component, Vue, Inject } from "vue-property-decorator";
 import Entity from "../components/AlbumSelectorEntity.vue";
 import CreateAlbumPrompt from "../components/CreateAlbumPrompt.vue";
 import { AlbumAPIService } from "@/services/AlbumAPIService";
-import { IDAndAlbumPair } from "@/models/IDAndAlbumPair";
+import { IDAndLabelPair } from "@/models/IDAndLabelPair";
 import { DialogConfig } from "buefy/types/components";
 
 const CreateAlbumPromptDefinition: DialogConfig & { inputAttrs?: any } = {
@@ -31,11 +31,11 @@ const CreateAlbumPromptDefinition: DialogConfig & { inputAttrs?: any } = {
 export default class AlbumSelector extends Vue {
   @Inject("AlbumAPIService") private m_AlbumAPIService!: AlbumAPIService;
 
-  public idAndAlbumPairs: Array<IDAndAlbumPair> = [];
+  public idAndLabelPairs: Array<IDAndLabelPair> = [];
   private isCreateAlbumPromptActive: boolean = false;
 
   async mounted() {
-    this.idAndAlbumPairs = await this.m_AlbumAPIService.getAllAlbumsAsync();
+    this.idAndLabelPairs = await this.m_AlbumAPIService.getAllAlbumsAsync();
   }
 
   public onEntityClicked(id: string): void {
@@ -57,7 +57,7 @@ export default class AlbumSelector extends Vue {
       return;
     }
 
-    this.idAndAlbumPairs = await this.m_AlbumAPIService.getAllAlbumsAsync();
+    this.idAndLabelPairs = await this.m_AlbumAPIService.getAllAlbumsAsync();
   }
 }
 </script>

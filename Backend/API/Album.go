@@ -10,7 +10,7 @@ type createAlbumPayload struct {
 	Label string `json:"label"`
 }
 
-type createAlbumResponce struct {
+type createAlbumResponse struct {
 	ID string `json:"id"`
 }
 
@@ -19,7 +19,7 @@ func AddAlbumEndpoints(e *echo.Echo, albumManager *Model.AlbumManager) {
 
 	// get all album list
 	albumEndpoint.GET("/", func(ctx echo.Context) error {
-		return ctx.JSON(http.StatusOK, albumManager.GetAllAlbums())
+		return ctx.JSON(http.StatusOK, albumManager.GetAllAlbumIdentifiers())
 	})
 
 	// create album
@@ -31,16 +31,16 @@ func AddAlbumEndpoints(e *echo.Echo, albumManager *Model.AlbumManager) {
 
 		id := albumManager.Create(payload.Label)
 
-		return ctx.JSON(http.StatusOK, createAlbumResponce{id})
+		return ctx.JSON(http.StatusOK, createAlbumResponse{id})
 	})
 
 	// get album data
 	albumEndpoint.GET("/:id", func(ctx echo.Context) error {
 		ret := albumManager.Get(ctx.Param("id"))
 		if ret == nil {
-			return returnAlbumNotFoundResponse(ctx);
+			return returnAlbumNotFoundResponse(ctx)
 		}
-		return ctx.JSON(http.StatusOK, ret)
+		return ctx.JSON(http.StatusOK, ret.AlbumPublic)
 	})
 
 	// update album data
@@ -50,7 +50,13 @@ func AddAlbumEndpoints(e *echo.Echo, albumManager *Model.AlbumManager) {
 			return ctx.String(http.StatusBadRequest, "invalid payload")
 		}
 
-		albumManager.UpdateOrInsert(ctx.Param("id"), payload)
+		id := ctx.Param("id")
+		album := albumManager.Get(id)
+		if album == nil {
+			return ctx.String(http.StatusNotFound, "album not found with id: " + id)
+		}
+		album.AlbumPublic = *payload
+		albumManager.UpdateOrInsert(id, album)
 
 		return ctx.NoContent(http.StatusOK)
 	})

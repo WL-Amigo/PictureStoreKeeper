@@ -27,12 +27,13 @@ func AddDirectoryEndpoints(e *echo.Echo, albumManager *Model.AlbumManager) {
 			return returnAlbumNotFoundResponse(ctx)
 		}
 
+		albumPublic := &album.AlbumPublic
 		destDirIndex, err := strconv.Atoi(ctx.Param(destDirIndexParamName))
-		if err != nil || destDirIndex < 0 || destDirIndex >= len(album.DirEntries) {
+		if err != nil || destDirIndex < 0 || destDirIndex >= len(albumPublic.DirEntries) {
 			return returnInvalidDirIndexResponse(ctx, ctx.Param(destDirIndexParamName))
 		}
 
-		files, err := ioutil.ReadDir(album.DirEntries[destDirIndex].FullPath)
+		files, err := ioutil.ReadDir(albumPublic.DirEntries[destDirIndex].FullPath)
 		if err != nil {
 			log.Error(err)
 			return ctx.String(http.StatusInternalServerError, "error occurred when reading directory")
@@ -49,13 +50,14 @@ func AddDirectoryEndpoints(e *echo.Echo, albumManager *Model.AlbumManager) {
 			return returnAlbumNotFoundResponse(ctx)
 		}
 
+		albumPublic := &album.AlbumPublic
 		destDirIndex, err := strconv.Atoi(ctx.Param(destDirIndexParamName))
-		if err != nil || destDirIndex < 0 || destDirIndex >= len(album.DirEntries) {
+		if err != nil || destDirIndex < 0 || destDirIndex >= len(albumPublic.DirEntries) {
 			return returnInvalidDirIndexResponse(ctx, ctx.Param(destDirIndexParamName))
 		}
 
 		// TODO: sanitize `fileName` if necessary
-		return ctx.File(filepath.Join(album.DirEntries[destDirIndex].FullPath, ctx.Param(fileNameParamName)))
+		return ctx.File(filepath.Join(albumPublic.DirEntries[destDirIndex].FullPath, ctx.Param(fileNameParamName)))
 	})
 }
 
