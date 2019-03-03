@@ -93,4 +93,6 @@
       * `/:file-name` *GET*: 指定されているディレクトリ内の指定された画像データを返す
       * `/thumb/:file-name` *GET*: サムネイル用にバックエンド側で決め打ちしたサイズにリサイズした画像データを返す *(未実装)*
   * `move`
-    * `/:album-id` POST: ペイロードで指定された画像ファイル(`file_name`)を、指定されたディレクトリ(`source_dir_index`)から指定されたディレクトリ(`destination_dir_index`)へ移す
+    * `/:album-id` *POST*: ペイロードで指定された画像ファイル(`file_name`)を、指定されたディレクトリ(`source_dir_index`)から指定されたディレクトリ(`destination_dir_index`)へ移す
+    * `/:album-id/delete` *POST*: ペイロードで指定された画像ファイルを、削除予定ディレクトリへ移動する
+    * `/:album-id/restore` *POST*: ペイロードで指定された画像ファイルを、削除予定ディレクトリから指定されたディレクトリへ移動する *(未実装)*
