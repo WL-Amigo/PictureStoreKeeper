@@ -10,7 +10,7 @@ type createAlbumPayload struct {
 	Label string `json:"label"`
 }
 
-type createAlbumResponce struct {
+type createAlbumResponse struct {
 	ID string `json:"id"`
 }
 
@@ -31,7 +31,7 @@ func AddAlbumEndpoints(e *echo.Echo, albumManager *Model.AlbumManager) {
 
 		id := albumManager.Create(payload.Label)
 
-		return ctx.JSON(http.StatusOK, createAlbumResponce{id})
+		return ctx.JSON(http.StatusOK, createAlbumResponse{id})
 	})
 
 	// get album data
