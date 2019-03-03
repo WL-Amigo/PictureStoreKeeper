@@ -16,6 +16,8 @@ section.section
         .column: button.button.is-fullwidth.add-entity-button(@click="addDirEntry()")
           span.icon: i.fas.fa-plus-circle
           span 追加する
+      b-field(label="削除予定ディレクトリ")
+        b-input(v-model="album.will_be_deleted_dir")
       button.button(@click="saveAlbumAndReturnToMenu") 保存してメニューに戻る
 </template>
 
