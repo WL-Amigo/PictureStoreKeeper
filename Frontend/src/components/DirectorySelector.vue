@@ -1,5 +1,5 @@
 <template lang="pug">
-.columns.is-centered
+.columns.is-centered.is-multiline
   .column.is-one-quarter(v-for="(dirEntry, dIdx) in album.directories" :key="dIdx" @click="onEntryClicked(dIdx)")
     .fullwidth-button.dir-button {{ dirEntry.label }}
 </template>
