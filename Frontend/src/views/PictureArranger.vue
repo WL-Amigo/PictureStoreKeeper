@@ -6,8 +6,8 @@ section.section.fullheight-section
         .column.is-11: image-container(:src="currentHeadImageSrc")
         .column.is-1
           .sub-img-area
-            .sub-img(v-for="imgSrc in nextImageSrcs" :key="imgSrc")
-              image-container(:src="imgSrc")
+            .sub-img(v-for="(imgSrc, idx) in nextImageSrcs" :key="imgSrc")
+              image-container(:src="imgSrc" @mouseenter.native="onHoverSubImg(idx)" @mouseleave.native="onUnhoverSubImg(idx)")
     .columns.fullwidth(v-if="album != null")
       .column(v-for="dest in destinationDirs" :key="dest.id")
         button.button.is-fullwidth(@click="onMove(dest.id)") {{ dest.label }}
@@ -25,6 +25,8 @@ import { DirEntry } from "@/models/DirEntry";
 import { MoveAPIService } from "@/services/MoveAPIService";
 import ContainImageContainer from "@/components/ContainImageContainer.vue";
 
+const SubImgCount = 5;
+
 @Component({
   components: {
     "image-container": ContainImageContainer
@@ -40,6 +42,7 @@ export default class PictureArranger extends Vue {
   private dirId: number = -1;
   private album: Album | null = null;
   private imageSrcList: Array<string> = [];
+  private subImgHoveringStates: Array<boolean> = Array.from(Array(SubImgCount), () => false);
 
   async mounted() {
     this.albumId = this.$route.params["albumId"];
@@ -49,11 +52,13 @@ export default class PictureArranger extends Vue {
   }
 
   get currentHeadImageSrc() {
+    let currentHeadImageIndex = this.subImgHoveringStates.indexOf(true);
+    currentHeadImageIndex = currentHeadImageIndex == -1 ? 0 : currentHeadImageIndex + 1;
     return this.imageSrcList.length >= 1
       ? this.m_DirectoryAPIService.toFileURL(
           this.albumId,
           this.dirId,
-          this.imageSrcList[0]
+          this.imageSrcList[currentHeadImageIndex]
         )
       : "";
   }
@@ -61,7 +66,7 @@ export default class PictureArranger extends Vue {
   get nextImageSrcs() {
     let subSrcs = this.imageSrcList.slice(1);
     // TODO: もうちょっと同時表示枚数の制御とかしやすくする
-    subSrcs = subSrcs.concat(["", "", "", ""]).slice(0, 4);
+    subSrcs = subSrcs.concat(Array.from(Array(SubImgCount), () => "")).slice(0, SubImgCount);
     return subSrcs.map(fn =>
       fn.length === 0
         ? ""
@@ -100,6 +105,14 @@ export default class PictureArranger extends Vue {
   onSkip() {
     this.imageSrcList.splice(0, 1);
   }
+
+  onHoverSubImg(index: number) {
+    this.subImgHoveringStates.splice(index, 1, true);
+  }
+
+  onUnhoverSubImg(index: number) {
+    this.subImgHoveringStates.splice(index, 1, false);
+  }
 }
 </script>
 
@@ -127,7 +140,7 @@ export default class PictureArranger extends Vue {
   flex-direction: column;
 
   .sub-img {
-    height: 25%;
+    height: 20%;
     width: 100%;
   }
 }
