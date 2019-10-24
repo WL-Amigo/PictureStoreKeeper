@@ -7,7 +7,7 @@ section.section.fullheight-section
         .column.is-1
           .sub-img-area
             .sub-img(v-for="(imgSrc, idx) in nextImageSrcs" :key="imgSrc")
-              image-container(:src="imgSrc" @mouseenter.native="onHoverSubImg(idx)" @mouseleave.native="onUnhoverSubImg(idx)")
+              image-container(:src="imgSrc" @mouseenter.native="onHoverSubImg(idx)" @mouseleave.native="onUnhoverSubImg(idx)" sizing="cover")
     .columns.fullwidth(v-if="album != null")
       .column(v-for="dest in destinationDirs" :key="dest.id")
         button.button.is-fullwidth(@click="onMove(dest.id)") {{ dest.label }}
@@ -42,6 +42,7 @@ export default class PictureArranger extends Vue {
   private dirId: number = -1;
   private album: Album | null = null;
   private imageSrcList: Array<string> = [];
+  // 画像間でカーソルを動かした時に不安定になるのを防止するため、先読み画像1つ1つに対してホバー中かどうかを保持している
   private subImgHoveringStates: Array<boolean> = Array.from(Array(SubImgCount), () => false);
 
   async mounted() {
