@@ -14,7 +14,6 @@ ENV VUE_APP_API_HOST="http://localhost:1323/"
 RUN npm install
 RUN npm run build
 
-#FROM golang:1.13.6-alpine3.11 AS runtime
 FROM alpine:latest AS runtime
 ENV PSK_ALBUM_DATA_PATH=/app/data/album.json
 ENV PSK_ENABLE_LOGGING="true"
