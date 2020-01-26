@@ -16,6 +16,8 @@ RUN npm run build
 
 #FROM golang:1.13.6-alpine3.11 AS runtime
 FROM alpine:latest AS runtime
+ENV PSK_ALBUM_DATA_PATH=/app/data/album.json
+ENV PSK_ENABLE_LOGGING="true"
 COPY --from=backend-build /work/Backend/picture-store-keeper-backend /app/build-release/run
 COPY --from=frontend-build /work/Frontend/dist /app/build-release/frontend-dist
 WORKDIR /app/build-release
