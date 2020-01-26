@@ -14,7 +14,7 @@ Vue.use(Buefy, {
 });
 
 // initialize services
-const Host = 'http://localhost:1323/';
+const Host = process.env.VUE_APP_API_HOST || 'http://localhost:1323/';
 const AlbumAPIServiceInst = new AlbumAPIService(Host);
 const DirectoryAPIServiceInst = new DirectoryAPIService(Host);
 const MoveAPIServiceInst = new MoveAPIService(Host);
