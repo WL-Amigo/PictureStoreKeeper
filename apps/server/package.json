@@ -1,0 +1,17 @@
+{
+  "name": "apps-server",
+  "version": "1.0.0",
+  "description": "PictureStoreKeeper for server",
+  "main": "index.js",
+  "scripts": {
+    "build": "pnpm build:script && node ./scripts/dist/build.js",
+    "build:script": "esbuild ./scripts/build.ts --bundle --outfile=./scripts/dist/build.js --minify --platform=node --external:fs-extra"
+  },
+  "author": "Amigo (WhiteLuckBringers)",
+  "license": "MPL-2.0",
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.6",
+    "esbuild": "^0.8.32",
+    "fs-extra": "^9.0.1"
+  }
+}
