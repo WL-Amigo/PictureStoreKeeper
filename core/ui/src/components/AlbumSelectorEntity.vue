@@ -19,7 +19,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { Album } from '../models/Album';
 import AlbumIcon from './icons/FlaticonCom/Album.vue';
-import ArrowRightSmallIcon from './icons/ArrowRightSmall.vue';
+import ArrowRightSmallIcon from './icons/HeroIcons/ArrowRightSmall.vue';
 
 @Component({
   components: {

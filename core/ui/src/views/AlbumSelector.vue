@@ -31,7 +31,7 @@ import CreateAlbumPrompt from '../components/CreateAlbumPrompt.vue';
 import { AlbumAPIService } from '@/services/AlbumAPIService';
 import { IDAndLabelPair } from '@/models/IDAndLabelPair';
 import { DialogConfig } from 'buefy/types/components';
-import AddFilledIcon from '@/components/icons/AddFilled.vue';
+import AddFilledIcon from '@/components/icons/HeroIcons/AddFilled.vue';
 import FadeTransition from '@/components/transitions/Fade.vue';
 
 const CreateAlbumPromptDefinition: DialogConfig & { inputAttrs?: any } = {

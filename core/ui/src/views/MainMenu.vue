@@ -1,17 +1,32 @@
-<template lang="pug">
-section.section
-  .container
-    .buttons-container
-      router-link.button.is-primary.button-item(:to="{name: 'directory-selector-before-arrange', params: { id: id }}") 画像を整理する
-      router-link.button.is-primary.button-item(:to="{name: 'gallery', params: { id: id }}") ギャラリー
-      router-link.button.is-primary.button-item(:to="{name: 'album-settings', params: { id: id }}") 設定
+<template>
+  <div class="container mx-auto py-8 px-2">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
+      <menu-link :to="{ name: 'directory-selector-before-arrange', params: { id: id } }">
+        <folder class="w-24 h-24 text-primary-800 m-4" />
+        <span class="text-xl">画像を整理する</span>
+      </menu-link>
+      <menu-link :to="{ name: 'album-settings', params: { id: id } }">
+        <settings class="w-24 h-24 text-primary-800 m-4" />
+        <span class="text-xl">設定</span>
+      </menu-link>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-import { Album } from "../models/Album";
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Album } from '../models/Album';
+import FolderIcon from '@/components/icons/TablerIcons/Folder.vue';
+import SettingsIcon from '@/components/icons/TablerIcons/Settings.vue';
+import MainMenuLink from './partials/MainMenu/MainMenuLink.vue';
 
-@Component({})
+@Component({
+  components: {
+    'menu-link': MainMenuLink,
+    folder: FolderIcon,
+    settings: SettingsIcon,
+  },
+})
 export default class MainMenu extends Vue {
   public id: string = '';
 
