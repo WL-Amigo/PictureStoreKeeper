@@ -1,13 +1,17 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import Buefy from 'buefy'
+import Vue from 'vue';
+import './main.css';
+import App from './App.vue';
+import router from './router';
+import store from './store';
+import Buefy from 'buefy';
+import VueCompositionApi from '@vue/composition-api';
 import { AlbumAPIService } from './services/AlbumAPIService';
 import { DirectoryAPIService } from './services/DirectoryAPIService';
 import { MoveAPIService } from './services/MoveAPIService';
 
 Vue.config.productionTip = false;
+
+Vue.use(VueCompositionApi);
 
 Vue.use(Buefy, {
   defaultIconPack: 'fas',
@@ -24,8 +28,8 @@ new Vue({
   store,
   render: h => h(App),
   provide: {
-    "AlbumAPIService": AlbumAPIServiceInst,
-    "DirectoryAPIService": DirectoryAPIServiceInst,
-    "MoveAPIService": MoveAPIServiceInst,
-  }
+    AlbumAPIService: AlbumAPIServiceInst,
+    DirectoryAPIService: DirectoryAPIServiceInst,
+    MoveAPIService: MoveAPIServiceInst,
+  },
 }).$mount('#app');
