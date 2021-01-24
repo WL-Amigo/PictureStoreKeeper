@@ -8,6 +8,9 @@ module.exports = {
       colors: {
         primary: colors.blue,
       },
+      height: {
+        '1/8': '12.5%',
+      },
       backgroundImage: _theme => ({
         'seamless-paper': "url('assets/seamless_paper_texture.png')",
       }),

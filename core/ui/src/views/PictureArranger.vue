@@ -1,27 +1,29 @@
 <template>
-  <div class="w-screen h-screen grid grid-rows-6 grid-cols-8">
+  <div class="w-screen h-full fixed inset-0 grid grid-rows-6 grid-cols-8">
     <!-- main image display area -->
     <div class="row-span-5 col-span-7">
       <img :src="currentHeadImageSrc" class="w-full h-full object-scale-down" />
     </div>
 
     <!-- look-forward images area -->
-    <div class="row-span-5">
+    <div class="row-span-5 h-full">
       <div class="flex flex-col h-full">
-        <div class="w-full h-12 flex-shrink">
+        <div class="w-full h-12">
           <!-- TODO: quit more look-forward button -->
         </div>
-        <div class="w-full flex-grow grid grid-cols-1 grid-rows-5">
-          <img
-            v-for="(imgSrc, idx) in nextImageSrcs"
-            :key="imgSrc"
-            :src="imgSrc"
-            class="w-full flex-1 object-cover"
-            @mouseenter="onHoverSubImg(idx)"
-            @mouseleave="onUnhoverSubImg(idx)"
-          />
+        <div class="w-full h-next-imgs-container flex-1">
+          <div class="h-full flex flex-col">
+            <img
+              v-for="(imgSrc, idx) in nextImageSrcs"
+              :key="imgSrc"
+              :src="imgSrc"
+              class="w-full h-1/5 object-cover"
+              @mouseenter="onHoverSubImg(idx)"
+              @mouseleave="onUnhoverSubImg(idx)"
+            />
+          </div>
         </div>
-        <div class="w-full h-12 flex-shrink">
+        <div class="w-full h-12">
           <!-- TODO: more look-forward button -->
         </div>
       </div>
@@ -140,3 +142,9 @@ export default class PictureArranger extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.h-next-imgs-container {
+  height: calc(100% - 6rem);
+}
+</style>

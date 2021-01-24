@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto py-8 px-2">
+  <div class="container mx-auto py-8 px-2 h-auto lg:h-screen lg:flex lg:flex-col lg:justify-center">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
       <menu-link :to="{ name: 'directory-selector-before-arrange', params: { id: id } }">
         <folder class="w-24 h-24 text-primary-800 m-4" />
