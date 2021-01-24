@@ -1,14 +1,27 @@
-<template lang="pug">
-.columns.is-centered.is-multiline
-  .column.is-one-quarter(v-for="(dirEntry, dIdx) in album.directories" :key="dIdx" @click="onEntryClicked(dIdx)")
-    .fullwidth-button.dir-button {{ dirEntry.label }}
+<template>
+  <div class="w-full grid grid-cols-1 md:grid-cols-4 gap-2">
+    <psk-button
+      v-for="(dirEntry, dIdx) in album.directories"
+      :key="dIdx"
+      @click="onEntryClicked(dIdx)"
+      variant="primary"
+      class="text-xl"
+    >
+      {{ dirEntry.label }}
+    </psk-button>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Album } from '@/models/Album';
+import Button from '@/components/parts/Button.vue';
 
-@Component({})
+@Component({
+  components: {
+    'psk-button': Button,
+  },
+})
 export default class DirectorySelector extends Vue {
   @Prop() private album!: Album;
 
@@ -17,10 +30,3 @@ export default class DirectorySelector extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.dir-button {
-  color: white;
-  background-color: brown;
-}
-</style>
