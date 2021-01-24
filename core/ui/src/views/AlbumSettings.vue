@@ -1,55 +1,100 @@
-<template lang="pug">
-section.section
-  .container.container-custom
-    b-loading(:active.sync="isLoading")
-    div(v-if="album != null")
-      b-field(label="アルバムの名前")
-        b-input(v-model="album.label")
-      b-field(label="ディレクトリ")
-      .columns.arranged-entity-container(v-for="(aEntry, aIdx) in album.directories" :key="aIdx")
-        .column.is-2: b-field(label="ラベル"): b-input(v-model="aEntry.label")
-        .column.is-9: b-field(label="パス"):   b-input(v-model="aEntry.fullpath")
-        .column.is-1: .buttons-container
-          button.button.is-danger(@click="deleteDirEntry(aIdx)")
-            span.icon: i.fas.fa-trash-alt
-      .columns 
-        .column: button.button.is-fullwidth.add-entity-button(@click="addDirEntry()")
-          span.icon: i.fas.fa-plus-circle
-          span 追加する
-      b-field(label="削除予定ディレクトリ")
-        b-input(v-model="album.will_be_deleted_dir")
-      button.button(@click="saveAlbumAndReturnToMenu") 保存してメニューに戻る
+<template>
+  <div class="container mx-auto py-8 px-2">
+    <div class="w-full bg-white rounded p-2">
+      <loading v-if="isLoading" label="読み込み中…" />
+
+      <template v-if="album !== null">
+        <div class="pb-4">
+          <h1 class="text-xl pb-2">基本設定</h1>
+          <line-text-input label="アルバムの名前" v-model="album.label" />
+        </div>
+
+        <div class="pb-4 space-y-1">
+          <h1 class="text-xl pb-1">ディレクトリ設定</h1>
+          <div v-if="album.directories.length === 0" class="w-full bg-gray-200 p-1 flex flex-col items-center">
+            <span>ディレクトリが登録されていません。</span>
+            <span>下の「追加する」ボタンからディレクトリを追加・設定して下さい。</span>
+          </div>
+          <template v-else>
+            <div v-for="(aEntry, aIdx) in album.directories" :key="aIdx" class="grid grid-cols-5 gap-2">
+              <line-text-input label="ラベル" v-model="aEntry.label" />
+              <div class="col-span-4 flex flex-row items-end">
+                <line-text-input
+                  label="転送元・転送先ディレクトリへのフルパス"
+                  v-model="aEntry.fullpath"
+                  class="flex-grow"
+                />
+                <psk-button class="w-8 h-8 ml-1" padding="p-0" variant="danger" @click="deleteDirEntry(aIdx)">
+                  <trash class="w-5 h-5" />
+                </psk-button>
+              </div>
+            </div>
+          </template>
+          <div class="flex flex-row justify-center w-full">
+            <psk-button class="w-1/2" variant="primary" @click="addDirEntry">
+              <add-filled class="mr-1 w-5 h-5" />
+              <span>追加する</span>
+            </psk-button>
+          </div>
+        </div>
+
+        <line-text-input label="削除予定ディレクトリ" v-model="album.will_be_deleted_dir">
+          <template v-slot:help>
+            <div class="flex flex-row items-center text-sm pt-2 text-primary-600">
+              <info-filled class="w-5 h-5 mr-1" />
+              <span>
+                「削除する」操作を行った時に、即座に削除するのではなく設定されたディレクトリへ移動させ、後で戻すことが出来るようにします。
+              </span>
+            </div>
+          </template>
+        </line-text-input>
+
+        <div class="flex flex-row justify-end pt-4 space-x-2">
+          <psk-button @click="returnToMenu">
+            <span>キャンセル</span>
+          </psk-button>
+          <psk-button variant="primary" @click="saveAlbumAndReturnToMenu">
+            <span>保存してメニューに戻る</span>
+          </psk-button>
+        </div>
+      </template>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Inject } from "vue-property-decorator";
-import { Album } from "../models/Album";
-import { AlbumAPIService } from "@/services/AlbumAPIService";
+import { Component, Vue, Inject } from 'vue-property-decorator';
+import { Album } from '../models/Album';
+import { AlbumAPIService } from '@/services/AlbumAPIService';
+import Loading from '@/components/parts/Loading.vue';
+import Trash from '@/components/icons/HeroIcons/Trash.vue';
+import LineTextInput from '@/components/parts/forms/LineTextInput.vue';
+import AddFilled from '@/components/icons/HeroIcons/AddFilled.vue';
+import InfoFilled from '@/components/icons/HeroIcons/InfoFilled.vue';
+import Button from '@/components/parts/Button.vue';
 
-@Component({})
+@Component({
+  components: { Loading, LineTextInput, Trash, AddFilled, InfoFilled, 'psk-button': Button },
+})
 export default class AlbumSettings extends Vue {
-  private id: string = "";
+  private id: string = '';
   private album: Album | null = null;
   private isSaving: boolean = false;
-  @Inject("AlbumAPIService") private m_albumAPIService!: AlbumAPIService;
+  @Inject('AlbumAPIService') private m_albumAPIService!: AlbumAPIService;
 
   async mounted() {
-    console.log("mounted");
-    this.id = this.$route.params["id"];
+    this.id = this.$route.params['id'];
     this.album = await this.m_albumAPIService.getAlbumAsync(this.id);
   }
 
   async saveAlbum() {
     this.isSaving = true;
-    let result = await this.m_albumAPIService.saveAlbumAsync(
-      this.id,
-      this.album!
-    );
+    let result = await this.m_albumAPIService.saveAlbumAsync(this.id, this.album!);
     this.isSaving = false;
-    if(!result) {
+    if (!result) {
       this.$toast.open({
         message: 'アルバムの保存に失敗しました',
-        type: 'is-danger'
+        type: 'is-danger',
       });
     }
     return result;
@@ -58,12 +103,16 @@ export default class AlbumSettings extends Vue {
   async saveAlbumAndReturnToMenu() {
     let result = await this.saveAlbum();
     if (result) {
-      this.$router.push({ name: "main-menu", params: { id: this.id } });
+      this.returnToMenu();
     }
   }
 
+  returnToMenu() {
+    this.$router.push({ name: 'main-menu', params: { id: this.id } });
+  }
+
   addDirEntry() {
-    this.album!.directories.push({ label: "", fullpath: "" });
+    this.album!.directories.push({ label: '', fullpath: '' });
   }
 
   deleteDirEntry(index: number) {
@@ -71,31 +120,7 @@ export default class AlbumSettings extends Vue {
   }
 
   get isLoading() {
-    return this.album == null || this.isSaving;
+    return this.album === null;
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.arranged-entity-container {
-  border: 1px dashed #AAA;
-  border-radius: 8px;
-  margin-left: 0;
-  margin-right: 0;
-  margin-bottom: 20px;
-}
-
-.add-entity-button {
-  background-color: brown;
-  color: white;
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.buttons-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: flex-end;
-}
-</style>

@@ -4,13 +4,10 @@
       <entity v-for="iaap in idAndLabelPairs" :key="iaap.id" :label="iaap.label" @selected="onEntityClicked(iaap.id)" />
     </div>
     <div class="flex flex-row justify-center w-full pt-4">
-      <button
-        class="flex flex-row items-center justify-center text-xl w-1/2 bg-primary-800 text-white p-2 rounded"
-        @click="isCreateAlbumPromptActive = true"
-      >
+      <psk-button class="text-xl w-1/2" padding="p-2" variant="primary" @click="isCreateAlbumPromptActive = true">
         <add-filled class="mr-2 w-5 h-5" />
         <span>追加する</span>
-      </button>
+      </psk-button>
     </div>
     <fade-transition>
       <div
@@ -33,6 +30,7 @@ import { IDAndLabelPair } from '@/models/IDAndLabelPair';
 import { DialogConfig } from 'buefy/types/components';
 import AddFilledIcon from '@/components/icons/HeroIcons/AddFilled.vue';
 import FadeTransition from '@/components/transitions/Fade.vue';
+import Button from '@/components/parts/Button.vue';
 
 const CreateAlbumPromptDefinition: DialogConfig & { inputAttrs?: any } = {
   title: 'アルバム作成',
@@ -45,6 +43,7 @@ const CreateAlbumPromptDefinition: DialogConfig & { inputAttrs?: any } = {
     'create-album-prompt': CreateAlbumPrompt,
     'add-filled': AddFilledIcon,
     'fade-transition': FadeTransition,
+    'psk-button': Button,
   },
 })
 export default class AlbumSelector extends Vue {
@@ -80,15 +79,3 @@ export default class AlbumSelector extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.add-button {
-  margin: 4px;
-  background-color: brown;
-  color: white;
-  &:hover {
-    background-color: lighten($color: brown, $amount: 6);
-    cursor: pointer;
-  }
-}
-</style>

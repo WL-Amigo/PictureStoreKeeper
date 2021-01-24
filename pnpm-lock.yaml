@@ -28,8 +28,8 @@ importers:
     devDependencies:
       '@tailwindcss/postcss7-compat': 2.0.2
       '@vue/cli-plugin-babel': 4.5.10_dabf20fabaf63c3f959ce5b63391b3e6
-      '@vue/cli-plugin-typescript': 4.5.10_93ad44911a5ba529b86f4673a7b62afa
-      '@vue/cli-service': 4.5.10_0b4b08f4a763d3cc4748b947f4c923c4
+      '@vue/cli-plugin-typescript': 4.5.10_e3c1783c01c3830fa325e4b6d35d8cb2
+      '@vue/cli-service': 4.5.10_1a0d81e7248870aa146bc07b9abaa0e5
       autoprefixer: 9.8.6
       node-sass: 4.14.1
       postcss: 7.0.35
@@ -38,7 +38,7 @@ importers:
       pug-plain-loader: 1.1.0_pug@2.0.4
       sass-loader: 7.3.1
       tailwindcss: /@tailwindcss/postcss7-compat/2.0.2
-      typescript: 3.9.7
+      typescript: 4.1.3
       vue-template-compiler: 2.6.12
     specifiers:
       '@tailwindcss/postcss7-compat': ^2.0.2
@@ -55,7 +55,7 @@ importers:
       pug-plain-loader: ^1.0.0
       sass-loader: ^7.0.1
       tailwindcss: npm:@tailwindcss/postcss7-compat@^2.0.2
-      typescript: ^3.0.0
+      typescript: ^4.0.0
       vue: ^2.5.21
       vue-class-component: ^6.0.0
       vue-property-decorator: ^7.0.0
@@ -1456,7 +1456,7 @@ packages:
     dependencies:
       '@babel/core': 7.12.10
       '@vue/babel-preset-app': 4.5.10_vue@2.6.12
-      '@vue/cli-service': 4.5.10_0b4b08f4a763d3cc4748b947f4c923c4
+      '@vue/cli-service': 4.5.10_1a0d81e7248870aa146bc07b9abaa0e5
       '@vue/cli-shared-utils': 4.5.10
       babel-loader: 8.2.2_80cd7b8149d93293e480a9a7c4e34482
       cache-loader: 4.1.0_webpack@4.46.0
@@ -1470,25 +1470,25 @@ packages:
       integrity: sha512-vWEGj3w9mbV27WBJslCmQP1l+hmdOiCHn0hmmHOrCdELm/WK/2/iXQEsPSXujtVd7TQgiaFgvvHmHurBlC/+3w==
   /@vue/cli-plugin-router/4.5.10_@vue+cli-service@4.5.10:
     dependencies:
-      '@vue/cli-service': 4.5.10_0b4b08f4a763d3cc4748b947f4c923c4
+      '@vue/cli-service': 4.5.10_1a0d81e7248870aa146bc07b9abaa0e5
       '@vue/cli-shared-utils': 4.5.10
     dev: true
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0-0
     resolution:
       integrity: sha512-roiZTx2W59kTRaqNzHEnjnakP89MS+pVf3zWBlwsNXZpQuvqwFvoNfH/nBSJjqGRgZTRtCUe6vGgVPUEFYi/cg==
-  /@vue/cli-plugin-typescript/4.5.10_93ad44911a5ba529b86f4673a7b62afa:
+  /@vue/cli-plugin-typescript/4.5.10_e3c1783c01c3830fa325e4b6d35d8cb2:
     dependencies:
       '@types/webpack-env': 1.16.0
-      '@vue/cli-service': 4.5.10_0b4b08f4a763d3cc4748b947f4c923c4
+      '@vue/cli-service': 4.5.10_1a0d81e7248870aa146bc07b9abaa0e5
       '@vue/cli-shared-utils': 4.5.10
       cache-loader: 4.1.0_webpack@4.46.0
       fork-ts-checker-webpack-plugin: 3.1.1
       globby: 9.2.0
       thread-loader: 2.1.3_webpack@4.46.0
-      ts-loader: 6.2.2_typescript@3.9.7
-      tslint: 5.20.1_typescript@3.9.7
-      typescript: 3.9.7
+      ts-loader: 6.2.2_typescript@4.1.3
+      tslint: 5.20.1_typescript@4.1.3
+      typescript: 4.1.3
       webpack: 4.46.0
       yorkie: 2.0.0
     dev: true
@@ -1505,13 +1505,13 @@ packages:
       integrity: sha512-Eo1D+ejv/gFHFwhM6bwYwcU4ZU12vhOnlTkGPWDpjV0EpB9gNOUJTWoYH3b72q/xcP/jyfvPxuezGQBtEPanZg==
   /@vue/cli-plugin-vuex/4.5.10_@vue+cli-service@4.5.10:
     dependencies:
-      '@vue/cli-service': 4.5.10_0b4b08f4a763d3cc4748b947f4c923c4
+      '@vue/cli-service': 4.5.10_1a0d81e7248870aa146bc07b9abaa0e5
     dev: true
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0-0
     resolution:
       integrity: sha512-Z5pnL3Eg2uwkKqP09NoM46/rwQCJ1j/1cZMgO4JF817O9n5AsFgV456UE6lK2cVCvIfvt7+S3HLrSPZUsYNQjQ==
-  /@vue/cli-service/4.5.10_0b4b08f4a763d3cc4748b947f4c923c4:
+  /@vue/cli-service/4.5.10_1a0d81e7248870aa146bc07b9abaa0e5:
     dependencies:
       '@intervolga/optimize-cssnano-plugin': 1.0.6_webpack@4.46.0
       '@soda/friendly-errors-webpack-plugin': 1.8.0_webpack@4.46.0
@@ -1554,7 +1554,7 @@ packages:
       lodash.transform: 4.6.0
       mini-css-extract-plugin: 0.9.0_webpack@4.46.0
       minimist: 1.2.5
-      pnp-webpack-plugin: 1.6.4_typescript@3.9.7
+      pnp-webpack-plugin: 1.6.4_typescript@4.1.3
       portfinder: 1.0.28
       postcss-loader: 3.0.0
       pug-plain-loader: 1.1.0_pug@2.0.4
@@ -7025,9 +7025,9 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==
-  /pnp-webpack-plugin/1.6.4_typescript@3.9.7:
+  /pnp-webpack-plugin/1.6.4_typescript@4.1.3:
     dependencies:
-      ts-pnp: 1.2.0_typescript@3.9.7
+      ts-pnp: 1.2.0_typescript@4.1.3
     dev: true
     engines:
       node: '>=6'
@@ -9051,14 +9051,14 @@ packages:
     dev: true
     resolution:
       integrity: sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==
-  /ts-loader/6.2.2_typescript@3.9.7:
+  /ts-loader/6.2.2_typescript@4.1.3:
     dependencies:
       chalk: 2.4.2
       enhanced-resolve: 4.5.0
       loader-utils: 1.4.0
       micromatch: 4.0.2
       semver: 6.3.0
-      typescript: 3.9.7
+      typescript: 4.1.3
     dev: true
     engines:
       node: '>=8.6'
@@ -9066,9 +9066,9 @@ packages:
       typescript: '*'
     resolution:
       integrity: sha512-HDo5kXZCBml3EUPcc7RlZOV/JGlLHwppTLEHb3SHnr5V7NXD4klMEkrhJe5wgRbaWsSXi+Y1SIBN/K9B6zWGWQ==
-  /ts-pnp/1.2.0_typescript@3.9.7:
+  /ts-pnp/1.2.0_typescript@4.1.3:
     dependencies:
-      typescript: 3.9.7
+      typescript: 4.1.3
     dev: true
     engines:
       node: '>=6'
@@ -9087,7 +9087,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
-  /tslint/5.20.1_typescript@3.9.7:
+  /tslint/5.20.1_typescript@4.1.3:
     dependencies:
       '@babel/code-frame': 7.12.11
       builtin-modules: 1.1.1
@@ -9101,8 +9101,8 @@ packages:
       resolve: 1.19.0
       semver: 5.7.1
       tslib: 1.14.1
-      tsutils: 2.29.0_typescript@3.9.7
-      typescript: 3.9.7
+      tsutils: 2.29.0_typescript@4.1.3
+      typescript: 4.1.3
     dev: true
     engines:
       node: '>=4.8.0'
@@ -9111,10 +9111,10 @@ packages:
       typescript: '>=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >=3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev'
     resolution:
       integrity: sha512-EcMxhzCFt8k+/UP5r8waCf/lzmeSyVlqxqMEDQE7rWYiQky8KpIBz1JAoYXfROHrPZ1XXd43q8yQnULOLiBRQg==
-  /tsutils/2.29.0_typescript@3.9.7:
+  /tsutils/2.29.0_typescript@4.1.3:
     dependencies:
       tslib: 1.14.1
-      typescript: 3.9.7
+      typescript: 4.1.3
     dev: true
     peerDependencies:
       typescript: '>=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >= 3.0.0-dev || >= 3.1.0-dev'
@@ -9153,13 +9153,6 @@ packages:
     dev: true
     resolution:
       integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
-  /typescript/3.9.7:
-    dev: true
-    engines:
-      node: '>=4.2.0'
-    hasBin: true
-    resolution:
-      integrity: sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
   /typescript/4.1.3:
     dev: true
     engines:

@@ -14,42 +14,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { computed, defineComponent, getCurrentInstance } from '@vue/composition-api';
 import { Album } from '../models/Album';
 import FolderIcon from '@/components/icons/TablerIcons/Folder.vue';
 import SettingsIcon from '@/components/icons/TablerIcons/Settings.vue';
 import MainMenuLink from './partials/MainMenu/MainMenuLink.vue';
 
-@Component({
+export default defineComponent({
   components: {
     'menu-link': MainMenuLink,
     folder: FolderIcon,
     settings: SettingsIcon,
   },
-})
-export default class MainMenu extends Vue {
-  public id: string = '';
+  setup() {
+    const vm = getCurrentInstance();
+    const id = computed(() => (vm !== null ? vm.proxy.$route.params['id'] : '(unknown)'));
 
-  mounted() {
-    this.id = this.$route.params['id'];
-  }
-}
+    return {
+      id,
+    };
+  },
+});
 </script>
-
-<style lang="scss" scoped>
-.buttons-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  .button-item {
-    width: 50%;
-    margin: 8px;
-    padding: 40px 0;
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-    font-size: 2rem;
-  }
-}
-</style>
