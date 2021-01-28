@@ -59,14 +59,12 @@ import { DirectoryAPIService } from '@/services/DirectoryAPIService';
 import { AlbumAPIService } from '@/services/AlbumAPIService';
 import { DirEntry } from '@/models/DirEntry';
 import { MoveAPIService } from '@/services/MoveAPIService';
-import ContainImageContainer from '@/components/ContainImageContainer.vue';
 import Button from '@/components/parts/Button.vue';
 
 const SubImgCount = 5;
 
 @Component({
   components: {
-    'image-container': ContainImageContainer,
     'psk-button': Button,
   },
 })

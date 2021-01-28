@@ -92,10 +92,12 @@ export default class AlbumSettings extends Vue {
     let result = await this.m_albumAPIService.saveAlbumAsync(this.id, this.album!);
     this.isSaving = false;
     if (!result) {
-      this.$toast.open({
-        message: 'アルバムの保存に失敗しました',
-        type: 'is-danger',
-      });
+      // TODO: トーストシステムを作るか導入して復活させる
+      // this.$toast.open({
+      //   message: 'アルバムの保存に失敗しました',
+      //   type: 'is-danger',
+      // });
+      console.error('アルバムの保存に失敗しました');
     }
     return result;
   }

@@ -27,15 +27,9 @@ import Entity from '../components/AlbumSelectorEntity.vue';
 import CreateAlbumPrompt from '../components/CreateAlbumPrompt.vue';
 import { AlbumAPIService } from '@/services/AlbumAPIService';
 import { IDAndLabelPair } from '@/models/IDAndLabelPair';
-import { DialogConfig } from 'buefy/types/components';
 import AddFilledIcon from '@/components/icons/HeroIcons/AddFilled.vue';
 import FadeTransition from '@/components/transitions/Fade.vue';
 import Button from '@/components/parts/Button.vue';
-
-const CreateAlbumPromptDefinition: DialogConfig & { inputAttrs?: any } = {
-  title: 'アルバム作成',
-  message: 'アルバム名を入力して下さい(後から変更可能です)',
-};
 
 @Component({
   components: {
@@ -58,13 +52,6 @@ export default class AlbumSelector extends Vue {
 
   public onEntityClicked(id: string): void {
     this.$router.push({ name: 'main-menu', params: { id } });
-  }
-
-  public launchCreateAlbumPrompt() {
-    this.$dialog.prompt({
-      ...CreateAlbumPromptDefinition,
-      onConfirm: this.onCreateAlbumPromptConfirmed,
-    });
   }
 
   public async onCreateAlbumPromptConfirmed(label: string) {
