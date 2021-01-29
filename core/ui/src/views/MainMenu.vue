@@ -1,40 +1,38 @@
-<template lang="pug">
-section.section
-  .container
-    .buttons-container
-      router-link.button.is-primary.button-item(:to="{name: 'directory-selector-before-arrange', params: { id: id }}") 画像を整理する
-      router-link.button.is-primary.button-item(:to="{name: 'gallery', params: { id: id }}") ギャラリー
-      router-link.button.is-primary.button-item(:to="{name: 'album-settings', params: { id: id }}") 設定
+<template>
+  <div class="container mx-auto py-8 px-2 h-auto lg:h-screen lg:flex lg:flex-col lg:justify-center">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
+      <menu-link :to="{ name: 'directory-selector-before-arrange', params: { id: id } }">
+        <folder class="w-24 h-24 text-primary-800 m-4" />
+        <span class="text-xl">画像を整理する</span>
+      </menu-link>
+      <menu-link :to="{ name: 'album-settings', params: { id: id } }">
+        <settings class="w-24 h-24 text-primary-800 m-4" />
+        <span class="text-xl">設定</span>
+      </menu-link>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-import { Album } from "../models/Album";
+import { computed, defineComponent, getCurrentInstance } from '@vue/composition-api';
+import { Album } from '../models/Album';
+import FolderIcon from '@/components/icons/TablerIcons/Folder.vue';
+import SettingsIcon from '@/components/icons/TablerIcons/Settings.vue';
+import MainMenuLink from './partials/MainMenu/MainMenuLink.vue';
 
-@Component({})
-export default class MainMenu extends Vue {
-  public id: string = '';
+export default defineComponent({
+  components: {
+    'menu-link': MainMenuLink,
+    folder: FolderIcon,
+    settings: SettingsIcon,
+  },
+  setup() {
+    const vm = getCurrentInstance();
+    const id = computed(() => (vm !== null ? vm.proxy.$route.params['id'] : '(unknown)'));
 
-  mounted() {
-    this.id = this.$route.params['id'];
-  }
-}
+    return {
+      id,
+    };
+  },
+});
 </script>
-
-<style lang="scss" scoped>
-.buttons-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  .button-item {
-    width: 50%;
-    margin: 8px;
-    padding: 40px 0;
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-    font-size: 2rem;
-  }
-}
-</style>

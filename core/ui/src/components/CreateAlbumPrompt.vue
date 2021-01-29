@@ -1,22 +1,40 @@
-<template lang="pug">
-.modal-card
-  header.modal-card-head
-    p.modal-card-title アルバムを作る
-  section.modal-card-body
-    b-field(label="アルバム名")
-      b-input(v-model="albumLabel")
-    p アルバム名は後から変更できます
-  footer.modal-card-foot
-    button.button.is-primary(@click="onCreateButtonPushed") 作成
-    button.button キャンセル
+<template>
+  <div class="container">
+    <div class="w-full lg:w-2/3 lg:mx-auto p-4 space-y-4 bg-white rounded-md shadow-lg" @click.stop="">
+      <h1 class="text-2xl">アルバムを作る</h1>
+      <div class="flex flex-col">
+        <label class="text-sm">アルバム名</label>
+        <input
+          type="text"
+          class="px-2 py-1 border focus:border-gray-700 w-full border-gray-300 rounded focus:outline-none text-gray-600"
+          v-model="albumLabel"
+        />
+        <div class="flex flex-row items-center text-sm pt-2 text-primary-600">
+          <info class="w-5 h-5 mr-1" />
+          <span>
+            アルバム名は後から変更できます
+          </span>
+        </div>
+      </div>
+      <div class="flex flex-row justify-end space-x-2">
+        <button class="border border-gray-400 rounded px-4 py-1" @click="$emit('cancel')">キャンセル</button>
+        <button class="bg-primary-800 text-white rounded px-4 py-1" @click="onCreateButtonPushed">作成</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Inject } from "vue-property-decorator";
+import { Component, Vue, Inject } from 'vue-property-decorator';
+import InfoIcon from './icons/HeroIcons/InfoFilled.vue';
 
-@Component({})
+@Component({
+  components: {
+    info: InfoIcon,
+  },
+})
 export default class CreateAlbumPrompt extends Vue {
-  private albumLabel: string = "";
+  private albumLabel: string = '';
 
   private onCreateButtonPushed() {
     this.$emit('create-album', this.albumLabel);
