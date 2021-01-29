@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "a simple picture organizer, that just move files",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "pnpm run -r build"
   },
   "repository": {
