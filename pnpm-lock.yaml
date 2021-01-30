@@ -32,10 +32,7 @@ importers:
     dependencies:
       '@vue/composition-api': 1.0.0-rc.1_vue@2.6.12
       vue: 2.6.12
-      vue-class-component: 6.3.2
-      vue-property-decorator: 7.3.0
-      vue-router: 3.4.9
-      vuex: 3.6.0_vue@2.6.12
+      vue-router: 3.5.1
     devDependencies:
       '@tailwindcss/postcss7-compat': 2.0.2
       '@vue/cli-plugin-babel': 4.5.10_dabf20fabaf63c3f959ce5b63391b3e6
@@ -63,11 +60,8 @@ importers:
       tailwindcss: npm:@tailwindcss/postcss7-compat@^2.0.2
       typescript: ^4.0.0
       vue: ^2.5.21
-      vue-class-component: ^6.0.0
-      vue-property-decorator: ^7.0.0
-      vue-router: ^3.0.1
+      vue-router: ^3.5.1
       vue-template-compiler: ^2.5.21
-      vuex: ^3.0.1
 lockfileVersion: 5.2
 packages:
   /@babel/code-frame/7.12.11:
@@ -9229,10 +9223,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
-  /vue-class-component/6.3.2:
-    dev: false
-    resolution:
-      integrity: sha512-cH208IoM+jgZyEf/g7mnFyofwPDJTM/QvBNhYMjqGB8fCsRyTf68rH2ISw/G20tJv+5mIThQ3upKwoL4jLTr1A==
   /vue-eslint-parser/7.4.1:
     dependencies:
       debug: 4.3.1
@@ -9285,16 +9275,10 @@ packages:
     optional: true
     resolution:
       integrity: sha512-8QTxh+Fd+HB6fiL52iEVLKqE9N1JSlMXLR92Ijm6g8PZrwIxckgpqjPDWRP5TWxdiPaHR+alUWsnu1ShQOwt+Q==
-  /vue-property-decorator/7.3.0:
-    dependencies:
-      vue-class-component: 6.3.2
+  /vue-router/3.5.1:
     dev: false
     resolution:
-      integrity: sha512-HarXfTQ/Nxm4s/APpAaGIGHq5ZzslApImQy8ZrtkfGamw8rUFAVgMS5C50/AQ80+wfw3Wpnf4bNzbmj75m/k2Q==
-  /vue-router/3.4.9:
-    dev: false
-    resolution:
-      integrity: sha512-CGAKWN44RqXW06oC+u4mPgHLQQi2t6vLD/JbGRDAXm0YpMv0bgpKuU5bBd7AvMgfTz9kXVRIWKHqRwGEb8xFkA==
+      integrity: sha512-RRQNLT8Mzr8z7eL4p7BtKvRaTSGdCbTy2+Mm5HTJvLGYSSeG9gDzNasJPP/yOYKLy+/cLG/ftrqq5fvkFwBJEw==
   /vue-style-loader/4.1.2:
     dependencies:
       hash-sum: 1.0.2
@@ -9317,14 +9301,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
-  /vuex/3.6.0_vue@2.6.12:
-    dependencies:
-      vue: 2.6.12
-    dev: false
-    peerDependencies:
-      vue: ^2.0.0
-    resolution:
-      integrity: sha512-W74OO2vCJPs9/YjNjW8lLbj+jzT24waTo2KShI8jLvJW8OaIkgb3wuAMA7D+ZiUxDOx3ubwSZTaJBip9G8a3aQ==
   /watchpack-chokidar2/2.0.1:
     dependencies:
       chokidar: 2.1.8
