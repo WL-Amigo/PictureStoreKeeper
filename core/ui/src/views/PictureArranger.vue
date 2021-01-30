@@ -31,7 +31,7 @@
 
     <!-- operation buttons area -->
     <div class="col-span-8">
-      <div v-if="album" class="container mx-auto h-full grid grid-rows-3">
+      <div class="container mx-auto h-full grid grid-rows-3">
         <div class="row-span-2 w-full flex flex-row flex-wrap justify-center">
           <div class="w-1/6 px-1 flex flex-row items-center" v-for="dest in destinationDirs" :key="dest.id">
             <psk-button variant="primary" class="w-full" @click="onMove(dest.id)">
@@ -53,92 +53,131 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Inject } from 'vue-property-decorator';
-import { Album } from '@/models/Album';
-import { DirectoryAPIService } from '@/services/DirectoryAPIService';
-import { AlbumAPIService } from '@/services/AlbumAPIService';
-import { DirEntry } from '@/models/DirEntry';
-import { MoveAPIService } from '@/services/MoveAPIService';
 import Button from '@/components/parts/Button.vue';
+import { computed, defineComponent, onMounted, ref } from '@vue/composition-api';
+import { useAlbumDataWithUrlId } from '@/compositions/Album';
+import { ServiceKeys, useDependency } from '@/compositions/Dependency';
+import { useRoute } from '@/compositions/Compat';
 
 const SubImgCount = 5;
 
-@Component({
+const useHoveredSubImgIndex = () => {
+  // 画像間でカーソルを動かした時に不安定になるのを防止するため、先読み画像1つ1つに対してホバー中かどうかを保持している
+  const hoveredImgIndices = ref<number[]>([]);
+
+  const onHoverSubImg = (idx: number) => hoveredImgIndices.value.push(idx);
+  const onUnhoverSubImg = (idx: number) => (hoveredImgIndices.value = hoveredImgIndices.value.filter(i => i !== idx));
+
+  const hoveredImgIndex = computed<number | undefined>(() => hoveredImgIndices.value[0]);
+
+  return {
+    onHoverSubImg,
+    onUnhoverSubImg,
+    hoveredImgIndex,
+  };
+};
+
+export default defineComponent({
   components: {
     'psk-button': Button,
   },
-})
-export default class PictureArranger extends Vue {
-  @Inject('AlbumAPIService') private m_AlbumAPIService!: AlbumAPIService;
-  @Inject('DirectoryAPIService')
-  private m_DirectoryAPIService!: DirectoryAPIService;
-  @Inject('MoveAPIService') private m_MoveAPIService!: MoveAPIService;
+  setup() {
+    const directoryAPIService = useDependency(ServiceKeys.DirectoryAPIService);
+    const moveAPIService = useDependency(ServiceKeys.MoveAPIService);
+    const route = useRoute();
 
-  private albumId: string = '';
-  private dirId: number = -1;
-  private album: Album | null = null;
-  private imageSrcList: Array<string> = [];
-  // 画像間でカーソルを動かした時に不安定になるのを防止するため、先読み画像1つ1つに対してホバー中かどうかを保持している
-  private subImgHoveringStates: Array<boolean> = Array.from(Array(SubImgCount), () => false);
+    const { album, id: albumId } = useAlbumDataWithUrlId();
+    const dirId = computed(() => {
+      const value = route?.params?.['dirId'];
+      const dirIdInt = value ? parseInt(value) : NaN;
+      return !isNaN(dirIdInt) ? dirIdInt : undefined;
+    });
+    const imgSrcList = ref<string[]>([]);
+    onMounted(async () => {
+      const currentAlbumId = albumId.value;
+      const currentDirId = dirId.value;
+      if (currentAlbumId === undefined || currentDirId === undefined) {
+        return;
+      }
+      imgSrcList.value = await directoryAPIService.getAllFiles(currentAlbumId, currentDirId);
+    });
 
-  async mounted() {
-    this.albumId = this.$route.params['albumId'];
-    this.dirId = parseInt(this.$route.params['dirId']);
-    this.album = await this.m_AlbumAPIService.getAlbumAsync(this.albumId);
-    this.imageSrcList = await this.m_DirectoryAPIService.getAllFiles(this.albumId, this.dirId);
-  }
+    const { onHoverSubImg, onUnhoverSubImg, hoveredImgIndex } = useHoveredSubImgIndex();
+    const currentHeadImageSrc = computed(() => {
+      const currentAlbumId = albumId.value;
+      const currentDirId = dirId.value;
 
-  get currentHeadImageSrc() {
-    let currentHeadImageIndex = this.subImgHoveringStates.indexOf(true);
-    currentHeadImageIndex = currentHeadImageIndex == -1 ? 0 : currentHeadImageIndex + 1;
-    return this.imageSrcList.length >= 1
-      ? this.m_DirectoryAPIService.toFileURL(this.albumId, this.dirId, this.imageSrcList[currentHeadImageIndex])
-      : '';
-  }
+      const currentHoveredImgIndex = hoveredImgIndex.value;
+      const currentHeadImgIndex = currentHoveredImgIndex !== undefined ? currentHoveredImgIndex + 1 : 0;
+      const currentImgFileName = imgSrcList.value[currentHeadImgIndex];
 
-  get nextImageSrcs() {
-    let subSrcs = this.imageSrcList.slice(1);
-    // TODO: もうちょっと同時表示枚数の制御とかしやすくする
-    subSrcs = subSrcs.concat(Array.from(Array(SubImgCount), () => '')).slice(0, SubImgCount);
-    return subSrcs.map(fn =>
-      fn.length === 0 ? '' : this.m_DirectoryAPIService.toFileURL(this.albumId, this.dirId, fn),
-    );
-  }
+      return currentAlbumId !== undefined && currentDirId !== undefined && currentImgFileName !== undefined
+        ? directoryAPIService.toFileURL(currentAlbumId, currentDirId, currentImgFileName)
+        : undefined;
+    });
 
-  get destinationDirs() {
-    return this.album!.directories.map((v, i) => {
-      return { ...v, id: i };
-    }).filter(v => v.id != this.dirId);
-  }
+    const nextImageSrcs = computed(() => {
+      const currentAlbumId = albumId.value;
+      const currentDirId = dirId.value;
+      const currentImgSrcList = imgSrcList.value;
+      if (currentAlbumId === undefined || currentDirId === undefined) {
+        return [];
+      }
+      return currentImgSrcList
+        .slice(1, 1 + SubImgCount)
+        .map(fn => (fn.length === 0 ? '' : directoryAPIService.toFileURL(currentAlbumId, currentDirId, fn)));
+    });
 
-  async onMove(destIndex: number) {
-    let result = await this.m_MoveAPIService.movePictureAsync(
-      this.albumId,
-      this.imageSrcList[0],
-      this.dirId,
-      destIndex,
-    );
-    console.log(result ? 'move 成功' : 'move 失敗');
-    this.imageSrcList.splice(0, 1);
-  }
+    const destinationDirs = computed(() => {
+      const currentDirId = dirId.value;
+      return (
+        album.value?.directories
+          .map((v, i) => {
+            return { ...v, id: i };
+          })
+          .filter(v => v.id !== currentDirId) ?? []
+      );
+    });
 
-  async onDelete() {
-    let result = await this.m_MoveAPIService.deletePictureAsync(this.albumId, this.imageSrcList[0], this.dirId);
-    this.imageSrcList.splice(0, 1);
-  }
+    const onMove = (destIdx: number) => {
+      const currentAlbumId = albumId.value;
+      const currentDirId = dirId.value;
+      const targetImgFileName = imgSrcList.value[0];
+      if (currentAlbumId === undefined || currentDirId === undefined || targetImgFileName === undefined) {
+        return;
+      }
 
-  onSkip() {
-    this.imageSrcList.splice(0, 1);
-  }
+      // TODO: handle failure
+      moveAPIService.movePictureAsync(currentAlbumId, targetImgFileName, currentDirId, destIdx);
+      imgSrcList.value.splice(0, 1);
+    };
+    const onDelete = () => {
+      const currentAlbumId = albumId.value;
+      const currentDirId = dirId.value;
+      const targetImgFileName = imgSrcList.value[0];
+      if (currentAlbumId === undefined || currentDirId === undefined || targetImgFileName === undefined) {
+        return;
+      }
 
-  onHoverSubImg(index: number) {
-    this.subImgHoveringStates.splice(index, 1, true);
-  }
+      moveAPIService.deletePictureAsync(currentAlbumId, targetImgFileName, currentDirId);
+      imgSrcList.value.splice(0, 1);
+    };
+    const onSkip = () => {
+      imgSrcList.value.splice(0, 1);
+    };
 
-  onUnhoverSubImg(index: number) {
-    this.subImgHoveringStates.splice(index, 1, false);
-  }
-}
+    return {
+      currentHeadImageSrc,
+      nextImageSrcs,
+      onHoverSubImg,
+      onUnhoverSubImg,
+      destinationDirs,
+      onMove,
+      onSkip,
+      onDelete,
+    };
+  },
+});
 </script>
 
 <style scoped>

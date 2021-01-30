@@ -16,18 +16,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import { Album } from '../models/Album';
+import { defineComponent } from '@vue/composition-api';
 import AlbumIcon from './icons/FlaticonCom/Album.vue';
 import ArrowRightSmallIcon from './icons/HeroIcons/ArrowRightSmall.vue';
 
-@Component({
+export default defineComponent({
+  name: 'AlbumSelectorEntity',
   components: {
     'album-icon': AlbumIcon,
     'arrow-right': ArrowRightSmallIcon,
   },
-})
-export default class AlbumSelectorEntry extends Vue {
-  @Prop() private label!: string;
-}
+  props: {
+    label: String,
+  },
+  setup() {
+    return {};
+  },
+});
 </script>
