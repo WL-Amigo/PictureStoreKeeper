@@ -33,6 +33,8 @@ export default defineComponent({
           return ['bg-primary-800', 'hover:bg-primary-700', 'border-primary-800', 'text-white'];
         case 'danger':
           return ['bg-red-600', 'hover:bg-red-500', 'border-red-600', 'text-white'];
+        default:
+          return [];
       }
     });
 

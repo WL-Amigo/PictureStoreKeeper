@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto py-8 px-2">
     <h1 class="text-xl pb-2">転送元を選んで下さい</h1>
-    <dir-selector :album="album" @dir-selected="onSelected" />
+    <dir-selector v-if="album" :album="album" @dir-selected="onSelected" />
   </div>
 </template>
 

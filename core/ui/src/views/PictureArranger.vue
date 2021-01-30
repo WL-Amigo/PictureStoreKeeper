@@ -66,7 +66,7 @@ const useHoveredSubImgIndex = () => {
   const hoveredImgIndices = ref<number[]>([]);
 
   const onHoverSubImg = (idx: number) => hoveredImgIndices.value.push(idx);
-  const onUnhoverSubImg = (idx: number) => (hoveredImgIndices.value = hoveredImgIndices.value.filter(i => i !== idx));
+  const onUnhoverSubImg = (idx: number) => (hoveredImgIndices.value = hoveredImgIndices.value.filter((i) => i !== idx));
 
   const hoveredImgIndex = computed<number | undefined>(() => hoveredImgIndices.value[0]);
 
@@ -125,7 +125,7 @@ export default defineComponent({
       }
       return currentImgSrcList
         .slice(1, 1 + SubImgCount)
-        .map(fn => (fn.length === 0 ? '' : directoryAPIService.toFileURL(currentAlbumId, currentDirId, fn)));
+        .map((fn) => (fn.length === 0 ? '' : directoryAPIService.toFileURL(currentAlbumId, currentDirId, fn)));
     });
 
     const destinationDirs = computed(() => {
@@ -135,7 +135,7 @@ export default defineComponent({
           .map((v, i) => {
             return { ...v, id: i };
           })
-          .filter(v => v.id !== currentDirId) ?? []
+          .filter((v) => v.id !== currentDirId) ?? []
       );
     });
 

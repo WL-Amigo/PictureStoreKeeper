@@ -48,7 +48,7 @@ export default defineComponent({
     onMounted(async () => (idAndLabelPairs.value = await albumAPIService.getAllAlbumsAsync()));
 
     const isCreateAlbumPromptActive = ref(false);
-    const onEntityClicked = (id: string) => router?.push({ name: 'main-menu', params: { id } });
+    const onEntityClicked = (id: string) => router?.push({ name: 'main-menu', params: { albumId: id } });
     const onCreateAlbumPromptConfirmed = async (label: string) => {
       let result = await albumAPIService.createAlbumAsync(label);
       isCreateAlbumPromptActive.value = false;
