@@ -25,19 +25,28 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Inject } from 'vue-property-decorator';
+import { defineComponent, ref } from '@vue/composition-api';
 import InfoIcon from './icons/HeroIcons/InfoFilled.vue';
 
-@Component({
+export default defineComponent({
+  name: 'CreateAlbumPrompt',
   components: {
     info: InfoIcon,
   },
-})
-export default class CreateAlbumPrompt extends Vue {
-  private albumLabel: string = '';
+  emits: {
+    'create-album': null,
+    cancel: null,
+  },
+  setup(_, ctx) {
+    const albumLabel = ref('');
+    const onCreateButtonPushed = () => {
+      ctx.emit('create-album', albumLabel.value);
+    };
 
-  private onCreateButtonPushed() {
-    this.$emit('create-album', this.albumLabel);
-  }
-}
+    return {
+      albumLabel,
+      onCreateButtonPushed,
+    };
+  },
+});
 </script>

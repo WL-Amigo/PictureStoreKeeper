@@ -13,20 +13,30 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Album } from '@/models/Album';
 import Button from '@/components/parts/Button.vue';
+import { defineComponent, PropType } from '@vue/composition-api';
 
-@Component({
+export default defineComponent({
+  name: 'DirectorySelector',
   components: {
     'psk-button': Button,
   },
-})
-export default class DirectorySelector extends Vue {
-  @Prop() private album!: Album;
+  props: {
+    album: {
+      type: Object as PropType<Album>,
+      required: true,
+    },
+  },
+  emits: {
+    'dir-selected': null,
+  },
+  setup(_, ctx) {
+    const onEntryClicked = (id: number) => {
+      ctx.emit('dir-selected', id);
+    };
 
-  public onEntryClicked(id: number) {
-    this.$emit('dir-selected', id);
-  }
-}
+    return { onEntryClicked };
+  },
+});
 </script>

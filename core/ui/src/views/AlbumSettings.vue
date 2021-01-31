@@ -1,9 +1,9 @@
 <template>
   <div class="container mx-auto py-8 px-2">
     <div class="w-full bg-white rounded p-2">
-      <loading v-if="isLoading" label="読み込み中…" />
+      <loading v-if="album === undefined" label="読み込み中…" />
 
-      <template v-if="album !== null">
+      <template v-else>
         <div class="pb-4">
           <h1 class="text-xl pb-2">基本設定</h1>
           <line-text-input label="アルバムの名前" v-model="album.label" />
@@ -63,66 +63,74 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Inject } from 'vue-property-decorator';
-import { Album } from '../models/Album';
-import { AlbumAPIService } from '@/services/AlbumAPIService';
 import Loading from '@/components/parts/Loading.vue';
 import Trash from '@/components/icons/HeroIcons/Trash.vue';
 import LineTextInput from '@/components/parts/forms/LineTextInput.vue';
 import AddFilled from '@/components/icons/HeroIcons/AddFilled.vue';
 import InfoFilled from '@/components/icons/HeroIcons/InfoFilled.vue';
 import Button from '@/components/parts/Button.vue';
+import { defineComponent, ref } from '@vue/composition-api';
+import { ServiceKeys, useDependency } from '@/compositions/Dependency';
+import { useAlbumDataWithUrlId } from '@/compositions/Album';
+import { useRouter } from '@/compositions/Compat';
 
-@Component({
+export default defineComponent({
   components: { Loading, LineTextInput, Trash, AddFilled, InfoFilled, 'psk-button': Button },
-})
-export default class AlbumSettings extends Vue {
-  private id: string = '';
-  private album: Album | null = null;
-  private isSaving: boolean = false;
-  @Inject('AlbumAPIService') private m_albumAPIService!: AlbumAPIService;
+  setup() {
+    const albumAPIService = useDependency(ServiceKeys.AlbumAPIService);
+    const router = useRouter();
 
-  async mounted() {
-    this.id = this.$route.params['id'];
-    this.album = await this.m_albumAPIService.getAlbumAsync(this.id);
-  }
+    const { album, id } = useAlbumDataWithUrlId();
 
-  async saveAlbum() {
-    this.isSaving = true;
-    let result = await this.m_albumAPIService.saveAlbumAsync(this.id, this.album!);
-    this.isSaving = false;
-    if (!result) {
-      // TODO: トーストシステムを作るか導入して復活させる
-      // this.$toast.open({
-      //   message: 'アルバムの保存に失敗しました',
-      //   type: 'is-danger',
-      // });
-      console.error('アルバムの保存に失敗しました');
-    }
-    return result;
-  }
+    const returnToMenu = () => {
+      if (id.value === undefined) {
+        return;
+      }
 
-  async saveAlbumAndReturnToMenu() {
-    let result = await this.saveAlbum();
-    if (result) {
-      this.returnToMenu();
-    }
-  }
+      router?.push({ name: 'main-menu', params: { id: id.value } });
+    };
 
-  returnToMenu() {
-    this.$router.push({ name: 'main-menu', params: { id: this.id } });
-  }
+    const isSaving = ref(false);
+    const saveAlbum = async () => {
+      if (id.value === undefined || album.value === undefined) {
+        return;
+      }
 
-  addDirEntry() {
-    this.album!.directories.push({ label: '', fullpath: '' });
-  }
+      isSaving.value = true;
+      let result = await albumAPIService.saveAlbumAsync(id.value, album.value);
+      isSaving.value = false;
+      if (!result) {
+        // TODO: トーストシステムを作るか導入して復活させる
+        // $toast.open({
+        //   message: 'アルバムの保存に失敗しました',
+        //   type: 'is-danger',
+        // });
+        console.error('アルバムの保存に失敗しました');
+      }
+      return result;
+    };
+    const saveAlbumAndReturnToMenu = async () => {
+      let result = await saveAlbum();
+      if (result) {
+        returnToMenu();
+      }
+    };
 
-  deleteDirEntry(index: number) {
-    this.album!.directories.splice(index, 1);
-  }
+    const addDirEntry = () => {
+      album.value?.directories?.push({ label: '', fullpath: '' });
+    };
+    const deleteDirEntry = (index: number) => {
+      album.value?.directories?.splice(index, 1);
+    };
 
-  get isLoading() {
-    return this.album === null;
-  }
-}
+    return {
+      album,
+      returnToMenu,
+      saveAlbum,
+      saveAlbumAndReturnToMenu,
+      addDirEntry,
+      deleteDirEntry,
+    };
+  },
+});
 </script>

@@ -15,7 +15,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, getCurrentInstance } from '@vue/composition-api';
-import { Album } from '../models/Album';
 import FolderIcon from '@/components/icons/TablerIcons/Folder.vue';
 import SettingsIcon from '@/components/icons/TablerIcons/Settings.vue';
 import MainMenuLink from './partials/MainMenu/MainMenuLink.vue';

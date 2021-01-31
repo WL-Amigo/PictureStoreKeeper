@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto py-8 px-2">
+  <div class="container mx-auto py-8 px-2" v-if="idAndLabelPairs !== null">
     <div class="flex flex-col space-y-2">
       <entity v-for="iaap in idAndLabelPairs" :key="iaap.id" :label="iaap.label" @selected="onEntityClicked(iaap.id)" />
     </div>
@@ -22,16 +22,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Inject } from 'vue-property-decorator';
-import Entity from '../components/AlbumSelectorEntity.vue';
-import CreateAlbumPrompt from '../components/CreateAlbumPrompt.vue';
-import { AlbumAPIService } from '@/services/AlbumAPIService';
+import Entity from '@/components/AlbumSelectorEntity.vue';
+import CreateAlbumPrompt from '@/components/CreateAlbumPrompt.vue';
 import { IDAndLabelPair } from '@/models/IDAndLabelPair';
 import AddFilledIcon from '@/components/icons/HeroIcons/AddFilled.vue';
 import FadeTransition from '@/components/transitions/Fade.vue';
 import Button from '@/components/parts/Button.vue';
+import { defineComponent, onMounted, ref } from '@vue/composition-api';
+import { ServiceKeys, useDependency } from '@/compositions/Dependency';
+import { useRouter } from '@/compositions/Compat';
 
-@Component({
+export default defineComponent({
   components: {
     entity: Entity,
     'create-album-prompt': CreateAlbumPrompt,
@@ -39,30 +40,32 @@ import Button from '@/components/parts/Button.vue';
     'fade-transition': FadeTransition,
     'psk-button': Button,
   },
-})
-export default class AlbumSelector extends Vue {
-  @Inject('AlbumAPIService') private m_AlbumAPIService!: AlbumAPIService;
+  setup() {
+    const albumAPIService = useDependency(ServiceKeys.AlbumAPIService);
+    const router = useRouter();
 
-  public idAndLabelPairs: Array<IDAndLabelPair> = [];
-  private isCreateAlbumPromptActive: boolean = false;
+    const idAndLabelPairs = ref<readonly IDAndLabelPair[] | null>(null);
+    onMounted(async () => (idAndLabelPairs.value = await albumAPIService.getAllAlbumsAsync()));
 
-  async mounted() {
-    this.idAndLabelPairs = await this.m_AlbumAPIService.getAllAlbumsAsync();
-  }
+    const isCreateAlbumPromptActive = ref(false);
+    const onEntityClicked = (id: string) => router?.push({ name: 'main-menu', params: { albumId: id } });
+    const onCreateAlbumPromptConfirmed = async (label: string) => {
+      let result = await albumAPIService.createAlbumAsync(label);
+      isCreateAlbumPromptActive.value = false;
+      // TODO: 失敗時はトーストを表示する
+      if (!result) {
+        return;
+      }
 
-  public onEntityClicked(id: string): void {
-    this.$router.push({ name: 'main-menu', params: { id } });
-  }
+      idAndLabelPairs.value = await albumAPIService.getAllAlbumsAsync();
+    };
 
-  public async onCreateAlbumPromptConfirmed(label: string) {
-    let result = await this.m_AlbumAPIService.createAlbumAsync(label);
-    this.isCreateAlbumPromptActive = false;
-    // TODO: 失敗時はトーストを表示する
-    if (!result) {
-      return;
-    }
-
-    this.idAndLabelPairs = await this.m_AlbumAPIService.getAllAlbumsAsync();
-  }
-}
+    return {
+      idAndLabelPairs,
+      isCreateAlbumPromptActive,
+      onEntityClicked,
+      onCreateAlbumPromptConfirmed,
+    };
+  },
+});
 </script>
