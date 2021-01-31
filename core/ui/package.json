@@ -23,7 +23,7 @@
     "postcss": "^8.2.4",
     "tailwindcss": "^2.0.2",
     "typescript": "^4.0.0",
-    "vite": "^2.0.0-beta.59"
+    "vite": "^2.0.0-beta.60"
   },
   "postcss": {
     "plugins": {
