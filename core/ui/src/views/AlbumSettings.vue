@@ -69,10 +69,10 @@ import LineTextInput from '@/components/parts/forms/LineTextInput.vue';
 import AddFilled from '@/components/icons/HeroIcons/AddFilled.vue';
 import InfoFilled from '@/components/icons/HeroIcons/InfoFilled.vue';
 import Button from '@/components/parts/Button.vue';
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref } from 'vue';
 import { ServiceKeys, useDependency } from '@/compositions/Dependency';
 import { useAlbumDataWithUrlId } from '@/compositions/Album';
-import { useRouter } from '@/compositions/Compat';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   components: { Loading, LineTextInput, Trash, AddFilled, InfoFilled, 'psk-button': Button },

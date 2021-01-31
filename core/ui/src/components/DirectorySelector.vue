@@ -15,7 +15,7 @@
 <script lang="ts">
 import { Album } from '@/models/Album';
 import Button from '@/components/parts/Button.vue';
-import { defineComponent, PropType } from '@vue/composition-api';
+import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   name: 'DirectorySelector',

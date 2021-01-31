@@ -7,8 +7,8 @@
 
 <script lang="ts">
 import DirectorySelector from '@/components/DirectorySelector.vue';
-import { defineComponent } from '@vue/composition-api';
-import { useRouter } from '@/compositions/Compat';
+import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 import { useAlbumDataWithUrlId } from '@/compositions/Album';
 
 export default defineComponent({
@@ -24,7 +24,7 @@ export default defineComponent({
       if (albumId.value === undefined) {
         return;
       }
-      router?.push({ name: 'arrange', params: { albumId: albumId.value, dirId: id.toFixed(0) } });
+      router.push({ name: 'arrange', params: { albumId: albumId.value, dirId: id.toFixed(0) } });
     };
 
     return {

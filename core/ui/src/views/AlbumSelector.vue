@@ -28,9 +28,9 @@ import { IDAndLabelPair } from '@/models/IDAndLabelPair';
 import AddFilledIcon from '@/components/icons/HeroIcons/AddFilled.vue';
 import FadeTransition from '@/components/transitions/Fade.vue';
 import Button from '@/components/parts/Button.vue';
-import { defineComponent, onMounted, ref } from '@vue/composition-api';
+import { defineComponent, onMounted, ref } from 'vue';
 import { ServiceKeys, useDependency } from '@/compositions/Dependency';
-import { useRouter } from '@/compositions/Compat';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   components: {
@@ -48,7 +48,7 @@ export default defineComponent({
     onMounted(async () => (idAndLabelPairs.value = await albumAPIService.getAllAlbumsAsync()));
 
     const isCreateAlbumPromptActive = ref(false);
-    const onEntityClicked = (id: string) => router?.push({ name: 'main-menu', params: { albumId: id } });
+    const onEntityClicked = (id: string) => router.push({ name: 'main-menu', params: { albumId: id } });
     const onCreateAlbumPromptConfirmed = async (label: string) => {
       let result = await albumAPIService.createAlbumAsync(label);
       isCreateAlbumPromptActive.value = false;

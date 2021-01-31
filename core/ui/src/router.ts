@@ -1,14 +1,12 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import AlbumSelector from './views/AlbumSelector.vue';
 import MainMenu from './views/MainMenu.vue';
 import AlbumSettings from './views/AlbumSettings.vue';
 import PictureArranger from './views/PictureArranger.vue';
 import DirSelectorBeforeArrange from './views/DirSelectorBeforeArrange.vue';
 
-Vue.use(Router);
-
-export default new Router({
+export const router = createRouter({
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
@@ -16,17 +14,17 @@ export default new Router({
       component: AlbumSelector,
     },
     {
-      path: '/album/:id',
+      path: '/album/:albumId',
       name: 'main-menu',
       component: MainMenu,
     },
     {
-      path: '/album/:id/settings',
+      path: '/album/:albumId/settings',
       name: 'album-settings',
       component: AlbumSettings,
     },
     {
-      path: '/album/:id/arrange/',
+      path: '/album/:albumId/arrange/',
       name: 'directory-selector-before-arrange',
       component: DirSelectorBeforeArrange,
     },

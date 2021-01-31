@@ -1,6 +1,6 @@
 import { Album } from '@/models/Album';
-import { computed, ref, onMounted, watch, Ref, ComputedRef } from '@vue/composition-api';
-import { useRoute } from './Compat';
+import { computed, ref, onMounted, watch, Ref, ComputedRef } from 'vue';
+import { useRoute } from 'vue-router';
 import { useDependency, ServiceKeys } from './Dependency';
 
 type AlbumDataComposition = {
@@ -8,11 +8,18 @@ type AlbumDataComposition = {
   id: ComputedRef<string | undefined>;
 };
 
+export const useAlbumIdFromUrl = (): ComputedRef<string | undefined> => {
+  const route = useRoute();
+  return computed(() => {
+    const albumId = route.params['albumId'];
+    return typeof albumId === 'string' ? albumId : albumId[0];
+  });
+};
+
 export const useAlbumDataWithUrlId = (): AlbumDataComposition => {
   const albumAPIService = useDependency(ServiceKeys.AlbumAPIService);
-  const route = useRoute();
 
-  const id = computed(() => route?.params?.['albumId']);
+  const id = useAlbumIdFromUrl();
   const album = ref<Album>();
   const fetchAlbum = async (currentId: string | undefined) => {
     if (!currentId) {
