@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <div class="w-full lg:w-2/3 lg:mx-auto p-4 space-y-4 bg-white rounded-md shadow-lg" @click.stop="">
+    <div
+      class="w-full lg:w-2/3 lg:mx-auto p-4 space-y-4 bg-white rounded-md shadow-lg"
+      @click="$event.stopPropagation()"
+    >
       <h1 class="text-2xl">アルバムを作る</h1>
       <div class="flex flex-col">
         <label class="text-sm">アルバム名</label>
@@ -23,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref } from 'vue';
 import InfoIcon from './icons/HeroIcons/InfoFilled.vue';
 
 export default defineComponent({

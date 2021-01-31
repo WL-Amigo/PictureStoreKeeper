@@ -54,10 +54,10 @@
 
 <script lang="ts">
 import Button from '@/components/parts/Button.vue';
-import { computed, defineComponent, onMounted, ref } from '@vue/composition-api';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useAlbumDataWithUrlId } from '@/compositions/Album';
 import { ServiceKeys, useDependency } from '@/compositions/Dependency';
-import { useRoute } from '@/compositions/Compat';
+import { useRoute } from 'vue-router';
 
 const SubImgCount = 5;
 
@@ -88,8 +88,8 @@ export default defineComponent({
 
     const { album, id: albumId } = useAlbumDataWithUrlId();
     const dirId = computed(() => {
-      const value = route?.params?.['dirId'];
-      const dirIdInt = value ? parseInt(value) : NaN;
+      const value = route.params['dirId'];
+      const dirIdInt = typeof value === 'string' ? parseInt(value) : NaN;
       return !isNaN(dirIdInt) ? dirIdInt : undefined;
     });
     const imgSrcList = ref<string[]>([]);

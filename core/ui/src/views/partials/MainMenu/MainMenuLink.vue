@@ -8,13 +8,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from '@vue/composition-api';
-import { Location } from 'vue-router';
+import { defineComponent, PropType } from 'vue';
+import { RouteLocationRaw } from 'vue-router';
 
 export default defineComponent({
   props: {
     to: {
-      type: Object as PropType<Location>,
+      type: Object as PropType<RouteLocationRaw>,
       required: true,
     },
   },

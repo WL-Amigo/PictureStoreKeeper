@@ -3,14 +3,13 @@
     class="flex flex-row items-center justify-center border box-content rounded"
     :class="allClasses"
     v-bind="$attrs"
-    v-on="$listeners"
   >
     <slot />
   </button>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from '@vue/composition-api';
+import { computed, defineComponent, PropType } from 'vue';
 
 type Variant = 'default' | 'primary' | 'danger';
 

@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent } from 'vue';
 import CircleDotted from '@/components/icons/TablerIcons/CircleDotted.vue';
 
 export default defineComponent({

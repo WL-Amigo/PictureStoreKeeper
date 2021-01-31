@@ -1,6 +1,6 @@
 import { FatalError } from '@/components/errors/Base';
 import { ServiceDictionary, ServiceKeyDictionary } from '@/services/ServiceDictionary';
-import { inject, InjectionKey, provide } from '@vue/composition-api';
+import { inject, InjectionKey, provide } from 'vue';
 
 export const ServiceKeys: ServiceKeyDictionary = {
   AlbumAPIService: Symbol(),

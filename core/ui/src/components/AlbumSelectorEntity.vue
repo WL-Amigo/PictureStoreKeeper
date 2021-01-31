@@ -16,12 +16,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent } from 'vue';
 import AlbumIcon from './icons/FlaticonCom/Album.vue';
 import ArrowRightSmallIcon from './icons/HeroIcons/ArrowRightSmall.vue';
 
 export default defineComponent({
   name: 'AlbumSelectorEntity',
+  emits: {
+    selected: null,
+  },
   components: {
     'album-icon': AlbumIcon,
     'arrow-right': ArrowRightSmallIcon,

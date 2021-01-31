@@ -1,14 +1,10 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import './main.css';
 import App from './App.vue';
-import router from './router';
-import VueCompositionApi from '@vue/composition-api';
+import { router } from './router';
 
-Vue.config.productionTip = false;
+const app = createApp(App);
 
-Vue.use(VueCompositionApi);
+app.use(router);
 
-new Vue({
-  router,
-  render: (h) => h(App),
-}).$mount('#app');
+app.mount('#app');
