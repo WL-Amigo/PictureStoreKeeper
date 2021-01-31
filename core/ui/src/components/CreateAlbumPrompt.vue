@@ -11,9 +11,7 @@
         />
         <div class="flex flex-row items-center text-sm pt-2 text-primary-600">
           <info class="w-5 h-5 mr-1" />
-          <span>
-            アルバム名は後から変更できます
-          </span>
+          <span> アルバム名は後から変更できます </span>
         </div>
       </div>
       <div class="flex flex-row justify-end space-x-2">

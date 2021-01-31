@@ -1,34 +1,32 @@
 import { IDAndLabelPair } from '@/models/IDAndLabelPair';
-import { Album } from '@/models/Album'
+import { Album } from '@/models/Album';
 
 export class AlbumAPIService {
-  public constructor(
-    private readonly m_host: string
-  ){}
+  public constructor(private readonly m_host: string) {}
 
-  public async getAllAlbumsAsync() {
-    let resp = await fetch((new URL('/api/album/', this.m_host)).toString());
-    if(!resp.ok) {
-      throw "getAllAlbumsAsync: failed";
+  public async getAllAlbumsAsync(): Promise<readonly IDAndLabelPair[]> {
+    const resp = await fetch(new URL('/api/album/', this.m_host).toString());
+    if (!resp.ok) {
+      throw 'getAllAlbumsAsync: failed';
     }
 
-    return <Array<IDAndLabelPair>>(await resp.json());
+    return <Array<IDAndLabelPair>>await resp.json();
   }
-  
-  public async getAlbumAsync(id: string) {
-    let resp = await fetch((new URL(`/api/album/${id}`, this.m_host)).toString());
-    if(!resp.ok) {
-      throw "getAlbumAsync: failed";
+
+  public async getAlbumAsync(id: string): Promise<Album> {
+    const resp = await fetch(new URL(`/api/album/${id}`, this.m_host).toString());
+    if (!resp.ok) {
+      throw 'getAlbumAsync: failed';
     }
 
-    return <Album>(await resp.json());
+    return <Album>await resp.json();
   }
 
-  public async saveAlbumAsync(id: string, album: Album) {
-    let resp = await fetch((new URL(`/api/album/${id}`, this.m_host)).toString(), {
+  public async saveAlbumAsync(id: string, album: Album): Promise<boolean> {
+    const resp = await fetch(new URL(`/api/album/${id}`, this.m_host).toString(), {
       method: 'POST',
       headers: {
-        "Content-Type": "application/json; charset=utf-8",
+        'Content-Type': 'application/json; charset=utf-8',
       },
       body: JSON.stringify(album),
     });
@@ -36,15 +34,15 @@ export class AlbumAPIService {
     return resp.ok;
   }
 
-  public async createAlbumAsync(label: string) {
-    let resp = await fetch((new URL(`/api/album/`, this.m_host)).toString(), {
+  public async createAlbumAsync(label: string): Promise<boolean> {
+    const resp = await fetch(new URL(`/api/album/`, this.m_host).toString(), {
       method: 'POST',
       headers: {
-        "Content-Type": "application/json; charset=utf-8",
+        'Content-Type': 'application/json; charset=utf-8',
       },
       body: JSON.stringify({
-        label: label
-      })
+        label: label,
+      }),
     });
 
     return resp.ok;
