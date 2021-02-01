@@ -5,7 +5,11 @@
   "description": "PictureStoreKeeper for server",
   "main": "index.js",
   "scripts": {
-    "build": "pnpm build:script && node ./scripts/dist/build.js",
+    "build": "pnpm build:script && pnpm build:linux-amd64 && pnpm build:linux-armv7 && pnpm build:windows-amd64",
+    "build:linux-amd64": "cross-env GOOS=linux GOARCH=amd64 node ./scripts/dist/build.js",
+    "build:windows-amd64": "cross-env GOOS=windows GOARCH=amd64 node ./scripts/dist/build.js",
+    "build:linux-arm64": "cross-env GOOS=linux GOARCH=arm64 node ./scripts/dist/build.js",
+    "build:linux-armv7": "cross-env GOOS=linux GOARCH=arm GOARM=7 node ./scripts/dist/build.js",
     "build:script": "esbuild ./scripts/build.ts --bundle --outfile=./scripts/dist/build.js --minify --platform=node --external:fs-extra"
   },
   "author": "Amigo (WhiteLuckBringers)",
@@ -15,6 +19,7 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.6",
+    "cross-env": "^7.0.3",
     "esbuild": "^0.8.32",
     "fs-extra": "^9.0.1"
   }
