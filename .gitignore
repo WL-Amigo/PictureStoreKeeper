@@ -4,3 +4,6 @@ dist/
 album.json
 node_modules/
 l_*/*
+
+# Local working directories
+/apps/server/backend/l_goland/**/*

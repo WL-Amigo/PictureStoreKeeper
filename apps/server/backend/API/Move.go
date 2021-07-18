@@ -1,14 +1,14 @@
 package API
 
 import (
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strconv"
 )
-import "../Model"
+import "picture-store-keeper-server/Model"
 
 type moveFilePayload struct {
 	SourceDirIndex int    `json:"source_dir_index"`

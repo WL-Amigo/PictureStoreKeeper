@@ -13,4 +13,8 @@ export class DirectoryAPIService {
   public toFileURL(albumId: string, dirId: number, fileName: string): string {
     return new URL(`/api/directory/${albumId}/${dirId}/${fileName}`, this.m_host).toString();
   }
+
+  public toThumbNailURL(albumId: string, dirId: number, fileName: string): string {
+    return new URL(`/api/directory/${albumId}/${dirId}/${fileName}/thumbnail`, this.m_host).toString();
+  }
 }

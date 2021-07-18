@@ -1,22 +1,23 @@
 package API
 
 import (
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
+	"picture-store-keeper-server/Services"
 	"strconv"
 	"strings"
 )
-import "../Model"
+import "picture-store-keeper-server/Model"
 
 type fileListResponse struct {
 	FileList []string `json:"files"`
 }
 
-func AddDirectoryEndpoints(e *echo.Echo, albumManager *Model.AlbumManager) {
+func AddDirectoryEndpoints(e *echo.Echo, albumManager *Model.AlbumManager, thumbnailsService *Services.ThumbnailsService) {
 	directoryEndpoint := e.Group("/api/directory/:albumId/:destDirIdx")
 
 	// -- get all picture file-names in selected directory
@@ -58,6 +59,29 @@ func AddDirectoryEndpoints(e *echo.Echo, albumManager *Model.AlbumManager) {
 
 		// TODO: sanitize `fileName` if necessary
 		return ctx.File(filepath.Join(albumPublic.DirEntries[destDirIndex].FullPath, ctx.Param(fileNameParamName)))
+	})
+
+	// -- get thumbnail for specified picture file
+	directoryEndpoint.GET("/:fileName/thumbnail", func(ctx echo.Context) error {
+		albumId := ctx.Param(albumIdParamName)
+		album := albumManager.Get(albumId)
+		if album == nil {
+			return returnAlbumNotFoundResponse(ctx)
+		}
+
+		albumPublic := &album.AlbumPublic
+		destDirIndex, err := strconv.Atoi(ctx.Param(destDirIndexParamName))
+		if err != nil || destDirIndex < 0 || destDirIndex >= len(albumPublic.DirEntries) {
+			return returnInvalidDirIndexResponse(ctx, ctx.Param(destDirIndexParamName))
+		}
+
+		thumbnailFileName, err := thumbnailsService.GetThumbnailFilePath(albumId, filepath.Join(albumPublic.DirEntries[destDirIndex].FullPath, ctx.Param(fileNameParamName)))
+		if err != nil {
+			log.Error(err)
+			return ctx.String(http.StatusInternalServerError, "Failed to get thumbnail")
+		}
+
+		return ctx.File(thumbnailFileName)
 	})
 }
 
