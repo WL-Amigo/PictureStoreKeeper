@@ -13,35 +13,24 @@
     </div>
     <div class="flex flex-row justify-between bg-white bg-opacity-50">
       <div class="w-48">
-        <button @click="onBack" class="flex flex-row items-center p-2 bg-white bg-opacity-0 hover:bg-opacity-100">
+        <GalleryButton @click="onBack">
           <ChevronLeft class="w-6 h-6" />
           <span>戻る</span>
-        </button>
+        </GalleryButton>
       </div>
       <div class="flex flex-row justify-center space-x-2">
-        <button
-          @click="goPrev"
-          :disabled="!canGoPrev"
-          class="flex flex-row items-center p-2 bg-white bg-opacity-0 hover:bg-opacity-100"
-        >
+        <GalleryButton @click="goPrev" :disabled="!canGoPrev">
           <ArrowLeftSmall class="w-5 h-5" />
-        </button>
-        <button
-          @click="goNext"
-          :disabled="!canGoNext"
-          class="flex flex-row items-center p-2 bg-white bg-opacity-0 hover:bg-opacity-100"
-        >
+        </GalleryButton>
+        <GalleryButton @click="goNext" :disabled="!canGoNext">
           <ArrowRightSmall class="w-5 h-5" />
-        </button>
+        </GalleryButton>
       </div>
       <div class="w-48 flex flex-row justify-end">
-        <button
-          @click="randomOpenImage"
-          class="flex flex-row items-center p-2 bg-white bg-opacity-0 hover:bg-opacity-100"
-        >
+        <GalleryButton @click="randomOpenImage">
           <Dice3 class="w-6 h-6" />
           <span>ランダムで開く</span>
-        </button>
+        </GalleryButton>
       </div>
     </div>
   </div>
@@ -70,6 +59,7 @@ import ArrowLeftSmall from '@/components/icons/HeroIcons/ArrowLeftSmall.vue';
 import ArrowRightSmall from '@/components/icons/HeroIcons/ArrowRightSmall.vue';
 import Dice3 from '@/components/icons/Boxicons/Dice3.vue';
 import SingleImageView from './partials/Gallery/SingleImageView.vue';
+import GalleryButton from './partials/Gallery/GalleryButton.vue';
 
 interface FileNameWithIndex {
   fileName: string;
@@ -177,6 +167,7 @@ export default defineComponent({
     };
   },
   components: {
+    GalleryButton,
     ChevronLeft,
     ArrowLeftSmall,
     ArrowRightSmall,

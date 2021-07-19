@@ -9,13 +9,15 @@
     stroke-linejoin="round"
   >
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M9 4h3l2 2h5a2 2 0 0 1 2 2v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2" />
-    <path d="M17 17v2a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2h2" />
+    <line x1="15" y1="8" x2="15.01" y2="8" />
+    <rect x="4" y="4" width="16" height="16" rx="3" />
+    <path d="M4 15l4 -4a3 5 0 0 1 3 0l5 5" />
+    <path d="M14 14l1 -1a3 5 0 0 1 3 0l2 2" />
   </svg>
 </template>
 
 <script lang="ts">
 export default {
-  name: 'TablerIconsFolder',
+  name: 'TablerIconsPhoto',
 };
 </script>

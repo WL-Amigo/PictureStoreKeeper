@@ -5,7 +5,7 @@
       type="text"
       class="px-2 py-1 border focus:border-gray-700 w-full border-gray-300 rounded focus:outline-none text-gray-600"
       :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="onInput"
     />
     <slot name="help" />
   </div>
@@ -19,8 +19,19 @@ export default defineComponent({
     modelValue: String,
     label: String,
   },
-  setup() {
-    return {};
+  emits: {
+    'update:modelValue': null,
+  },
+  setup(_, ctx) {
+    const onInput = (e: Event) => {
+      if (e.target instanceof HTMLInputElement) {
+        ctx.emit('update:modelValue', e.target.value);
+      }
+    };
+
+    return {
+      onInput,
+    };
   },
 });
 </script>
