@@ -1,15 +1,7 @@
 <template>
   <ModalBase :open="currentImgFileName.length > 0">
-    <div class="w-full h-full absolute inset-0 flex flex-col" @click.stop="">
-      <img :src="currentImgSrc" class="object-scale-down object-center flex-1" />
-      <div class="w-full flex flex-row justify-between text-white">
-        <button @click="$emit('prev')" :disabled="!canGoPrev" class="p-2 bg-white bg-opacity-0 hover:bg-opacity-25">
-          <ArrowLeftSmall class="w-10 h-10" />
-        </button>
-        <button @click="$emit('next')" :disabled="!canGoNext" class="p-2 bg-white bg-opacity-0 hover:bg-opacity-25">
-          <ArrowRightSmall class="w-10 h-10" />
-        </button>
-      </div>
+    <div class="w-full h-full absolute inset-0" @click.stop="">
+      <img :src="currentImgSrc" class="object-scale-down object-center w-full h-full" />
     </div>
     <button
       @click="$emit('close')"
@@ -17,6 +9,14 @@
     >
       <Close class="w-full h-full" />
     </button>
+    <div class="w-full absolute bottom-0 left-0 right-0 flex flex-row justify-between text-white">
+      <button @click="$emit('prev')" :disabled="!canGoPrev" class="p-2 bg-white bg-opacity-0 hover:bg-opacity-25">
+        <ArrowLeftSmall class="w-10 h-10" />
+      </button>
+      <button @click="$emit('next')" :disabled="!canGoNext" class="p-2 bg-white bg-opacity-0 hover:bg-opacity-25">
+        <ArrowRightSmall class="w-10 h-10" />
+      </button>
+    </div>
   </ModalBase>
 </template>
 
