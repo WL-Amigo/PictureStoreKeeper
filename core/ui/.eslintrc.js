@@ -26,5 +26,6 @@ module.exports = {
       'warn',
       { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
     ],
+    'vue/no-multiple-template-root': 'off',
   },
 };
