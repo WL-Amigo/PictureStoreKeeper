@@ -1,19 +1,34 @@
 <template>
-  <div class="container mx-auto py-8 px-2">
-    <h1 class="text-xl pb-2">転送元を選んで下さい</h1>
-    <dir-selector v-if="album" :album="album" @dir-selected="onSelected" />
+  <div class="h-full w-full flex flex-col">
+    <div class="container mx-auto py-8 px-2 flex-1">
+      <h1 class="text-xl pb-2">転送元を選んで下さい</h1>
+      <dir-selector v-if="album" :album="album" @dir-selected="onSelected" />
+    </div>
+    <div class="flex flex-row justify-between">
+      <div class="w-48 flex flex-row">
+        <router-link
+          :to="mainMenuRoute"
+          class="flex flex-row items-center p-2 bg-white bg-opacity-0 hover:bg-opacity-100"
+        >
+          <ChevronLeft class="w-5 h-5" />
+          <span>戻る</span>
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import DirectorySelector from '@/components/DirectorySelector.vue';
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAlbumDataWithUrlId } from '@/compositions/Album';
+import ChevronLeft from '@/components/icons/HeroIcons/ChevronLeft.vue';
 
 export default defineComponent({
   components: {
     'dir-selector': DirectorySelector,
+    ChevronLeft,
   },
   setup() {
     const router = useRouter();
@@ -27,9 +42,12 @@ export default defineComponent({
       router.push({ name: 'arrange', params: { albumId: albumId.value, dirId: id.toFixed(0) } });
     };
 
+    const mainMenuRoute = computed(() => ({ name: 'main-menu', params: { albumId: albumId.value } }));
+
     return {
       album,
       onSelected,
+      mainMenuRoute,
     };
   },
 });
