@@ -5,7 +5,7 @@ import Colors from 'windicss/colors';
 export default defineConfig({
   darkMode: false, // or 'media' or 'class'
   extract: {
-    include: ['./index.html', './src/**/*.{vue,ts}'],
+    include: ['./index.html', './src/**/*.{vue,ts,tsx}'],
   },
   theme: {
     extend: {

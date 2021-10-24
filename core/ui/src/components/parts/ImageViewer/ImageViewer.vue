@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full relative overflow-visible">
+  <div class="w-full h-full relative overflow-visible" @mousemove="showControlPanel" @touchstart="showControlPanel">
     <img
       :src="src"
       :class="imgClasses"
@@ -8,18 +8,22 @@
       ref="imgElRef"
       class="max-w-none touch-none"
     />
-    <div class="w-full flex flex-row justify-center absolute bottom-12 pointer-events-none">
-      <div class="p-2 bg-black rounded space-x-2 pointer-events-auto">
-        <button class="bg-white px-4 py-0.5 rounded-sm" @click="currentMode = 'scale-down'">
-          画面内に入るように縮小
+    <div
+      class="w-full flex flex-row justify-center absolute bottom-12 pointer-events-none transition-opacity"
+      :class="controlPanelClasses"
+    >
+      <div class="p-2 bg-black rounded space-x-2 pointer-events-auto <md:hidden">
+        <button
+          v-for="opt in viewModeSelectOptions"
+          :key="opt.id"
+          class="bg-white px-4 py-0.5 rounded-sm"
+          @click="currentMode = opt.id"
+        >
+          {{ opt.label }}
         </button>
-        <button class="bg-white px-4 py-0.5 rounded-sm" @click="currentMode = 'contain'">
-          画面いっぱいになるように拡大・縮小
-        </button>
-        <button class="bg-white px-4 py-0.5 rounded-sm" @click="currentMode = 'cover'">
-          画面を覆うように拡大・縮小
-        </button>
-        <button class="bg-white px-4 py-0.5 rounded-sm" @click="currentMode = 'original'">元のサイズ</button>
+      </div>
+      <div class="p-2 bg-black rounded space-x-2 pointer-events-auto md:hidden">
+        <SingleSelect :options="viewModeSelectOptions" v-model="currentMode" />
       </div>
     </div>
   </div>
@@ -29,11 +33,32 @@
 import { defineRequiredStringProp } from '@/utils/Vue';
 import { computed, CSSProperties, defineComponent, ref, shallowRef, watch } from 'vue';
 import { useDraggable } from '@vueuse/core';
+import { SingleSelect } from '../forms/SingleSelect';
+import { IDAndLabelPair } from '@/models/IDAndLabelPair';
+import { windi } from '@/windi';
 
 type ViewMode = 'scale-down' | 'contain' | 'cover' | 'original';
 type Size = { width: number; height: number };
 type Position = { x: number; y: number };
 const ViewModesToEnablePositioning: readonly ViewMode[] = ['cover', 'original'];
+const ViewModeSelectOptions: IDAndLabelPair<ViewMode>[] = [
+  {
+    id: 'scale-down',
+    label: '画面内に入るように縮小',
+  },
+  {
+    id: 'contain',
+    label: '画面いっぱいになるように拡大・縮小',
+  },
+  {
+    id: 'cover',
+    label: '画面を覆うように拡大・縮小',
+  },
+  {
+    id: 'original',
+    label: '元のサイズ',
+  },
+];
 
 const getDrawnImageClampedPosition = (x: number, y: number, drawnWidth: number, drawnHeight: number): Position => {
   if (isNaN(drawnWidth) || isNaN(drawnHeight)) {
@@ -110,7 +135,6 @@ export default defineComponent({
     });
     watch(isDragging, (current, prev) => {
       if (!current && prev) {
-        console.log('isDragging: true -> false');
         // true => false になった時に position をドラッグ可能範囲に補正
         const { x, y } = position.value;
         const { width: drawnWidth, height: drawnHeight } = drawnImageSize.value;
@@ -144,13 +168,30 @@ export default defineComponent({
       };
     });
 
+    const isVisibleControlPanel = ref(false);
+    const controlPanelTimeoutId = ref(NaN);
+    const showControlPanel = () => {
+      if (!isNaN(controlPanelTimeoutId.value)) {
+        clearTimeout(controlPanelTimeoutId.value);
+      }
+      isVisibleControlPanel.value = true;
+      controlPanelTimeoutId.value = setTimeout(() => (isVisibleControlPanel.value = false), 3000);
+    };
+    const controlPanelClasses = computed(() => [isVisibleControlPanel.value ? windi`opacity-100` : windi`opacity-0`]);
+
     return {
       currentMode,
+      viewModeSelectOptions: ViewModeSelectOptions,
       imgClasses,
       imgStyles,
       onImageLoaded,
       imgElRef,
+      showControlPanel,
+      controlPanelClasses,
     };
+  },
+  components: {
+    SingleSelect,
   },
 });
 </script>
