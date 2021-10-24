@@ -1,7 +1,16 @@
 <template>
   <div class="w-full h-screen flex flex-col">
     <div
-      class="grid grid-cols-4 grid-rows-5 md:grid-cols-5 md:grid-rows-4 gap-2 container mx-auto flex-1 overflow-hidden py-2"
+      class="
+        grid grid-cols-4 grid-rows-5
+        md:grid-cols-5 md:grid-rows-4
+        gap-2
+        container
+        mx-auto
+        flex-1
+        overflow-hidden
+        py-2
+      "
     >
       <img
         v-for="src in displayImgSrcs"
@@ -14,7 +23,7 @@
       />
     </div>
     <div class="flex flex-row justify-between bg-white bg-opacity-50">
-      <div class="w-48">
+      <div class="w-60">
         <GalleryButton @click="onBack">
           <ChevronLeft class="w-6 h-6" />
           <span>戻る</span>
@@ -28,10 +37,10 @@
           <ArrowRightSmall class="w-5 h-5" />
         </GalleryButton>
       </div>
-      <div class="w-48 flex flex-row justify-end">
-        <GalleryButton @click="randomOpenImage">
+      <div class="w-60 flex flex-row justify-end">
+        <GalleryButton @click="randomJumpPage">
           <Dice3 class="w-6 h-6" />
-          <span class="<md:hidden">ランダムで開く</span>
+          <span class="<md:hidden">ランダムなページへ飛ぶ</span>
         </GalleryButton>
       </div>
     </div>
@@ -63,6 +72,8 @@ import Dice3 from '@/components/icons/Boxicons/Dice3.vue';
 import SingleImageView from './partials/Gallery/SingleImageView.vue';
 import GalleryButton from './partials/Gallery/GalleryButton.vue';
 
+const ImgsPerPage = 20;
+
 interface FileNameWithIndex {
   fileName: string;
   index: number;
@@ -84,7 +95,7 @@ export default defineComponent({
 
     const imgSrcs = ref<FileNameWithIndex[]>([]);
     const { page, maxPage, goNext, goPrev, canGoNext, canGoPrev } = usePager(
-      ref(20),
+      ref(ImgsPerPage),
       computed(() => imgSrcs.value.length),
     );
     const displayImgSrcs = computed(() => {
@@ -92,14 +103,13 @@ export default defineComponent({
       const dirIdValue = dirId.value;
       const pageValue = page.value;
       const originalImgSrcs = imgSrcs.value;
-      const imgsPerPage = 20;
 
       if (albumIdValue === undefined || dirIdValue === undefined) {
         return [];
       }
 
       return originalImgSrcs
-        .slice(imgsPerPage * pageValue, Math.min(originalImgSrcs.length, imgsPerPage * (pageValue + 1)))
+        .slice(ImgsPerPage * pageValue, Math.min(originalImgSrcs.length, ImgsPerPage * (pageValue + 1)))
         .map((src) => ({
           ...src,
           imgSrc: directoryService.toThumbNailURL(albumIdValue, dirIdValue, src.fileName),
@@ -147,7 +157,9 @@ export default defineComponent({
       viewingImageFileIndex.value = nextIndex;
     };
 
-    const randomOpenImage = () => (viewingImageFileIndex.value = Math.round(Math.random() * imgSrcs.value.length));
+    const randomJumpPage = () => {
+      page.value = Math.round(Math.random() * maxPage.value);
+    };
 
     return {
       displayImgSrcs,
@@ -165,7 +177,7 @@ export default defineComponent({
       onCloseImageView,
       onImageViewNext,
       onImageViewPrev,
-      randomOpenImage,
+      randomJumpPage,
     };
   },
   components: {
