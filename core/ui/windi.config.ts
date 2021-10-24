@@ -1,4 +1,5 @@
 import { defineConfig } from 'windicss/helpers';
+import plugin from 'windicss/plugin';
 import Colors from 'windicss/colors';
 
 export default defineConfig({
@@ -19,5 +20,13 @@ export default defineConfig({
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        '.touch-none': {
+          touchAction: 'none',
+        },
+      });
+    }),
+  ],
 });

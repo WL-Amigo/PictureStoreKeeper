@@ -1,6 +1,8 @@
 <template>
   <div class="w-full h-screen flex flex-col">
-    <div class="grid grid-cols-5 grid-rows-4 gap-2 container mx-auto flex-1 overflow-hidden py-2">
+    <div
+      class="grid grid-cols-4 grid-rows-5 md:grid-cols-5 md:grid-rows-4 gap-2 container mx-auto flex-1 overflow-hidden py-2"
+    >
       <img
         v-for="src in displayImgSrcs"
         :key="src.index"
@@ -29,7 +31,7 @@
       <div class="w-48 flex flex-row justify-end">
         <GalleryButton @click="randomOpenImage">
           <Dice3 class="w-6 h-6" />
-          <span>ランダムで開く</span>
+          <span class="<md:hidden">ランダムで開く</span>
         </GalleryButton>
       </div>
     </div>

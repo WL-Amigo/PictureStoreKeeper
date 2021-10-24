@@ -1,7 +1,7 @@
 <template>
   <ModalBase :open="currentImgFileName.length > 0">
     <div class="w-full h-full absolute inset-0" @click.stop="">
-      <img :src="currentImgSrc" class="object-scale-down object-center w-full h-full" />
+      <ImageViewer :src="currentImgSrc" />
     </div>
     <button
       @click="$emit('close')"
@@ -28,6 +28,7 @@ import { ServiceKeys, useDependency } from '@/compositions/Dependency';
 import ArrowLeftSmall from '@/components/icons/HeroIcons/ArrowLeftSmall.vue';
 import ArrowRightSmall from '../../../components/icons/HeroIcons/ArrowRightSmall.vue';
 import Close from '@/components/icons/Boxicons/Close.vue';
+import ImageViewer from '@/components/parts/ImageViewer/ImageViewer.vue';
 
 export default defineComponent({
   props: {
@@ -56,6 +57,7 @@ export default defineComponent({
   },
   components: {
     ModalBase,
+    ImageViewer,
     ArrowLeftSmall,
     ArrowRightSmall,
     Close,
