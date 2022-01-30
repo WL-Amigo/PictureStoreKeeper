@@ -55,6 +55,7 @@
       @close="onCloseImageView"
       @next="onImageViewNext"
       @prev="onImageViewPrev"
+      @moveDir="moveDir"
     />
   </template>
 </template>
@@ -71,6 +72,7 @@ import ArrowRightSmall from '@/components/icons/HeroIcons/ArrowRightSmall.vue';
 import Dice3 from '@/components/icons/Boxicons/Dice3.vue';
 import SingleImageView from './partials/Gallery/SingleImageView.vue';
 import GalleryButton from './partials/Gallery/GalleryButton.vue';
+import { isNotNullOrUndefined } from '@/utils/Emptiness';
 
 const ImgsPerPage = 20;
 
@@ -85,6 +87,7 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const directoryService = useDependency(ServiceKeys.DirectoryAPIService);
+    const moveService = useDependency(ServiceKeys.MoveAPIService);
 
     const { id: albumId } = useAlbumDataWithUrlId();
     const dirId = computed(() => {
@@ -116,7 +119,7 @@ export default defineComponent({
         }));
     });
 
-    onMounted(async () => {
+    const fetchImgSrcs = async () => {
       const albumIdValue = albumId.value;
       const dirIdValue = dirId.value;
 
@@ -128,7 +131,8 @@ export default defineComponent({
         index: i,
         fileName: fn,
       }));
-    });
+    };
+    onMounted(fetchImgSrcs);
 
     const onBack = () => {
       const albumIdValue = albumId.value;
@@ -161,6 +165,17 @@ export default defineComponent({
       page.value = Math.round(Math.random() * maxPage.value);
     };
 
+    const moveDir = async (targetFileName: string, destDirId: number) => {
+      const albumIdValue = albumId.value;
+      const dirIdValue = dirId.value;
+      if (!isNotNullOrUndefined(albumIdValue) || !isNotNullOrUndefined(dirIdValue)) {
+        return;
+      }
+
+      await moveService.movePictureAsync(albumIdValue, targetFileName, dirIdValue, destDirId);
+      await fetchImgSrcs();
+    };
+
     return {
       displayImgSrcs,
       page,
@@ -178,6 +193,7 @@ export default defineComponent({
       onImageViewNext,
       onImageViewPrev,
       randomJumpPage,
+      moveDir,
     };
   },
   components: {

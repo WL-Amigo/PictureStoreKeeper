@@ -13,6 +13,7 @@
       <button @click="$emit('prev')" :disabled="!canGoPrev" class="p-2 bg-white bg-opacity-0 hover:bg-opacity-25">
         <ArrowLeftSmall class="w-10 h-10" />
       </button>
+      <MenuButton :albumId="albumId" :dirId="dirId" @moveDir="moveDir" />
       <button @click="$emit('next')" :disabled="!canGoNext" class="p-2 bg-white bg-opacity-0 hover:bg-opacity-25">
         <ArrowRightSmall class="w-10 h-10" />
       </button>
@@ -29,6 +30,7 @@ import ArrowLeftSmall from '@/components/icons/HeroIcons/ArrowLeftSmall.vue';
 import ArrowRightSmall from '../../../components/icons/HeroIcons/ArrowRightSmall.vue';
 import Close from '@/components/icons/Boxicons/Close.vue';
 import ImageViewer from '@/components/parts/ImageViewer/ImageViewer.vue';
+import { GalleryImageViewMenuButton } from './SingleImageView/components/Menu';
 
 export default defineComponent({
   props: {
@@ -42,8 +44,9 @@ export default defineComponent({
     next: null,
     prev: null,
     close: null,
+    moveDir: (fileName: string, destDirId: number) => true,
   },
-  setup(props) {
+  setup(props, ctx) {
     const directoryService = useDependency(ServiceKeys.DirectoryAPIService);
     const currentImgSrc = computed(() => {
       return props.currentImgFileName.length === 0
@@ -51,13 +54,20 @@ export default defineComponent({
         : directoryService.toFileURL(props.albumId, props.dirId, props.currentImgFileName);
     });
 
+    const moveDir = (id: number) => {
+      ctx.emit('close');
+      ctx.emit('moveDir', props.currentImgFileName, id);
+    };
+
     return {
       currentImgSrc,
+      moveDir,
     };
   },
   components: {
     ModalBase,
     ImageViewer,
+    MenuButton: GalleryImageViewMenuButton,
     ArrowLeftSmall,
     ArrowRightSmall,
     Close,

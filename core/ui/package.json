@@ -9,17 +9,21 @@
     "lint:fix": "eslint './src/**/*.{ts,vue}' --fix && prettier --write './src/**/*.{ts,vue}'"
   },
   "dependencies": {
+    "@floating-ui/dom": "^0.2.0",
     "@vueuse/core": "6",
+    "clsx": "^1.1.1",
     "vue": "^3.2.20",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
+    "@iconify-json/bx": "^1.0.3",
     "@vitejs/plugin-vue": "^1.9.3",
     "@vitejs/plugin-vue-jsx": "^1.2.0",
     "@vue/compiler-sfc": "^3.2.20",
     "@vue/eslint-config-typescript": "^8.0.0",
     "eslint-plugin-vue": "^7.20.0",
     "typescript": "^4.4.4",
+    "unplugin-icons": "^0.13.0",
     "vite": "^2.6.10",
     "vite-plugin-windicss": "^1.4.12",
     "vue-tsc": "0.28.8",
