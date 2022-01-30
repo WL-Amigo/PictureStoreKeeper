@@ -1,9 +1,9 @@
 package API
 
 import (
-	"../Model"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"net/http"
+	"picture-store-keeper-server/Model"
 )
 
 type createAlbumPayload struct {

@@ -1,7 +1,7 @@
 <template>
   <div class="h-full w-full flex flex-col">
     <div class="container mx-auto py-8 px-2 flex-1">
-      <h1 class="text-xl pb-2">転送元を選んで下さい</h1>
+      <h1 class="text-xl pb-2">閲覧したいフォルダを選んで下さい</h1>
       <dir-selector v-if="album" :album="album" @dir-selected="onSelected" />
     </div>
     <div class="flex flex-row justify-between">
@@ -39,7 +39,7 @@ export default defineComponent({
       if (albumId.value === undefined) {
         return;
       }
-      router.push({ name: 'arrange', params: { albumId: albumId.value, dirId: id.toFixed(0) } });
+      router.push({ name: 'gallery', params: { albumId: albumId.value, dirId: id.toFixed(0) } });
     };
 
     const mainMenuRoute = computed(() => ({ name: 'main-menu', params: { albumId: albumId.value } }));

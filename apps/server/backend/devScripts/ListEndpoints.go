@@ -3,10 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
+	"picture-store-keeper-server/API"
+	"picture-store-keeper-server/Model"
 )
-import "../API"
-import "../Model"
 
 func main() {
 	e := echo.New()

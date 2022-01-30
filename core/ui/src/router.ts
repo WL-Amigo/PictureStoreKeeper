@@ -4,6 +4,8 @@ import MainMenu from './views/MainMenu.vue';
 import AlbumSettings from './views/AlbumSettings.vue';
 import PictureArranger from './views/PictureArranger.vue';
 import DirSelectorBeforeArrange from './views/DirSelectorBeforeArrange.vue';
+import DirSelectorBeforeGallery from './views/DirSelectorBeforeGallery.vue';
+import Gallery from './views/Gallery.vue';
 
 export const router = createRouter({
   history: createWebHashHistory(),
@@ -32,6 +34,16 @@ export const router = createRouter({
       path: '/album/:albumId/arrange/:dirId',
       name: 'arrange',
       component: PictureArranger,
+    },
+    {
+      path: '/album/:albumId/gallery/',
+      name: 'directory-selector-before-gallery',
+      component: DirSelectorBeforeGallery,
+    },
+    {
+      path: '/album/:albumId/gallery/:dirId',
+      name: 'gallery',
+      component: Gallery,
     },
   ],
 });
