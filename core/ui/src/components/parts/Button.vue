@@ -1,6 +1,6 @@
 <template>
   <button
-    class="flex flex-row items-center justify-center border box-content rounded"
+    class="flex flex-row items-center justify-center border box-content rounded whitespace-nowrap"
     :class="allClasses"
     v-bind="$attrs"
   >

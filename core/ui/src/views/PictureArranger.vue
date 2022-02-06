@@ -1,52 +1,51 @@
 <template>
-  <div class="w-screen h-full fixed inset-0 grid grid-rows-6 grid-cols-8">
+  <div class="w-screen h-full absolute inset-0 overflow-hidden flex flex-col">
     <!-- main image display area -->
-    <div class="row-span-5 col-span-7">
-      <img :src="currentHeadImageSrc" class="w-full h-full object-scale-down" />
-    </div>
+    <div class="h-4/5 <md:h-2/3 flex flex-row <md:flex-col">
+      <div class="flex-1 overflow-hidden">
+        <img :src="currentHeadImageSrc" class="w-full h-full object-scale-down" />
+      </div>
 
-    <!-- look-forward images area -->
-    <div class="row-span-5 h-full">
-      <div class="flex flex-col h-full">
-        <div class="w-full h-12">
+      <!-- look-forward images area -->
+      <div class="flex flex-col w-1/6 <md:w-auto <md:flex-row <md:h-20">
+        <div class="w-8 h-8">
           <!-- TODO: quit more look-forward button -->
         </div>
-        <div class="w-full h-next-imgs-container flex-1">
-          <div class="h-full flex flex-col">
-            <img
+        <div class="flex-1 overflow-hidden">
+          <div class="flex flex-col h-full <md:flex-row <md:items-stretch">
+            <div
               v-for="(imgSrc, idx) in nextImageSrcs"
               :key="imgSrc"
-              :src="imgSrc"
-              class="w-full h-1/5 object-cover"
+              class="flex-1 overflow-hidden"
               @mouseenter="onHoverSubImg(idx)"
               @mouseleave="onUnhoverSubImg(idx)"
-            />
+            >
+              <img :src="imgSrc" class="w-full h-full object-cover" />
+            </div>
           </div>
         </div>
-        <div class="w-full h-12">
+        <div class="w-8 h-8">
           <!-- TODO: more look-forward button -->
         </div>
       </div>
     </div>
 
     <!-- operation buttons area -->
-    <div class="col-span-8">
-      <div class="container mx-auto h-full grid grid-rows-3">
-        <div class="row-span-2 w-full flex flex-row flex-wrap justify-center">
-          <div class="w-1/6 px-1 flex flex-row items-center" v-for="dest in destinationDirs" :key="dest.id">
-            <psk-button variant="primary" class="w-full" @click="onMove(dest.id)">
+    <div class="container mx-auto h-1/5 <md:h-1/3 flex flex-col gap-y-2">
+      <div class="w-full p-2 flex-1 overflow-x-hidden overflow-y-auto <md:bg-white/50 <md:shadow-inner">
+        <div
+          class="flex flex-row justify-center flex-wrap h-full items-center <md:h-auto <md:grid <md:grid-cols-2 gap-2"
+        >
+          <template v-for="dest in destinationDirs" :key="dest.id">
+            <psk-button variant="primary" class="" @click="onMove(dest.id)">
               {{ dest.label }}
             </psk-button>
-          </div>
+          </template>
         </div>
-        <div class="w-full flex flex-row items-center justify-center">
-          <div class="w-1/4 px-1 flex">
-            <psk-button class="w-full" @click="onSkip()">とりあえずスキップ</psk-button>
-          </div>
-          <div class="w-1/4 px-1 flex">
-            <psk-button class="w-full" variant="primary" @click="onDelete()">破棄する</psk-button>
-          </div>
-        </div>
+      </div>
+      <div class="w-full flex flex-row items-center justify-center gap-x-2 p-2">
+        <psk-button class="w-40" @click="onSkip()">とりあえずスキップ</psk-button>
+        <psk-button class="w-40" variant="primary" @click="onDelete()">破棄する</psk-button>
       </div>
     </div>
   </div>
