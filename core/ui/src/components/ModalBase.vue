@@ -8,7 +8,20 @@
       @afterLeave="onAfterLeave"
     >
       <div
-        class="bg-black bg-opacity-75 fixed top-0 left-0 w-full h-full max-h-screen flex items-center justify-center transition-opacity duration-200"
+        class="
+          bg-black bg-opacity-75
+          fixed
+          top-0
+          left-0
+          w-full
+          h-full
+          max-h-screen
+          flex
+          items-center
+          justify-center
+          transition-opacity
+          duration-200
+        "
         v-show="open"
         v-if="isOpenInner"
         @click="$emit('clickAway')"

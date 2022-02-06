@@ -1,6 +1,6 @@
 import { BoxDotsHorizontalIcon } from '@/components/icons/Boxicons';
 import { Popover } from '@/components/Popover';
-import { defineComponent, ref, watchEffect } from 'vue';
+import { defineComponent, ref } from 'vue';
 import * as vt from 'vue-types';
 import { GalleryImageViewMoveMenu } from './Move';
 
