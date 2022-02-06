@@ -12,7 +12,7 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
 
-    'plugin:vue/essential',
+    'plugin:vue/vue3-essential',
     '@vue/typescript/recommended',
 
     'prettier',
