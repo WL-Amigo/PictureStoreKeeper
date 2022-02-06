@@ -37,7 +37,7 @@
           class="flex flex-row justify-center flex-wrap h-full items-center <md:h-auto <md:grid <md:grid-cols-2 gap-2"
         >
           <template v-for="dest in destinationDirs" :key="dest.id">
-            <psk-button variant="primary" class="" @click="onMove(dest.id)">
+            <psk-button variant="primary" @click="onMove(dest.id)">
               {{ dest.label }}
             </psk-button>
           </template>
