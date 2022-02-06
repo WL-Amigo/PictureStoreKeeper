@@ -6,14 +6,15 @@
     "dev": "vite",
     "serve": "vite preview",
     "build": "vue-tsc --noEmit && vite build",
-    "lint:fix": "eslint './src/**/*.{ts,vue}' --fix && prettier --write './src/**/*.{ts,vue}'"
+    "lint:fix": "eslint './src/**/*.{ts,tsx,vue}' --fix && prettier --write './src/**/*.{ts,tsx,vue}'"
   },
   "dependencies": {
     "@floating-ui/dom": "^0.2.0",
     "@vueuse/core": "6",
     "clsx": "^1.1.1",
     "vue": "^3.2.20",
-    "vue-router": "^4.0.12"
+    "vue-router": "^4.0.12",
+    "vue-types": "^4.1.1"
   },
   "devDependencies": {
     "@iconify-json/bx": "^1.0.3",
@@ -27,7 +28,6 @@
     "vite": "^2.6.10",
     "vite-plugin-windicss": "^1.4.12",
     "vue-tsc": "0.28.8",
-    "vue-types": "^4.1.1",
     "windicss": "^3.1.9"
   },
   "browserslist": [
