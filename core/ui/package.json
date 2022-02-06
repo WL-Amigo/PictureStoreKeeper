@@ -6,7 +6,7 @@
     "dev": "vite",
     "serve": "vite preview",
     "build": "vue-tsc --noEmit && vite build",
-    "lint:fix": "eslint './src/**/*.{ts,vue}' --fix && prettier --write './src/**/*.{ts,vue}'"
+    "lint:fix": "eslint './src/**/*.{ts,tsx,vue}' --fix && prettier --write './src/**/*.{ts,tsx,vue}'"
   },
   "dependencies": {
     "@floating-ui/dom": "^0.2.0",
