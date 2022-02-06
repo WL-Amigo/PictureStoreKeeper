@@ -61,6 +61,7 @@ importers:
       clsx: 1.1.1
       vue: 3.2.20
       vue-router: 4.0.12_vue@3.2.20
+      vue-types: 4.1.1_vue@3.2.20
     devDependencies:
       '@iconify-json/bx': 1.0.3
       '@vitejs/plugin-vue': 1.9.3_vite@2.6.10
@@ -73,7 +74,6 @@ importers:
       vite: 2.6.10
       vite-plugin-windicss: 1.4.12_vite@2.6.10
       vue-tsc: 0.28.8_typescript@4.4.4
-      vue-types: 4.1.1_vue@3.2.20
       windicss: 3.1.9
 
 packages:
@@ -1864,7 +1864,7 @@ packages:
   /is-plain-object/5.0.0:
     resolution: {integrity: sha512-VRSzKkbMm5jMDoKLbltAkFQ5Qr7VDiTFGXxYFXXowVj387GeGNOCsOH6Msy00SGZ3Fp84b1Naa1psqgcCIEP5Q==}
     engines: {node: '>=0.10.0'}
-    dev: true
+    dev: false
 
   /is-promise/2.2.2:
     resolution: {integrity: sha512-+lP4/6lKUBfQjZ2pdxThZvLUAafmZb8OAxFb8XXtiQmS35INgr85hdOGoEs124ez1FCnZJt6jau/T+alh58QFQ==}
@@ -2812,7 +2812,7 @@ packages:
     dependencies:
       is-plain-object: 5.0.0
       vue: 3.2.20
-    dev: true
+    dev: false
 
   /vue/3.2.20:
     resolution: {integrity: sha512-81JjEP4OGk9oO8+CU0h2nFPGgJBm9mNa3kdCX2k6FuRdrWrC+CNe+tOnuIeTg8EWwQuI+wwdra5Q7vSzp7p4Iw==}
