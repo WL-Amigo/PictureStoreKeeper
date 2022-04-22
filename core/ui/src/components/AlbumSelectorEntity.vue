@@ -1,19 +1,6 @@
 <template>
   <div
-    class="
-      w-full
-      px-4
-      py-2
-      flex flex-row
-      items-center
-      rounded
-      bg-white
-      hover:bg-gray-200
-      transition-colors
-      duration-100
-      cursor-pointer
-      group
-    "
+    class="w-full px-4 py-2 flex flex-row items-center rounded bg-white hover:bg-gray-200 transition-colors duration-100 cursor-pointer group"
     @click="$emit('selected')"
   >
     <div class="flex-grow flex flex-row items-center">

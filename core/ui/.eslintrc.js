@@ -16,8 +16,6 @@ module.exports = {
     '@vue/typescript/recommended',
 
     'prettier',
-    'prettier/vue',
-    'prettier/@typescript-eslint',
   ],
   rules: {
     '@typescript-eslint/no-unused-vars': 'off',
@@ -27,5 +25,6 @@ module.exports = {
       { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
     ],
     'vue/no-multiple-template-root': 'off',
+    'vue/multi-word-component-names': 'off'
   },
 };
