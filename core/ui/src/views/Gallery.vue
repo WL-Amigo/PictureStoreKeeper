@@ -1,16 +1,7 @@
 <template>
   <div class="w-full h-screen flex flex-col">
     <div
-      class="
-        grid grid-cols-4 grid-rows-5
-        md:grid-cols-5 md:grid-rows-4
-        gap-2
-        container
-        mx-auto
-        flex-1
-        overflow-hidden
-        py-2
-      "
+      class="grid grid-cols-4 grid-rows-5 md:grid-cols-5 md:grid-rows-4 gap-2 container mx-auto flex-1 overflow-hidden py-2"
     >
       <img
         v-for="src in displayImgSrcs"
