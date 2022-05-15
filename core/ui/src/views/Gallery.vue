@@ -20,10 +20,13 @@
           <span>戻る</span>
         </GalleryButton>
       </div>
-      <div class="flex flex-row justify-center space-x-2">
+      <div class="flex flex-row justify-center gap-x-2">
         <GalleryButton @click="goPrev" :disabled="!canGoPrev">
           <ArrowLeftSmall class="w-5 h-5" />
         </GalleryButton>
+        <div class="p-2">
+          {{ `${page + 1}/${maxPage + 1}` }}
+        </div>
         <GalleryButton @click="goNext" :disabled="!canGoNext">
           <ArrowRightSmall class="w-5 h-5" />
         </GalleryButton>
