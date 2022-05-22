@@ -1,8 +1,7 @@
 package main
 
 import (
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -10,7 +9,14 @@ import (
 	"picture-store-keeper-server/API"
 	"picture-store-keeper-server/Model"
 	"picture-store-keeper-server/Services"
+	"picture-store-keeper-server/graph/generated"
+	"picture-store-keeper-server/graph/resolvers"
 	"syscall"
+
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -33,16 +39,39 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Print(homeDir)
 
 	// initialize services
 	albumManager := Model.LoadAlbumManager(settings)
 	thumbnailsService := Services.CreateThumbnailsService(filepath.Dir(ex))
 	defer thumbnailsService.Close()
+	directoryService := Services.CreateDirectoryService(homeDir)
 
 	// register all endpoints
 	API.AddAlbumEndpoints(e, albumManager)
 	API.AddDirectoryEndpoints(e, albumManager, thumbnailsService)
 	API.AddMoveEndpoints(e, albumManager)
+
+	graphqlHandler := handler.NewDefaultServer(
+		generated.NewExecutableSchema(
+			generated.Config{
+				Resolvers: resolvers.CreateResolver(directoryService),
+			},
+		),
+	)
+	playgroundHandler := playground.Handler("PSK GraphQL", "/query")
+	e.POST("/query", func(ctx echo.Context) error {
+		graphqlHandler.ServeHTTP(ctx.Response(), ctx.Request())
+		return nil
+	})
+	e.GET("/gql-playground", func(ctx echo.Context) error {
+		playgroundHandler.ServeHTTP(ctx.Response(), ctx.Request())
+		return nil
+	})
 
 	// register static file serving endpoint
 	e.Static("/", filepath.Join(filepath.Dir(ex), "frontend-dist"))
