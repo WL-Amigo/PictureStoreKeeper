@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -39,20 +38,15 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		panic(err)
-	}
-	fmt.Print(homeDir)
 
 	// initialize services
 	albumManager := Model.LoadAlbumManager(settings)
 	thumbnailsService := Services.CreateThumbnailsService(filepath.Dir(ex))
 	defer thumbnailsService.Close()
-	directoryService := Services.CreateDirectoryService(homeDir)
+	directoryService := Services.CreateDirectoryService(settings.RootDir)
 
 	// register all endpoints
-	API.AddAlbumEndpoints(e, albumManager, homeDir)
+	API.AddAlbumEndpoints(e, albumManager, settings.RootDir)
 	API.AddDirectoryEndpoints(e, albumManager, thumbnailsService)
 	API.AddMoveEndpoints(e, albumManager)
 
