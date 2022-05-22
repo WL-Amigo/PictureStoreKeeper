@@ -52,7 +52,7 @@ func main() {
 	directoryService := Services.CreateDirectoryService(homeDir)
 
 	// register all endpoints
-	API.AddAlbumEndpoints(e, albumManager)
+	API.AddAlbumEndpoints(e, albumManager, homeDir)
 	API.AddDirectoryEndpoints(e, albumManager, thumbnailsService)
 	API.AddMoveEndpoints(e, albumManager)
 
@@ -63,8 +63,8 @@ func main() {
 			},
 		),
 	)
-	playgroundHandler := playground.Handler("PSK GraphQL", "/query")
-	e.POST("/query", func(ctx echo.Context) error {
+	playgroundHandler := playground.Handler("PSK GraphQL", "/api/query")
+	e.POST("/api/query", func(ctx echo.Context) error {
 		graphqlHandler.ServeHTTP(ctx.Response(), ctx.Request())
 		return nil
 	})
