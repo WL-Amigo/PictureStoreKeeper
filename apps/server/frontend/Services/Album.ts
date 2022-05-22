@@ -1,7 +1,6 @@
-import { IDAndLabelPair } from '@/models/IDAndLabelPair';
-import { Album } from '@/models/Album';
+import {IDAndLabelPair, Album, IAlbumService} from '@psk/frontend-interfaces'
 
-export class AlbumAPIService {
+export class AlbumAPIService implements IAlbumService {
   public constructor(private readonly m_host: string) {}
 
   public async getAllAlbumsAsync(): Promise<readonly IDAndLabelPair[]> {

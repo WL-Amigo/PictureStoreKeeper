@@ -1,3 +1,5 @@
+import { IMoveService } from "@psk/frontend-interfaces";
+
 interface MoveFilePayload {
   source_dir_index: number;
   destination_dir_index: number;
@@ -9,7 +11,7 @@ interface DeleteFilePayload {
   file_name: string;
 }
 
-export class MoveAPIService {
+export class MoveAPIService implements IMoveService {
   public constructor(private readonly m_host: string) {}
 
   public async movePictureAsync(

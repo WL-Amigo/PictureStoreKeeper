@@ -1,4 +1,6 @@
-export class DirectoryAPIService {
+import { IDirectoryService } from "@psk/frontend-interfaces";
+
+export class DirectoryAPIService implements IDirectoryService {
   public constructor(private readonly m_host: string) {}
 
   public async getAllFiles(albumId: string, dirId: number): Promise<string[]> {
