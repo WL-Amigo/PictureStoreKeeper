@@ -1,17 +1,19 @@
 package API
 
 import (
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/gommon/log"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
+	"picture-store-keeper-server/Model"
 	"picture-store-keeper-server/Services"
 	"strconv"
 	"strings"
+
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/gommon/log"
 )
-import "picture-store-keeper-server/Model"
 
 type fileListResponse struct {
 	FileList []string `json:"files"`
@@ -58,7 +60,12 @@ func AddDirectoryEndpoints(e *echo.Echo, albumManager *Model.AlbumManager, thumb
 		}
 
 		// TODO: sanitize `fileName` if necessary
-		return ctx.File(filepath.Join(albumPublic.DirEntries[destDirIndex].FullPath, ctx.Param(fileNameParamName)))
+		fileNameUnescaped, err := url.QueryUnescape(ctx.Param(fileNameParamName))
+		if err != nil {
+			log.Error(err)
+			return ctx.String(http.StatusInternalServerError, "Failed to unescape filename")
+		}
+		return ctx.File(filepath.Join(albumPublic.DirEntries[destDirIndex].FullPath, fileNameUnescaped))
 	})
 
 	// -- get thumbnail for specified picture file
@@ -75,7 +82,12 @@ func AddDirectoryEndpoints(e *echo.Echo, albumManager *Model.AlbumManager, thumb
 			return returnInvalidDirIndexResponse(ctx, ctx.Param(destDirIndexParamName))
 		}
 
-		thumbnailFileName, err := thumbnailsService.GetThumbnailFilePath(albumId, filepath.Join(albumPublic.DirEntries[destDirIndex].FullPath, ctx.Param(fileNameParamName)))
+		fileNameUnescaped, err := url.QueryUnescape(ctx.Param(fileNameParamName))
+		if err != nil {
+			log.Error(err)
+			return ctx.String(http.StatusInternalServerError, "Failed to unescape filename")
+		}
+		thumbnailFileName, err := thumbnailsService.GetThumbnailFilePath(albumId, filepath.Join(albumPublic.DirEntries[destDirIndex].FullPath, fileNameUnescaped))
 		if err != nil {
 			log.Error(err)
 			return ctx.String(http.StatusInternalServerError, "Failed to get thumbnail")
