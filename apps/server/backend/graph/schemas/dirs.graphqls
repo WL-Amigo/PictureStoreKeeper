@@ -1,0 +1,3 @@
+extend type Query {
+  dirs(root: String!, includeHidden: Boolean): [String!]!
+}

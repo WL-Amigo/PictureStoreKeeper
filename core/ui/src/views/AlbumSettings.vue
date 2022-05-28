@@ -18,15 +18,18 @@
           <template v-else>
             <div v-for="(aEntry, aIdx) in album.directories" :key="aIdx" class="grid grid-cols-5 gap-2">
               <line-text-input label="ラベル" v-model="aEntry.label" />
-              <div class="col-span-4 flex flex-row items-end">
-                <line-text-input
-                  label="転送元・転送先ディレクトリへのフルパス"
-                  v-model="aEntry.fullpath"
-                  class="flex-grow"
-                />
-                <psk-button class="w-8 h-8 ml-1" padding="p-0" variant="danger" @click="deleteDirEntry(aIdx)">
-                  <trash class="w-5 h-5" />
-                </psk-button>
+              <div class="col-span-4">
+                <NonEditableField label="転送元・転送先ディレクトリ" v-model="aEntry.fullpath" class="flex-grow">
+                  <template v-slot:addons>
+                    <AlbumSettingsDirSelector
+                      :currentSelectedDir="aEntry.fullpath"
+                      @determined="aEntry.fullpath = $event"
+                    />
+                    <psk-button class="w-8 h-8" padding="p-0" variant="danger" @click="deleteDirEntry(aIdx)">
+                      <trash class="w-5 h-5" />
+                    </psk-button>
+                  </template>
+                </NonEditableField>
               </div>
             </div>
           </template>
@@ -38,7 +41,7 @@
           </div>
         </div>
 
-        <line-text-input label="削除予定ディレクトリ" v-model="album.will_be_deleted_dir">
+        <NonEditableField label="削除予定ディレクトリ" v-model="album.will_be_deleted_dir" class="flex-1">
           <template v-slot:help>
             <div class="flex flex-row items-center text-sm pt-2 text-primary-600">
               <info-filled class="w-5 h-5 mr-1" />
@@ -47,7 +50,13 @@
               </span>
             </div>
           </template>
-        </line-text-input>
+          <template v-slot:addons>
+            <AlbumSettingsDirSelector
+              :currentSelectedDir="album.will_be_deleted_dir"
+              @determined="album && (album.will_be_deleted_dir = $event)"
+            />
+          </template>
+        </NonEditableField>
 
         <div class="flex flex-row justify-end pt-4 space-x-2">
           <psk-button @click="returnToMenu">
@@ -69,13 +78,24 @@ import LineTextInput from '@/components/parts/forms/LineTextInput.vue';
 import AddFilled from '@/components/icons/HeroIcons/AddFilled.vue';
 import InfoFilled from '@/components/icons/HeroIcons/InfoFilled.vue';
 import Button from '@/components/parts/Button.vue';
+import { AlbumSettingsDirSelector } from './partials/AlbumSettings/DirSelector';
+import { NonEditableField } from '@/components/parts/forms/NonEditable';
 import { defineComponent, ref } from 'vue';
 import { ServiceKeys, useDependency } from '@/compositions/Dependency';
 import { useAlbumDataWithUrlId } from '@/compositions/Album';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  components: { Loading, LineTextInput, Trash, AddFilled, InfoFilled, 'psk-button': Button },
+  components: {
+    Loading,
+    LineTextInput,
+    Trash,
+    AddFilled,
+    InfoFilled,
+    'psk-button': Button,
+    AlbumSettingsDirSelector,
+    NonEditableField,
+  },
   setup() {
     const albumAPIService = useDependency(ServiceKeys.AlbumAPIService);
     const router = useRouter();

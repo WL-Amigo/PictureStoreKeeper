@@ -1,0 +1,3 @@
+query getDirs($root: String!) {
+  dirs(root: $root)
+}

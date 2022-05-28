@@ -1,0 +1,8 @@
+schema: ./backend/graph/schemas/**/*.graphqls
+documents: ./frontend/graphql/**/*.graphql
+generates:
+  ./frontend/graphql/autogen/gql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request

@@ -7,10 +7,11 @@ import { resolve as pathResolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [Vue(), VueJsx(), WindiCSS(), Icons({ compiler: 'vue3' })],
+  root: "./frontend",
+  plugins: [Vue(), VueJsx(), WindiCSS({config: "../windi.config.ts"}), Icons({ compiler: 'vue3' })],
   resolve: {
     alias: {
-      '@': pathResolve(__dirname, '/src'),
+      '@': pathResolve('./node_modules/core-ui/src'),
     },
   },
   server: {

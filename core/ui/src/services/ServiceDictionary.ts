@@ -1,12 +1,10 @@
 import { InjectionKey } from 'vue';
-import type { AlbumAPIService } from './AlbumAPIService';
-import type { DirectoryAPIService } from './DirectoryAPIService';
-import type { MoveAPIService } from './MoveAPIService';
+import { IAlbumService, IDirectoryService, IMoveService } from '@psk/frontend-interfaces';
 
 export type ServiceDictionary = {
-  readonly AlbumAPIService: AlbumAPIService;
-  readonly DirectoryAPIService: DirectoryAPIService;
-  readonly MoveAPIService: MoveAPIService;
+  readonly AlbumAPIService: IAlbumService;
+  readonly DirectoryAPIService: IDirectoryService;
+  readonly MoveAPIService: IMoveService;
 };
 
 export type ServiceKeyDictionary = {

@@ -1,4 +1,8 @@
 import { PropType } from 'vue';
+import { isNotNullOrUndefined } from './Emptiness';
+import * as vt from 'vue-types';
+
+export { vt };
 
 type RequiredProp<ValueType> = {
   required: true;
@@ -19,3 +23,5 @@ export const defineRequiredBooleanProp = (): RequiredProp<boolean> => ({
   required: true,
   type: Boolean,
 });
+
+export const stringifyAttr = (value: unknown): string => (isNotNullOrUndefined(value) ? String(value) : '');

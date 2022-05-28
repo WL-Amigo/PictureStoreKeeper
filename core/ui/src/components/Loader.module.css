@@ -1,0 +1,35 @@
+/* from https://github.com/jh3y/whirl MIT License */
+/**
+  * Line
+  *
+  * @author jh3y - jheytompkins.com
+*/
+@-webkit-keyframes line-loader {
+  from {
+    background-position: -30px 0;
+  }
+  to {
+    background-position: 30px 0;
+  }
+}
+@keyframes line-loader {
+  from {
+    background-position: -30px 0;
+  }
+  to {
+    background-position: 30px 0;
+  }
+}
+
+.line-loader:before {
+  -webkit-animation: line-loader 0.75s infinite alternate ease-in-out;
+  animation: line-loader 0.75s infinite alternate ease-in-out;
+  background: -webkit-gradient(linear, left top, right top, from(currentColor), to(currentColor));
+  background: linear-gradient(90deg, currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 30px 10px;
+  content: '';
+  display: block;
+  height: 10px;
+  width: 30px;
+}
