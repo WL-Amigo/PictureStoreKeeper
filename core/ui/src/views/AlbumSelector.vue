@@ -22,7 +22,6 @@
 </template>
 
 <script lang="ts">
-import Entity from '@/components/AlbumSelectorEntity.vue';
 import CreateAlbumPrompt from '@/components/CreateAlbumPrompt.vue';
 import { IDAndLabelPair } from '@/models/IDAndLabelPair';
 import AddFilledIcon from '@/components/icons/HeroIcons/AddFilled.vue';
@@ -31,10 +30,11 @@ import { Button } from '@/components/parts/Button';
 import { defineComponent, onMounted, ref } from 'vue';
 import { ServiceKeys, useDependency } from '@/compositions/Dependency';
 import { useRouter } from 'vue-router';
+import { AlbumEntity } from './partials/AlbumSelector/AlbumEntity';
 
 export default defineComponent({
   components: {
-    entity: Entity,
+    entity: AlbumEntity,
     'create-album-prompt': CreateAlbumPrompt,
     'add-filled': AddFilledIcon,
     'fade-transition': FadeTransition,

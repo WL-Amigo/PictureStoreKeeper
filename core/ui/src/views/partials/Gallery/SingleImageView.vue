@@ -11,11 +11,11 @@
     </button>
     <div class="w-full absolute bottom-0 left-0 right-0 flex flex-row justify-between text-white">
       <button @click="$emit('prev')" :disabled="!canGoPrev" class="p-2 bg-white bg-opacity-0 hover:bg-opacity-25">
-        <ArrowLeftSmall class="w-10 h-10" />
+        <ArrowLeftIcon class="w-10 h-10" />
       </button>
       <MenuButton :albumId="albumId" :dirId="dirId" @moveDir="moveDir" />
       <button @click="$emit('next')" :disabled="!canGoNext" class="p-2 bg-white bg-opacity-0 hover:bg-opacity-25">
-        <ArrowRightSmall class="w-10 h-10" />
+        <ArrowRightIcon class="w-10 h-10" />
       </button>
     </div>
   </ModalBase>
@@ -26,8 +26,7 @@ import { defineRequiredBooleanProp, defineRequiredNumberProp, defineRequiredStri
 import { computed, defineComponent } from 'vue';
 import { ModalBase } from '@/components/ModalBase';
 import { ServiceKeys, useDependency } from '@/compositions/Dependency';
-import ArrowLeftSmall from '@/components/icons/HeroIcons/ArrowLeftSmall.vue';
-import ArrowRightSmall from '../../../components/icons/HeroIcons/ArrowRightSmall.vue';
+import { ArrowRightIcon, ArrowLeftIcon } from '@/components/icons/HeroIcons';
 import Close from '@/components/icons/Boxicons/Close.vue';
 import ImageViewer from '@/components/parts/ImageViewer/ImageViewer.vue';
 import { GalleryImageViewMenuButton } from './SingleImageView/components/Menu';
@@ -71,8 +70,8 @@ export default defineComponent({
     ModalBase,
     ImageViewer,
     MenuButton: GalleryImageViewMenuButton,
-    ArrowLeftSmall,
-    ArrowRightSmall,
+    ArrowLeftIcon,
+    ArrowRightIcon,
     Close,
   },
 });

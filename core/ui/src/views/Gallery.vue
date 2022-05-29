@@ -22,13 +22,13 @@
       </div>
       <div class="flex flex-row justify-center gap-x-2">
         <GalleryButton @click="goPrev" :disabled="!canGoPrev">
-          <ArrowLeftSmall class="w-5 h-5" />
+          <ArrowLeftIcon class="w-5 h-5" />
         </GalleryButton>
         <div class="p-2">
           {{ `${page + 1}/${maxPage + 1}` }}
         </div>
         <GalleryButton @click="goNext" :disabled="!canGoNext">
-          <ArrowRightSmall class="w-5 h-5" />
+          <ArrowRightIcon class="w-5 h-5" />
         </GalleryButton>
       </div>
       <div class="w-60 flex flex-row justify-end">
@@ -61,8 +61,7 @@ import { usePager } from '@/compositions/Page';
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ChevronLeft from '@/components/icons/HeroIcons/ChevronLeft.vue';
-import ArrowLeftSmall from '@/components/icons/HeroIcons/ArrowLeftSmall.vue';
-import ArrowRightSmall from '@/components/icons/HeroIcons/ArrowRightSmall.vue';
+import { ArrowRightIcon, ArrowLeftIcon } from '@/components/icons/HeroIcons';
 import Dice3 from '@/components/icons/Boxicons/Dice3.vue';
 import SingleImageView from './partials/Gallery/SingleImageView.vue';
 import GalleryButton from './partials/Gallery/GalleryButton.vue';
@@ -193,8 +192,8 @@ export default defineComponent({
   components: {
     GalleryButton,
     ChevronLeft,
-    ArrowLeftSmall,
-    ArrowRightSmall,
+    ArrowLeftIcon,
+    ArrowRightIcon,
     Dice3,
     SingleImageView,
   },
