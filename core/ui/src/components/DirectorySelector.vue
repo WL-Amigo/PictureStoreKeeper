@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { Album } from '@/models/Album';
-import Button from '@/components/parts/Button.vue';
+import { Button } from '@/components/parts/Button';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({

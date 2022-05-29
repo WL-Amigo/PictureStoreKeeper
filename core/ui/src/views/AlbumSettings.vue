@@ -77,7 +77,7 @@ import Trash from '@/components/icons/HeroIcons/Trash.vue';
 import LineTextInput from '@/components/parts/forms/LineTextInput.vue';
 import AddFilled from '@/components/icons/HeroIcons/AddFilled.vue';
 import InfoFilled from '@/components/icons/HeroIcons/InfoFilled.vue';
-import Button from '@/components/parts/Button.vue';
+import { Button } from '@/components/parts/Button';
 import { AlbumSettingsDirSelector } from './partials/AlbumSettings/DirSelector';
 import { NonEditableField } from '@/components/parts/forms/NonEditable';
 import { defineComponent, ref } from 'vue';

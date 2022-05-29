@@ -2,7 +2,7 @@ import { ServiceKeys, useDependency } from '@/compositions/Dependency';
 import { computed, defineComponent, toRef } from 'vue';
 import * as vt from 'vue-types';
 import { useHoveredSubImgIndex, useLookAheadVirtualImgSrcList } from './compositions';
-import Button from '@/components/parts/Button.vue';
+import { Button } from '@/components/parts/Button';
 import { DirEntryWithId } from '@/models/DirEntry';
 import { BoxChevronsDown, BoxChevronsRight, BoxUndoIcon } from '@/components/icons/Boxicons';
 import clsx from 'clsx';

@@ -27,7 +27,7 @@ import CreateAlbumPrompt from '@/components/CreateAlbumPrompt.vue';
 import { IDAndLabelPair } from '@/models/IDAndLabelPair';
 import AddFilledIcon from '@/components/icons/HeroIcons/AddFilled.vue';
 import FadeTransition from '@/components/transitions/Fade.vue';
-import Button from '@/components/parts/Button.vue';
+import { Button } from '@/components/parts/Button';
 import { defineComponent, onMounted, ref } from 'vue';
 import { ServiceKeys, useDependency } from '@/compositions/Dependency';
 import { useRouter } from 'vue-router';
