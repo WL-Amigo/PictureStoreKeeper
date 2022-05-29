@@ -72,7 +72,7 @@
 </template>
 
 <script lang="ts">
-import Loading from '@/components/parts/Loading.vue';
+import { Loading } from '@/components/parts/Loading';
 import Trash from '@/components/icons/HeroIcons/Trash.vue';
 import LineTextInput from '@/components/parts/forms/LineTextInput.vue';
 import AddFilled from '@/components/icons/HeroIcons/AddFilled.vue';

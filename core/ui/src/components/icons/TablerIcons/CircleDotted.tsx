@@ -1,4 +1,6 @@
-<template>
+import { FunctionalComponent, SVGAttributes } from 'vue';
+
+export const CircleDotted: FunctionalComponent<SVGAttributes> = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -22,10 +24,4 @@
     <line x1="16.5" y1="4.21" x2="16.5" y2="4.22" />
     <line x1="12" y1="3" x2="12" y2="3.01" />
   </svg>
-</template>
-
-<script lang="ts">
-export default {
-  name: 'TablerIconsCircleDotted',
-};
-</script>
+);
