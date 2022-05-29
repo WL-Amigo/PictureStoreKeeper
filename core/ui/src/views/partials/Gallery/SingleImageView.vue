@@ -28,7 +28,7 @@ import { ModalBase } from '@/components/ModalBase';
 import { ServiceKeys, useDependency } from '@/compositions/Dependency';
 import { ArrowRightIcon, ArrowLeftIcon } from '@/components/icons/HeroIcons';
 import { CloseIcon } from '@/components/icons/Boxicons';
-import ImageViewer from '@/components/parts/ImageViewer/ImageViewer.vue';
+import { ImageViewer } from '@/components/parts/ImageViewer';
 import { GalleryImageViewMenuButton } from './SingleImageView/components/Menu';
 
 export default defineComponent({
