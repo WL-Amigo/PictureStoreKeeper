@@ -73,7 +73,7 @@
 
 <script lang="ts">
 import { Loading } from '@/components/parts/Loading';
-import LineTextInput from '@/components/parts/forms/LineTextInput.vue';
+import { LineTextInput } from '@/components/parts/forms/LineTextInput';
 import { PlusCircleIcon, InfoCircleIcon, TrashIcon } from '@/components/icons/HeroIcons';
 import { Button } from '@/components/parts/Button';
 import { AlbumSettingsDirSelector } from './partials/AlbumSettings/DirSelector';
