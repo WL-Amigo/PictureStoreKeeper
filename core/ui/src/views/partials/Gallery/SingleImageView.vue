@@ -7,7 +7,7 @@
       @click="$emit('close')"
       class="absolute right-0 top-0 w-12 h-12 text-white bg-white bg-opacity-0 hover:bg-opacity-25"
     >
-      <Close class="w-full h-full" />
+      <CloseIcon class="w-full h-full" />
     </button>
     <div class="w-full absolute bottom-0 left-0 right-0 flex flex-row justify-between text-white">
       <button @click="$emit('prev')" :disabled="!canGoPrev" class="p-2 bg-white bg-opacity-0 hover:bg-opacity-25">
@@ -27,7 +27,7 @@ import { computed, defineComponent } from 'vue';
 import { ModalBase } from '@/components/ModalBase';
 import { ServiceKeys, useDependency } from '@/compositions/Dependency';
 import { ArrowRightIcon, ArrowLeftIcon } from '@/components/icons/HeroIcons';
-import Close from '@/components/icons/Boxicons/Close.vue';
+import { CloseIcon } from '@/components/icons/Boxicons';
 import ImageViewer from '@/components/parts/ImageViewer/ImageViewer.vue';
 import { GalleryImageViewMenuButton } from './SingleImageView/components/Menu';
 
@@ -72,7 +72,7 @@ export default defineComponent({
     MenuButton: GalleryImageViewMenuButton,
     ArrowLeftIcon,
     ArrowRightIcon,
-    Close,
+    CloseIcon,
   },
 });
 </script>

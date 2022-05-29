@@ -33,7 +33,7 @@
       </div>
       <div class="w-60 flex flex-row justify-end">
         <GalleryButton @click="randomJumpPage">
-          <Dice3 class="w-6 h-6" />
+          <Dice3Icon class="w-6 h-6" />
           <span class="<md:hidden">ランダムなページへ飛ぶ</span>
         </GalleryButton>
       </div>
@@ -61,7 +61,7 @@ import { usePager } from '@/compositions/Page';
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ArrowRightIcon, ArrowLeftIcon, ChevronLeftIcon } from '@/components/icons/HeroIcons';
-import Dice3 from '@/components/icons/Boxicons/Dice3.vue';
+import { Dice3Icon } from '@/components/icons/Boxicons';
 import SingleImageView from './partials/Gallery/SingleImageView.vue';
 import GalleryButton from './partials/Gallery/GalleryButton.vue';
 import { isNotNullOrUndefined } from '@/utils/Emptiness';
@@ -193,8 +193,8 @@ export default defineComponent({
     ChevronLeftIcon,
     ArrowLeftIcon,
     ArrowRightIcon,
-    Dice3,
     SingleImageView,
+    Dice3Icon,
   },
 });
 </script>
