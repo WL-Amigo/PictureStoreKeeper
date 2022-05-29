@@ -1,7 +1,7 @@
 <template>
   <ModalBase :open="currentImgFileName.length > 0">
     <div class="w-full h-full absolute inset-0" @click.stop="">
-      <ImageViewer :src="currentImgSrc" />
+      <ImageViewer :src="currentImgSrc" @overscrollTo="onOverscroll" />
     </div>
     <button
       @click="$emit('close')"
@@ -59,9 +59,12 @@ export default defineComponent({
       ctx.emit('moveDir', props.currentImgFileName, id);
     };
 
+    const onOverscroll = (direction: 'left' | 'right') => (direction === 'left' ? ctx.emit('next') : ctx.emit('prev'));
+
     return {
       currentImgSrc,
       moveDir,
+      onOverscroll,
     };
   },
   components: {

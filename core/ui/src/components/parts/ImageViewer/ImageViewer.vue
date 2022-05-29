@@ -39,7 +39,7 @@ import { windi } from '@/windi';
 
 type ViewMode = 'scale-down' | 'contain' | 'cover' | 'original';
 type Size = { width: number; height: number };
-type Position = { x: number; y: number };
+type Position = { x: number; y: number; overX: number; overY: number };
 const ViewModesToEnablePositioning: readonly ViewMode[] = ['cover', 'original'];
 const ViewModeSelectOptions: IDAndLabelPair<ViewMode>[] = [
   {
@@ -59,23 +59,27 @@ const ViewModeSelectOptions: IDAndLabelPair<ViewMode>[] = [
     label: '元のサイズ',
   },
 ];
+const OverscrollThreshold = 80;
 
 const getDrawnImageClampedPosition = (x: number, y: number, drawnWidth: number, drawnHeight: number): Position => {
   if (isNaN(drawnWidth) || isNaN(drawnHeight)) {
-    return { x, y };
+    return { x, y, overX: 0, overY: 0 };
   }
   const clampedX = Math.max(Math.min(window.innerWidth - drawnWidth, 0), Math.min(x, 0));
   const clampedY = Math.max(Math.min(window.innerHeight - drawnHeight, 0), Math.min(y, 0));
 
-  return { x: clampedX, y: clampedY };
+  return { x: clampedX, y: clampedY, overX: x - clampedX, overY: y - clampedY };
 };
 
 export default defineComponent({
   props: {
     src: defineRequiredStringProp(),
   },
+  emits: {
+    overscrollTo: (direction: 'left' | 'right') => true,
+  },
   name: 'ImageViewer',
-  setup() {
+  setup(_, ctx) {
     const currentMode = ref<ViewMode>('scale-down');
     const imgClasses = computed(() => {
       switch (currentMode.value) {
@@ -107,9 +111,12 @@ export default defineComponent({
       if (isNaN(origWidth) || isNaN(origHeight)) {
         return { width: NaN, height: NaN };
       }
-      // 'scale-down' | 'contain' ではドラッグ移動は使用しないのでスキップ
-      if (mode === 'scale-down' || mode === 'contain') {
-        return { width: origWidth, height: origHeight };
+      if (mode === 'scale-down') {
+        const scale = Math.min(1, window.innerWidth / origWidth, window.innerHeight / origHeight);
+        return { width: Math.round(origWidth * scale), height: Math.round(origHeight * scale) };
+      } else if (mode === 'contain') {
+        const scale = Math.min(window.innerWidth / origWidth, window.innerHeight / origHeight);
+        return { width: Math.round(origWidth * scale), height: Math.round(origHeight * scale) };
       } else if (mode === 'cover') {
         const scale = Math.max(window.innerWidth / origWidth, window.innerHeight / origHeight);
         return { width: Math.round(origWidth * scale), height: Math.round(origHeight * scale) };
@@ -138,7 +145,15 @@ export default defineComponent({
         // true => false になった時に position をドラッグ可能範囲に補正
         const { x, y } = position.value;
         const { width: drawnWidth, height: drawnHeight } = drawnImageSize.value;
-        position.value = getDrawnImageClampedPosition(x, y, drawnWidth, drawnHeight);
+        const clampedPos = getDrawnImageClampedPosition(x, y, drawnWidth, drawnHeight);
+        position.value = clampedPos;
+        // true => false になった時にオーバースクロールが既定値以上だったら
+        // overscrollTo イベントを送出
+        if (clampedPos.overX < -OverscrollThreshold) {
+          ctx.emit('overscrollTo', 'left');
+        } else if (clampedPos.overX > OverscrollThreshold) {
+          ctx.emit('overscrollTo', 'right');
+        }
       }
     });
     watch(currentMode, () => {
@@ -148,20 +163,18 @@ export default defineComponent({
 
     const imgPositioningStyles = computed(() => {
       const { width: drawnWidth, height: drawnHeight } = drawnImageSize.value;
-      const { x: clampedX, y: clampedY } = getDrawnImageClampedPosition(
-        position.value.x,
-        position.value.y,
-        drawnWidth,
-        drawnHeight,
-      );
+      const {
+        x: clampedX,
+        y: clampedY,
+        overX,
+      } = getDrawnImageClampedPosition(position.value.x, position.value.y, drawnWidth, drawnHeight);
       return {
-        transform: `translate(${clampedX}px,${clampedY}px)`,
+        transform: !ViewModesToEnablePositioning.includes(currentMode.value)
+          ? `translate(${overX / 10}px,0)`
+          : `translate(${clampedX + overX / 10}px,${clampedY}px)`,
       };
     });
     const imgStyles = computed<CSSProperties>(() => {
-      if (!ViewModesToEnablePositioning.includes(currentMode.value)) {
-        return {};
-      }
       return {
         ...imgPositioningStyles.value,
         ...sizingStyles.value,
