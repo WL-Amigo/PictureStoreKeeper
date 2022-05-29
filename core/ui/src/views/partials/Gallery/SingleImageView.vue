@@ -24,7 +24,7 @@
 <script lang="ts">
 import { defineRequiredBooleanProp, defineRequiredNumberProp, defineRequiredStringProp } from '@/utils/Vue';
 import { computed, defineComponent } from 'vue';
-import ModalBase from '@/components/ModalBase.vue';
+import { ModalBase } from '@/components/ModalBase';
 import { ServiceKeys, useDependency } from '@/compositions/Dependency';
 import ArrowLeftSmall from '@/components/icons/HeroIcons/ArrowLeftSmall.vue';
 import ArrowRightSmall from '../../../components/icons/HeroIcons/ArrowRightSmall.vue';
