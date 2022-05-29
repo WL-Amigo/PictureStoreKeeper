@@ -5,7 +5,7 @@
     </div>
     <div class="flex flex-row justify-center w-full pt-4">
       <psk-button class="text-xl w-1/2" padding="p-2" variant="primary" @click="isCreateAlbumPromptActive = true">
-        <add-filled class="mr-2 w-5 h-5" />
+        <PlusCircleIcon class="mr-2 w-5 h-5" />
         <span>追加する</span>
       </psk-button>
     </div>
@@ -24,7 +24,7 @@
 <script lang="ts">
 import CreateAlbumPrompt from '@/components/CreateAlbumPrompt.vue';
 import { IDAndLabelPair } from '@/models/IDAndLabelPair';
-import AddFilledIcon from '@/components/icons/HeroIcons/AddFilled.vue';
+import { PlusCircleIcon } from '@/components/icons/HeroIcons';
 import FadeTransition from '@/components/transitions/Fade.vue';
 import { Button } from '@/components/parts/Button';
 import { defineComponent, onMounted, ref } from 'vue';
@@ -35,8 +35,8 @@ import { AlbumEntity } from './partials/AlbumSelector/AlbumEntity';
 export default defineComponent({
   components: {
     entity: AlbumEntity,
+    PlusCircleIcon,
     'create-album-prompt': CreateAlbumPrompt,
-    'add-filled': AddFilledIcon,
     'fade-transition': FadeTransition,
     'psk-button': Button,
   },

@@ -26,7 +26,7 @@
                       @determined="aEntry.fullpath = $event"
                     />
                     <psk-button class="w-8 h-8" padding="p-0" variant="danger" @click="deleteDirEntry(aIdx)">
-                      <trash class="w-5 h-5" />
+                      <TrashIcon class="w-5 h-5" />
                     </psk-button>
                   </template>
                 </NonEditableField>
@@ -35,7 +35,7 @@
           </template>
           <div class="flex flex-row justify-center w-full">
             <psk-button class="w-1/2" variant="primary" @click="addDirEntry">
-              <add-filled class="mr-1 w-5 h-5" />
+              <PlusCircleIcon class="mr-1 w-5 h-5" />
               <span>追加する</span>
             </psk-button>
           </div>
@@ -44,7 +44,7 @@
         <NonEditableField label="削除予定ディレクトリ" v-model="album.will_be_deleted_dir" class="flex-1">
           <template v-slot:help>
             <div class="flex flex-row items-center text-sm pt-2 text-primary-600">
-              <info-filled class="w-5 h-5 mr-1" />
+              <InfoCircleIcon class="w-5 h-5 mr-1" />
               <span>
                 「削除する」操作を行った時に、即座に削除するのではなく設定されたディレクトリへ移動させ、後で戻すことが出来るようにします。
               </span>
@@ -73,10 +73,8 @@
 
 <script lang="ts">
 import { Loading } from '@/components/parts/Loading';
-import Trash from '@/components/icons/HeroIcons/Trash.vue';
 import LineTextInput from '@/components/parts/forms/LineTextInput.vue';
-import AddFilled from '@/components/icons/HeroIcons/AddFilled.vue';
-import InfoFilled from '@/components/icons/HeroIcons/InfoFilled.vue';
+import { PlusCircleIcon, InfoCircleIcon, TrashIcon } from '@/components/icons/HeroIcons';
 import { Button } from '@/components/parts/Button';
 import { AlbumSettingsDirSelector } from './partials/AlbumSettings/DirSelector';
 import { NonEditableField } from '@/components/parts/forms/NonEditable';
@@ -89,12 +87,12 @@ export default defineComponent({
   components: {
     Loading,
     LineTextInput,
-    Trash,
-    AddFilled,
-    InfoFilled,
     'psk-button': Button,
     AlbumSettingsDirSelector,
     NonEditableField,
+    PlusCircleIcon,
+    InfoCircleIcon,
+    TrashIcon,
   },
   setup() {
     const albumAPIService = useDependency(ServiceKeys.AlbumAPIService);

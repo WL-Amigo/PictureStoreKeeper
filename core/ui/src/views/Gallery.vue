@@ -16,7 +16,7 @@
     <div class="flex flex-row justify-between bg-white bg-opacity-50">
       <div class="w-60">
         <GalleryButton @click="onBack">
-          <ChevronLeft class="w-6 h-6" />
+          <ChevronLeftIcon class="w-6 h-6" />
           <span>戻る</span>
         </GalleryButton>
       </div>
@@ -60,8 +60,7 @@ import { ServiceKeys, useDependency } from '@/compositions/Dependency';
 import { usePager } from '@/compositions/Page';
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import ChevronLeft from '@/components/icons/HeroIcons/ChevronLeft.vue';
-import { ArrowRightIcon, ArrowLeftIcon } from '@/components/icons/HeroIcons';
+import { ArrowRightIcon, ArrowLeftIcon, ChevronLeftIcon } from '@/components/icons/HeroIcons';
 import Dice3 from '@/components/icons/Boxicons/Dice3.vue';
 import SingleImageView from './partials/Gallery/SingleImageView.vue';
 import GalleryButton from './partials/Gallery/GalleryButton.vue';
@@ -191,7 +190,7 @@ export default defineComponent({
   },
   components: {
     GalleryButton,
-    ChevronLeft,
+    ChevronLeftIcon,
     ArrowLeftIcon,
     ArrowRightIcon,
     Dice3,

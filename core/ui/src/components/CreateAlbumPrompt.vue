@@ -13,7 +13,7 @@
           v-model="albumLabel"
         />
         <div class="flex flex-row items-center text-sm pt-2 text-primary-600">
-          <info class="w-5 h-5 mr-1" />
+          <InfoCircleIcon class="w-5 h-5 mr-1" />
           <span> アルバム名は後から変更できます </span>
         </div>
       </div>
@@ -27,12 +27,12 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import InfoIcon from './icons/HeroIcons/InfoFilled.vue';
+import { InfoCircleIcon } from './icons/HeroIcons';
 
 export default defineComponent({
   name: 'CreateAlbumPrompt',
   components: {
-    info: InfoIcon,
+    InfoCircleIcon,
   },
   emits: {
     'create-album': null,
