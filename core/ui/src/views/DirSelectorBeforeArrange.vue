@@ -19,15 +19,15 @@
 </template>
 
 <script lang="ts">
-import DirectorySelector from '@/components/DirectorySelector.vue';
 import { defineComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAlbumDataWithUrlId } from '@/compositions/Album';
 import { ChevronLeftIcon } from '@/components/icons/HeroIcons';
+import { DirInAlbumSelector } from '@/components/DirInAlbumSelector';
 
 export default defineComponent({
   components: {
-    'dir-selector': DirectorySelector,
+    'dir-selector': DirInAlbumSelector,
     ChevronLeftIcon,
   },
   setup() {
