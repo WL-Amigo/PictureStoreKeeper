@@ -1,5 +1,5 @@
 import { defineRequiredStringProp } from '@/utils/Vue';
-import { computed, CSSProperties, defineComponent, ref, shallowRef, watch } from 'vue';
+import { computed, ComputedRef, CSSProperties, defineComponent, Ref, ref, shallowRef, toRef, watch } from 'vue';
 import { useDraggable } from '@vueuse/core';
 import { SingleSelect } from '../forms/SingleSelect';
 import { IDAndLabelPair } from '@/models/IDAndLabelPair';
@@ -39,6 +39,13 @@ const getDrawnImageClampedPosition = (x: number, y: number, drawnWidth: number, 
 
   return { x: clampedX, y: clampedY, overX: x - clampedX, overY: y - clampedY };
 };
+
+const useFileName = (urlRef: Readonly<Ref<string>>): ComputedRef<string> =>
+  computed(() => {
+    const path = new URL(urlRef.value).pathname;
+    const sliced = path.split('/');
+    return decodeURIComponent(sliced[sliced.length - 1]!);
+  });
 
 export const ImageViewer = defineComponent({
   props: {
@@ -159,6 +166,8 @@ export const ImageViewer = defineComponent({
     };
     const controlPanelClasses = computed(() => [isVisibleControlPanel.value ? windi`opacity-100` : windi`opacity-0`]);
 
+    const fileNameRef = useFileName(toRef(props, 'src'));
+
     return () => (
       <div
         class="w-full h-full relative overflow-visible"
@@ -174,10 +183,13 @@ export const ImageViewer = defineComponent({
         />
         <div
           class={clsx(
-            windi`w-full flex flex-row justify-center absolute bottom-12 pointer-events-none transition-opacity`,
+            windi`w-full flex flex-col justify-center items-center absolute bottom-12 pointer-events-none transition-opacity`,
             controlPanelClasses.value,
           )}
         >
+          <div class="mb-1 w-full h-8 flex flex-row justify-center items-center">
+            <div class="py-1 px-2 bg-black/60 text-white">{fileNameRef.value}</div>
+          </div>
           <div class="p-2 bg-black rounded space-x-2 pointer-events-auto <md:hidden">
             {ViewModeSelectOptions.map((opt) => (
               <button key={opt.id} class="bg-white px-4 py-0.5 rounded-sm" onClick={() => (currentMode.value = opt.id)}>

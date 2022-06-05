@@ -31,16 +31,18 @@ export const PictureArrangerBody = defineComponent({
       toRef(props, 'sourceList'),
     );
 
+    const currentHeadImageFileName = computed((): string | undefined => {
+      const currentHoveredImgIndex = hoveredImgIndex.value;
+      const currentHeadImgIndex = currentHoveredImgIndex ?? 0;
+
+      return imgSrcList.value[currentHeadImgIndex];
+    });
     const currentHeadImageSource = computed(() => {
       const albumId = props.albumId;
       const dirId = props.dirId;
 
-      const currentHoveredImgIndex = hoveredImgIndex.value;
-      const currentHeadImgIndex = currentHoveredImgIndex ?? 0;
-      const currentImgFileName = imgSrcList.value[currentHeadImgIndex];
-
-      return currentImgFileName !== undefined
-        ? directoryAPIService.toFileURL(albumId, dirId, currentImgFileName)
+      return currentHeadImageFileName.value !== undefined
+        ? directoryAPIService.toFileURL(albumId, dirId, currentHeadImageFileName.value)
         : undefined;
     });
 
@@ -68,9 +70,14 @@ export const PictureArrangerBody = defineComponent({
       <div class="w-screen h-full absolute inset-0 overflow-hidden flex flex-col">
         {/* main image display area */}
         <div class="h-4/5 <md:h-2/3 flex flex-row <md:flex-col">
-          <div class="flex-1 overflow-hidden">
+          <div class="flex-1 overflow-hidden relative">
             {currentHeadImageSource.value !== undefined ? (
-              <img src={currentHeadImageSource.value} class="w-full h-full object-scale-down" />
+              <>
+                <img src={currentHeadImageSource.value} class="w-full h-full object-scale-down" />
+                <div class="absolute bottom-0 w-full h-8 flex flex-row justify-center items-center">
+                  <div class="py-1 px-2 bg-black/60 text-white">{currentHeadImageFileName.value}</div>
+                </div>
+              </>
             ) : (
               <div class="w-full h-full flex justify-center items-center">
                 <span>表示する画像がありません</span>
