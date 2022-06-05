@@ -62,9 +62,9 @@ import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ArrowRightIcon, ArrowLeftIcon, ChevronLeftIcon } from '@/components/icons/HeroIcons';
 import { Dice3Icon } from '@/components/icons/Boxicons';
-import SingleImageView from './partials/Gallery/SingleImageView.vue';
-import GalleryButton from './partials/Gallery/GalleryButton.vue';
 import { isNotNullOrUndefined } from '@/utils/Emptiness';
+import { GallerySingleImageView } from './partials/Gallery/SingleImageView';
+import { GalleryButton } from './partials/Gallery/GalleryButton';
 
 const ImgsPerPage = 20;
 
@@ -193,7 +193,7 @@ export default defineComponent({
     ChevronLeftIcon,
     ArrowLeftIcon,
     ArrowRightIcon,
-    SingleImageView,
+    SingleImageView: GallerySingleImageView,
     Dice3Icon,
   },
 });
