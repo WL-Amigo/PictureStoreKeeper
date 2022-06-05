@@ -22,22 +22,22 @@
 </template>
 
 <script lang="ts">
-import CreateAlbumPrompt from '@/components/CreateAlbumPrompt.vue';
 import { IDAndLabelPair } from '@/models/IDAndLabelPair';
 import { PlusCircleIcon } from '@/components/icons/HeroIcons';
-import FadeTransition from '@/components/transitions/Fade.vue';
 import { Button } from '@/components/parts/Button';
 import { defineComponent, onMounted, ref } from 'vue';
 import { ServiceKeys, useDependency } from '@/compositions/Dependency';
 import { useRouter } from 'vue-router';
 import { AlbumEntity } from './partials/AlbumSelector/AlbumEntity';
+import { CreateAlbumPrompt } from './partials/AlbumSelector/CreateAlbumPrompt';
+import { Fade } from '@/components/transitions/Fade';
 
 export default defineComponent({
   components: {
     entity: AlbumEntity,
     PlusCircleIcon,
     'create-album-prompt': CreateAlbumPrompt,
-    'fade-transition': FadeTransition,
+    'fade-transition': Fade,
     'psk-button': Button,
   },
   setup() {
