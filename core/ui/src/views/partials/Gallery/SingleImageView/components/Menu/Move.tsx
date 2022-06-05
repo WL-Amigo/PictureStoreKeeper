@@ -1,10 +1,10 @@
 import { BoxFolderIcon } from '@/components/icons/Boxicons';
 import { defineComponent, ref, watchEffect } from 'vue';
-import ModalBase from '@/components/ModalBase.vue';
+import { ModalBase } from '@/components/ModalBase';
 import { useAsyncState } from '@vueuse/core';
 import { ServiceKeys, useDependency } from '@/compositions/Dependency';
 import * as vt from 'vue-types';
-import Button from '@/components/parts/Button.vue';
+import { Button } from '@/components/parts/Button';
 
 export const GalleryImageViewMoveMenu = defineComponent({
   props: {

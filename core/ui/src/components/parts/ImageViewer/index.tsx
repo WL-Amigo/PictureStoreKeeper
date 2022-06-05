@@ -1,41 +1,10 @@
-<template>
-  <div class="w-full h-full relative overflow-visible" @mousemove="showControlPanel" @touchstart="showControlPanel">
-    <img
-      :src="src"
-      :class="imgClasses"
-      :style="imgStyles"
-      @load="onImageLoaded"
-      ref="imgElRef"
-      class="max-w-none touch-none"
-    />
-    <div
-      class="w-full flex flex-row justify-center absolute bottom-12 pointer-events-none transition-opacity"
-      :class="controlPanelClasses"
-    >
-      <div class="p-2 bg-black rounded space-x-2 pointer-events-auto <md:hidden">
-        <button
-          v-for="opt in viewModeSelectOptions"
-          :key="opt.id"
-          class="bg-white px-4 py-0.5 rounded-sm"
-          @click="currentMode = opt.id"
-        >
-          {{ opt.label }}
-        </button>
-      </div>
-      <div class="p-2 bg-black rounded space-x-2 pointer-events-auto md:hidden">
-        <SingleSelect :options="viewModeSelectOptions" v-model="currentMode" />
-      </div>
-    </div>
-  </div>
-</template>
-
-<script lang="ts">
 import { defineRequiredStringProp } from '@/utils/Vue';
 import { computed, CSSProperties, defineComponent, ref, shallowRef, watch } from 'vue';
 import { useDraggable } from '@vueuse/core';
 import { SingleSelect } from '../forms/SingleSelect';
 import { IDAndLabelPair } from '@/models/IDAndLabelPair';
 import { windi } from '@/windi';
+import clsx from 'clsx';
 
 type ViewMode = 'scale-down' | 'contain' | 'cover' | 'original';
 type Size = { width: number; height: number };
@@ -71,7 +40,7 @@ const getDrawnImageClampedPosition = (x: number, y: number, drawnWidth: number, 
   return { x: clampedX, y: clampedY, overX: x - clampedX, overY: y - clampedY };
 };
 
-export default defineComponent({
+export const ImageViewer = defineComponent({
   props: {
     src: defineRequiredStringProp(),
   },
@@ -79,7 +48,7 @@ export default defineComponent({
     overscrollTo: (direction: 'left' | 'right') => true,
   },
   name: 'ImageViewer',
-  setup(_, ctx) {
+  setup(props, ctx) {
     const currentMode = ref<ViewMode>('scale-down');
     const imgClasses = computed(() => {
       switch (currentMode.value) {
@@ -92,8 +61,6 @@ export default defineComponent({
         case 'original':
           return ['object-none', 'overflow-visible'];
       }
-
-      return [];
     });
 
     const originalImageSize = shallowRef<Size>({ width: NaN, height: NaN });
@@ -192,19 +159,41 @@ export default defineComponent({
     };
     const controlPanelClasses = computed(() => [isVisibleControlPanel.value ? windi`opacity-100` : windi`opacity-0`]);
 
-    return {
-      currentMode,
-      viewModeSelectOptions: ViewModeSelectOptions,
-      imgClasses,
-      imgStyles,
-      onImageLoaded,
-      imgElRef,
-      showControlPanel,
-      controlPanelClasses,
-    };
-  },
-  components: {
-    SingleSelect,
+    return () => (
+      <div
+        class="w-full h-full relative overflow-visible"
+        onMousemove={showControlPanel}
+        onTouchstart={showControlPanel}
+      >
+        <img
+          src={props.src}
+          class={clsx(imgClasses.value, windi`max-w-none touch-none`)}
+          style={imgStyles.value}
+          onLoad={onImageLoaded}
+          ref={imgElRef}
+        />
+        <div
+          class={clsx(
+            windi`w-full flex flex-row justify-center absolute bottom-12 pointer-events-none transition-opacity`,
+            controlPanelClasses.value,
+          )}
+        >
+          <div class="p-2 bg-black rounded space-x-2 pointer-events-auto <md:hidden">
+            {ViewModeSelectOptions.map((opt) => (
+              <button key={opt.id} class="bg-white px-4 py-0.5 rounded-sm" onClick={() => (currentMode.value = opt.id)}>
+                {opt.label}
+              </button>
+            ))}
+          </div>
+          <div class="p-2 bg-black rounded space-x-2 pointer-events-auto md:hidden">
+            <SingleSelect
+              options={ViewModeSelectOptions}
+              modelValue={currentMode.value}
+              onUpdate:modelValue={(value) => (currentMode.value = value as ViewMode)}
+            />
+          </div>
+        </div>
+      </div>
+    );
   },
 });
-</script>

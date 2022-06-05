@@ -82,6 +82,8 @@ importers:
     specifiers:
       '@floating-ui/dom': ^0.4.5
       '@iconify-json/bx': ^1.1.2
+      '@iconify-json/heroicons-outline': ^1.1.1
+      '@iconify-json/heroicons-solid': ^1.1.1
       '@psk/frontend-interfaces': workspace:*
       '@vitejs/plugin-vue': ^2.3.1
       '@vitejs/plugin-vue-jsx': ^1.3.10
@@ -105,6 +107,8 @@ importers:
       vue-types: 4.1.1_vue@3.2.33
     devDependencies:
       '@iconify-json/bx': 1.1.2
+      '@iconify-json/heroicons-outline': 1.1.1
+      '@iconify-json/heroicons-solid': 1.1.1
       '@psk/frontend-interfaces': link:../interfaces
       '@vitejs/plugin-vue': 2.3.1_vite@2.9.5+vue@3.2.33
       '@vitejs/plugin-vue-jsx': 1.3.10
@@ -1446,6 +1450,18 @@ packages:
     resolution: {integrity: sha512-aITMwliHaW8QrxAh6/hx1wkYAXWYR6iVYsAxerK3b5NpxuYvmfXWPgtpuQC7xaPbfab3Rxj0YJLJmA6WGy59rw==}
     dependencies:
       '@iconify/types': 1.0.12
+    dev: true
+
+  /@iconify-json/heroicons-outline/1.1.1:
+    resolution: {integrity: sha512-Jy/aFbNQdszRxzhBvHB2AVu/IeMcK/YG3qJVf3XeqvBvhcPq/rWFEmo7jshzBclR/wbt9ylcBEUY1qRFcCXS9Q==}
+    dependencies:
+      '@iconify/types': 1.1.0
+    dev: true
+
+  /@iconify-json/heroicons-solid/1.1.1:
+    resolution: {integrity: sha512-yTq+PjF543FEp37gqLLQLMGBhZXaHJOY8wLPsWyQZzIDJ9h773ofvp32fgMh9YlgQT4MaeDH2VULvFBBCRmJgQ==}
+    dependencies:
+      '@iconify/types': 1.1.0
     dev: true
 
   /@iconify/types/1.0.12:

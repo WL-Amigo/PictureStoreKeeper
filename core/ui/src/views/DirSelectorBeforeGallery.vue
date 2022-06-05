@@ -10,7 +10,7 @@
           :to="mainMenuRoute"
           class="flex flex-row items-center p-2 bg-white bg-opacity-0 hover:bg-opacity-100"
         >
-          <ChevronLeft class="w-5 h-5" />
+          <ChevronLeftIcon class="w-5 h-5" />
           <span>戻る</span>
         </router-link>
       </div>
@@ -19,16 +19,16 @@
 </template>
 
 <script lang="ts">
-import DirectorySelector from '@/components/DirectorySelector.vue';
 import { defineComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAlbumDataWithUrlId } from '@/compositions/Album';
-import ChevronLeft from '@/components/icons/HeroIcons/ChevronLeft.vue';
+import { ChevronLeftIcon } from '@/components/icons/HeroIcons';
+import { DirInAlbumSelector } from '@/components/DirInAlbumSelector';
 
 export default defineComponent({
   components: {
-    'dir-selector': DirectorySelector,
-    ChevronLeft,
+    'dir-selector': DirInAlbumSelector,
+    ChevronLeftIcon,
   },
   setup() {
     const router = useRouter();

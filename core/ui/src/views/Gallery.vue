@@ -16,24 +16,24 @@
     <div class="flex flex-row justify-between bg-white bg-opacity-50">
       <div class="w-60">
         <GalleryButton @click="onBack">
-          <ChevronLeft class="w-6 h-6" />
+          <ChevronLeftIcon class="w-6 h-6" />
           <span>戻る</span>
         </GalleryButton>
       </div>
       <div class="flex flex-row justify-center gap-x-2">
         <GalleryButton @click="goPrev" :disabled="!canGoPrev">
-          <ArrowLeftSmall class="w-5 h-5" />
+          <ArrowLeftIcon class="w-5 h-5" />
         </GalleryButton>
         <div class="p-2">
           {{ `${page + 1}/${maxPage + 1}` }}
         </div>
         <GalleryButton @click="goNext" :disabled="!canGoNext">
-          <ArrowRightSmall class="w-5 h-5" />
+          <ArrowRightIcon class="w-5 h-5" />
         </GalleryButton>
       </div>
       <div class="w-60 flex flex-row justify-end">
         <GalleryButton @click="randomJumpPage">
-          <Dice3 class="w-6 h-6" />
+          <Dice3Icon class="w-6 h-6" />
           <span class="<md:hidden">ランダムなページへ飛ぶ</span>
         </GalleryButton>
       </div>
@@ -60,13 +60,11 @@ import { ServiceKeys, useDependency } from '@/compositions/Dependency';
 import { usePager } from '@/compositions/Page';
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import ChevronLeft from '@/components/icons/HeroIcons/ChevronLeft.vue';
-import ArrowLeftSmall from '@/components/icons/HeroIcons/ArrowLeftSmall.vue';
-import ArrowRightSmall from '@/components/icons/HeroIcons/ArrowRightSmall.vue';
-import Dice3 from '@/components/icons/Boxicons/Dice3.vue';
-import SingleImageView from './partials/Gallery/SingleImageView.vue';
-import GalleryButton from './partials/Gallery/GalleryButton.vue';
+import { ArrowRightIcon, ArrowLeftIcon, ChevronLeftIcon } from '@/components/icons/HeroIcons';
+import { Dice3Icon } from '@/components/icons/Boxicons';
 import { isNotNullOrUndefined } from '@/utils/Emptiness';
+import { GallerySingleImageView } from './partials/Gallery/SingleImageView';
+import { GalleryButton } from './partials/Gallery/GalleryButton';
 
 const ImgsPerPage = 20;
 
@@ -192,11 +190,11 @@ export default defineComponent({
   },
   components: {
     GalleryButton,
-    ChevronLeft,
-    ArrowLeftSmall,
-    ArrowRightSmall,
-    Dice3,
-    SingleImageView,
+    ChevronLeftIcon,
+    ArrowLeftIcon,
+    ArrowRightIcon,
+    SingleImageView: GallerySingleImageView,
+    Dice3Icon,
   },
 });
 </script>

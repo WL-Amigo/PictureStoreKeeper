@@ -1,9 +1,9 @@
+import { Loading } from '@/components/parts/Loading';
 import { useAlbumDataWithUrlId } from '@/compositions/Album';
 import { useDependency, ServiceKeys } from '@/compositions/Dependency';
 import { useSingleIntRouteParam } from '@/compositions/Router';
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import { PictureArrangerBody } from './components/PageBody';
-import Loading from '@/components/parts/Loading.vue';
 
 export const PictureArrangerPage = defineComponent({
   name: 'PictureArrangerPage',

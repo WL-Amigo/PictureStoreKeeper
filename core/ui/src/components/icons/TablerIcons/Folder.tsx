@@ -1,4 +1,6 @@
-<template>
+import { FunctionalComponent, SVGAttributes } from 'vue';
+
+export const TablerFolderIcon: FunctionalComponent<SVGAttributes> = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -12,10 +14,4 @@
     <path d="M9 4h3l2 2h5a2 2 0 0 1 2 2v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2" />
     <path d="M17 17v2a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2h2" />
   </svg>
-</template>
-
-<script lang="ts">
-export default {
-  name: 'TablerIconsFolder',
-};
-</script>
+);

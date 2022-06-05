@@ -1,7 +1,7 @@
 import { ModalBase } from '@/components/ModalBase';
 import { vt } from '@/utils/Vue';
 import { defineComponent, ref } from 'vue';
-import Button from '@/components/parts/Button.vue';
+import { Button } from '@/components/parts/Button';
 import { BoxFolderIcon } from '@/components/icons/Boxicons';
 import { ConfigDirSelector } from '@/components/config/DirectorySelector';
 
@@ -60,7 +60,9 @@ const SelectorModalBody = defineComponent({
         <ConfigDirSelector selectedDir={localSelectedDir.value} onSelect={onSelected} class="flex-1" />
         <div class="w-full flex flex-row justify-end gap-x-2">
           <Button onClick={onCancelled}>キャンセル</Button>
-          <Button variant="primary" onClick={onDetermined}>決定</Button>
+          <Button variant="primary" onClick={onDetermined}>
+            決定
+          </Button>
         </div>
       </div>
     );
