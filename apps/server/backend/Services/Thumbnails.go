@@ -13,7 +13,6 @@ import (
 )
 
 const thumbnailPixels = 128
-const maxJobCount = 4
 
 type ThumbnailsService struct {
 	cacheDirName              string
@@ -21,7 +20,7 @@ type ThumbnailsService struct {
 	heavyOpsCount             int
 }
 
-func CreateThumbnailsService(dbPath string) *ThumbnailsService {
+func CreateThumbnailsService(dbPath string, maxJobCount int) *ThumbnailsService {
 	cacheDirName := filepath.Join(dbPath, "thumbs")
 
 	if err := os.MkdirAll(cacheDirName, 0777); err != nil {

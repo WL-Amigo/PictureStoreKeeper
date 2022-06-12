@@ -41,7 +41,7 @@ func main() {
 
 	// initialize services
 	albumManager := Model.LoadAlbumManager(settings)
-	thumbnailsService := Services.CreateThumbnailsService(filepath.Dir(ex))
+	thumbnailsService := Services.CreateThumbnailsService(filepath.Dir(ex), settings.MaxJobCount)
 	defer thumbnailsService.Close()
 	directoryService := Services.CreateDirectoryService(settings.RootDir)
 
