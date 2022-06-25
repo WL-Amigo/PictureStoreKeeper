@@ -1,18 +1,14 @@
 package Services
 
 import (
-	"bytes"
 	_ "image"
-	"image/color"
 	"os"
 	"path/filepath"
+	"picture-store-keeper-server/Services/Thumbnails"
 	"runtime"
 
-	"github.com/disintegration/imaging"
 	_ "golang.org/x/image/webp"
 )
-
-const thumbnailPixels = 128
 
 type ThumbnailsService struct {
 	cacheDirName              string
@@ -79,21 +75,13 @@ func (s *ThumbnailsService) executeGCIfNeeded() {
 }
 
 func generateThumbnail(filepath string) ([]byte, error) {
-	originalImg, err := imaging.Open(filepath)
-	if err != nil {
-		return nil, err
+	if Thumbnails.IsAnimatedWebP(filepath) {
+		return Thumbnails.GenerateThumbnailFromAnimatedWebP(filepath)
 	}
 
-	thumbImg := imaging.Fill(originalImg, thumbnailPixels, thumbnailPixels, imaging.Center, imaging.Lanczos)
-	whiteBgImg := imaging.New(thumbnailPixels, thumbnailPixels, color.White)
-	thumbImg = imaging.OverlayCenter(whiteBgImg, thumbImg, 1)
-
-	thumbBuffer := new(bytes.Buffer)
-	if err = imaging.Encode(thumbBuffer, thumbImg, imaging.JPEG, imaging.JPEGQuality(75)); err != nil {
-		return nil, err
-	}
-
-	return thumbBuffer.Bytes(), nil
+	return Thumbnails.GenerateThumbnail(filepath, &Thumbnails.GenerateThumbnailOptions{
+		WithAnimationWatermark: false,
+	})
 }
 
 type thumbnailJob struct {
