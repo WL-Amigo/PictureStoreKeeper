@@ -1,14 +1,15 @@
 import { defineComponent, ref, shallowRef, Teleport, watch } from 'vue';
 import * as vt from 'vue-types';
 import { isNotNullOrUndefined } from '@/utils/Emptiness';
-import { computePosition, flip, offset } from '@floating-ui/dom';
+import { computePosition, flip, offset, shift } from '@floating-ui/dom';
 import { stopPropagationHandler } from '@/utils/EventHandlers';
+import { unwrapElement } from '@/utils/Vue';
 
 export const Popover = defineComponent({
   name: 'Popover',
   props: {
     open: vt.bool().def(false),
-    anchorEl: vt.custom<HTMLElement | null>((v) => v === null || v instanceof HTMLElement),
+    anchorEl: vt.custom<HTMLElement | null>(() => true),
   },
   emits: {
     clickAway: () => true,
@@ -26,11 +27,11 @@ export const Popover = defineComponent({
       (watchProps) => {
         const { isOpen, popoverEl } = watchProps;
         const innerIsOpen = innerOpenState.value;
-        const anchorEl = props.anchorEl;
+        const anchorEl = unwrapElement(props.anchorEl);
         if (isOpen && isNotNullOrUndefined(anchorEl) && isNotNullOrUndefined(popoverEl)) {
           computePosition(anchorEl, popoverEl, {
             placement: 'top',
-            middleware: [flip(), offset(4)],
+            middleware: [flip(), shift(), offset(4)],
           }).then(({ x, y }) => {
             position.value = { x, y };
             innerOpenState.value = true;

@@ -1,4 +1,4 @@
-import { PropType } from 'vue';
+import { PropType, unref } from 'vue';
 import { isNotNullOrUndefined } from './Emptiness';
 import * as vt from 'vue-types';
 
@@ -25,3 +25,16 @@ export const defineRequiredBooleanProp = (): RequiredProp<boolean> => ({
 });
 
 export const stringifyAttr = (value: unknown): string => (isNotNullOrUndefined(value) ? String(value) : '');
+
+export const unwrapElement = (el: unknown): HTMLElement | null => {
+  const maybeElement = unref(el);
+  if (maybeElement instanceof HTMLElement) {
+    return maybeElement;
+  }
+  const innerEl = Reflect.get(maybeElement as object, '$el');
+  if (innerEl instanceof HTMLElement) {
+    return innerEl;
+  }
+
+  return null;
+};

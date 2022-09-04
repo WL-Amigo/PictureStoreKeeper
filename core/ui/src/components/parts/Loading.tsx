@@ -4,13 +4,13 @@ import { CircleDotted } from '../icons/TablerIcons/CircleDotted';
 
 export const Loading = defineComponent({
   props: {
-    label: vt.string().isRequired,
+    label: vt.string(),
   },
   setup(props) {
     return () => (
       <div class="w-full flex flex-col items-center text-primary-500">
         <CircleDotted class="animate-spin h-24 w-24" />
-        <span>{props.label}</span>
+        <span>{props.label ?? '読込中…'}</span>
       </div>
     );
   },

@@ -15,6 +15,6 @@ startApplication(async () => {
   return {
     AlbumAPIService: new AlbumAPIService(Host),
     DirectoryAPIService: new DirectoryAPIService(Host, sdk),
-    MoveAPIService: new MoveAPIService(Host)
+    MoveAPIService: new MoveAPIService(Host, sdk)
   }
 })

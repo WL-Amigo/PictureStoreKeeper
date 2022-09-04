@@ -4,8 +4,8 @@ import AlbumSettings from './views/AlbumSettings.vue';
 import { PictureArrangerPage } from './views/PictureArranger';
 import DirSelectorBeforeArrange from './views/DirSelectorBeforeArrange.vue';
 import DirSelectorBeforeGallery from './views/DirSelectorBeforeGallery.vue';
-import Gallery from './views/Gallery.vue';
 import { MainMenu } from './views/MainMenu';
+import { GalleryPage } from './views/Gallery';
 
 export const router = createRouter({
   history: createWebHashHistory(),
@@ -43,7 +43,7 @@ export const router = createRouter({
     {
       path: '/album/:albumId/gallery/:dirId',
       name: 'gallery',
-      component: Gallery,
+      component: GalleryPage,
     },
   ],
 });

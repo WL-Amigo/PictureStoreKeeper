@@ -1,0 +1,6 @@
+mutation moveImages($input: MoveImagesInput!) {
+  moveImages(input: $input) {
+    succeeded
+    failed
+  }
+}

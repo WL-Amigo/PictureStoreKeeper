@@ -1,7 +1,7 @@
 export interface IMoveService {
   movePictureAsync(
     albumID: string,
-    fileName: string,
+    fileName: readonly string[],
     sourceDirIndex: number,
     destDirIndex: number
   ): Promise<boolean>;

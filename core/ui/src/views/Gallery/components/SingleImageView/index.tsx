@@ -6,7 +6,7 @@ import { useDependency, ServiceKeys } from '@/compositions/Dependency';
 import { stopPropagationHandler } from '@/utils/EventHandlers';
 import { vt } from '@/utils/Vue';
 import { computed, defineComponent } from 'vue';
-import { GalleryImageViewMenuButton } from './SingleImageView/components/Menu';
+import { GalleryImageViewMenuButton } from './components/Menu';
 
 export const GallerySingleImageView = defineComponent({
   props: {
@@ -20,7 +20,7 @@ export const GallerySingleImageView = defineComponent({
     next: () => true,
     prev: () => true,
     close: () => true,
-    moveDir: (fileName: string, destDirId: number) => true,
+    moveDir: (_fileName: string, _destDirId: number) => true,
   },
   setup(props, ctx) {
     const directoryService = useDependency(ServiceKeys.DirectoryAPIService);

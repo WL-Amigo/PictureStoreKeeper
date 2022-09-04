@@ -15,6 +15,29 @@ export type Scalars = {
   Float: number;
 };
 
+export type MoveImagesInput = {
+  albumId: Scalars['ID'];
+  destDirIndex: Scalars['Int'];
+  fileNames: Array<Scalars['String']>;
+  srcDirIndex: Scalars['Int'];
+};
+
+export type MoveImagesResult = {
+  __typename?: 'MoveImagesResult';
+  failed: Array<Scalars['String']>;
+  succeeded: Array<Scalars['String']>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  moveImages: MoveImagesResult;
+};
+
+
+export type MutationMoveImagesArgs = {
+  input: MoveImagesInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   dirs: Array<Scalars['String']>;
@@ -33,10 +56,25 @@ export type GetDirsQueryVariables = Exact<{
 
 export type GetDirsQuery = { __typename?: 'Query', dirs: Array<string> };
 
+export type MoveImagesMutationVariables = Exact<{
+  input: MoveImagesInput;
+}>;
+
+
+export type MoveImagesMutation = { __typename?: 'Mutation', moveImages: { __typename?: 'MoveImagesResult', succeeded: Array<string>, failed: Array<string> } };
+
 
 export const GetDirsDocument = gql`
     query getDirs($root: String!) {
   dirs(root: $root)
+}
+    `;
+export const MoveImagesDocument = gql`
+    mutation moveImages($input: MoveImagesInput!) {
+  moveImages(input: $input) {
+    succeeded
+    failed
+  }
 }
     `;
 
@@ -49,6 +87,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     getDirs(variables: GetDirsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDirsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetDirsQuery>(GetDirsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDirs', 'query');
+    },
+    moveImages(variables: MoveImagesMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<MoveImagesMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<MoveImagesMutation>(MoveImagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'moveImages', 'mutation');
     }
   };
 }

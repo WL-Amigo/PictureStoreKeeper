@@ -52,7 +52,7 @@ export const PictureArrangerPage = defineComponent({
       }
 
       // TODO: handle failure
-      moveAPIService.movePictureAsync(currentAlbumId, targetImgFileName, currentDirId, destIdx);
+      moveAPIService.movePictureAsync(currentAlbumId, [targetImgFileName], currentDirId, destIdx);
       imgSrcList.value.splice(0, 1);
     };
 
