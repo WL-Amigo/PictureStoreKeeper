@@ -39,7 +39,14 @@ const buildBackend = (): Promise<void> => {
   const distDir = `./dist/${targetOS}_${targetArch}${
     armVersion !== undefined ? `v${armVersion}` : ""
   }/`;
-  await remove(distDir);
+  // delete only build artifacts
+  await remove(
+    pathResolve(
+      distDir,
+      `picture-store-keeper${targetOS === "windows" ? ".exe" : ""}`
+    )
+  );
+  await remove(pathResolve(distDir, "frontend-dist/"));
   await mkdirp(distDir);
   await move(
     "./backend/picture-store-keeper-backend",
