@@ -3,7 +3,7 @@ build-release/
 dist/
 album.json
 node_modules/
-l_*/*
+l_*
 .pnpm-debug.log
 
 # Local working directories

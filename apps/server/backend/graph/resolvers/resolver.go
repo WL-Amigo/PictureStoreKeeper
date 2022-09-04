@@ -10,12 +10,15 @@ import "picture-store-keeper-server/Services"
 
 type Resolver struct {
 	directoryService *Services.DirectoryService
+	moveFileService  *Services.MoveFileService
 }
 
 func CreateResolver(
 	directoryService *Services.DirectoryService,
+	moveFileService *Services.MoveFileService,
 ) *Resolver {
 	return &Resolver{
 		directoryService,
+		moveFileService,
 	}
 }

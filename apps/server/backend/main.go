@@ -44,6 +44,7 @@ func main() {
 	thumbnailsService := Services.CreateThumbnailsService(filepath.Dir(ex), settings.MaxJobCount)
 	defer thumbnailsService.Close()
 	directoryService := Services.CreateDirectoryService(settings.RootDir)
+	moveFileService := Services.CreateMoveFileService(albumManager)
 
 	// register all endpoints
 	API.AddAlbumEndpoints(e, albumManager, settings.RootDir)
@@ -53,7 +54,7 @@ func main() {
 	graphqlHandler := handler.NewDefaultServer(
 		generated.NewExecutableSchema(
 			generated.Config{
-				Resolvers: resolvers.CreateResolver(directoryService),
+				Resolvers: resolvers.CreateResolver(directoryService, moveFileService),
 			},
 		),
 	)

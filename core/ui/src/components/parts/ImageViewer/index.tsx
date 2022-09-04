@@ -68,6 +68,7 @@ export const ImageViewer = defineComponent({
         case 'original':
           return ['object-none', 'overflow-visible'];
       }
+      return [];
     });
 
     const originalImageSize = shallowRef<Size>({ width: NaN, height: NaN });

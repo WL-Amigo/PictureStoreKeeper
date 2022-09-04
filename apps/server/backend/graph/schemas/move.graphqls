@@ -1,0 +1,15 @@
+input MoveImagesInput {
+  albumId: ID!
+  srcDirIndex: Int!
+  destDirIndex: Int!
+  fileNames: [String!]!
+}
+
+type MoveImagesResult {
+  succeeded: [String!]!
+  failed: [String!]!
+}
+
+extend type Mutation {
+  moveImages(input: MoveImagesInput!): MoveImagesResult!
+}
