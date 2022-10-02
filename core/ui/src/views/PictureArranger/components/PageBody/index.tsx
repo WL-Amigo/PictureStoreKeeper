@@ -22,6 +22,7 @@ export const PictureArrangerBody = defineComponent({
     move: (destDirId: number) => true,
     skip: () => true,
     deleteImg: () => true,
+    exit: () => true,
   },
   setup(props, ctx) {
     const directoryAPIService = useDependency(ServiceKeys.DirectoryAPIService);
@@ -66,6 +67,8 @@ export const PictureArrangerBody = defineComponent({
 
     const disableMoveOperations = computed(() => isInLookAheadMode.value);
 
+    const onExit = () => ctx.emit('exit');
+
     return () => (
       <div class="w-screen h-full absolute inset-0 overflow-hidden flex flex-col">
         {/* main image display area */}
@@ -79,8 +82,11 @@ export const PictureArrangerBody = defineComponent({
                 </div>
               </>
             ) : (
-              <div class="w-full h-full flex justify-center items-center">
+              <div class="w-full h-full flex flex-col justify-center items-center gap-y-2">
                 <span>表示する画像がありません</span>
+                <Button variant="primary" onClick={onExit}>
+                  整理を終了
+                </Button>
               </div>
             )}
           </div>

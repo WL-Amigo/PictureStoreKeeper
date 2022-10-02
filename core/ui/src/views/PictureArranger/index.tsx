@@ -3,11 +3,13 @@ import { useAlbumDataWithUrlId } from '@/compositions/Album';
 import { useDependency, ServiceKeys } from '@/compositions/Dependency';
 import { useSingleIntRouteParam } from '@/compositions/Router';
 import { computed, defineComponent, onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { PictureArrangerBody } from './components/PageBody';
 
 export const PictureArrangerPage = defineComponent({
   name: 'PictureArrangerPage',
   setup() {
+    const router = useRouter();
     const directoryAPIService = useDependency(ServiceKeys.DirectoryAPIService);
     const moveAPIService = useDependency(ServiceKeys.MoveAPIService);
 
@@ -71,6 +73,15 @@ export const PictureArrangerPage = defineComponent({
       imgSrcList.value.splice(0, 1);
     };
 
+    const returnToDirSelector = () => {
+      router.push({
+        name: 'directory-selector-before-arrange',
+        params: {
+          albumId: albumId.value,
+        },
+      });
+    };
+
     return () => {
       const albumIdValue = albumId.value;
       if (albumIdValue === undefined) {
@@ -94,6 +105,7 @@ export const PictureArrangerPage = defineComponent({
           onMove={move}
           onSkip={skip}
           onDeleteImg={handleDelete}
+          onExit={returnToDirSelector}
         />
       );
     };
