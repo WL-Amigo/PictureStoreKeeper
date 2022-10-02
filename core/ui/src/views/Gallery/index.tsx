@@ -108,6 +108,10 @@ const Body = defineComponent({
       await moveService.movePictureAsync(props.albumId, [targetFileName], props.dirId, destDirId);
       ctx.emit('requestReload');
     };
+    const moveToTrash = async (targetFileName: string) => {
+      await moveService.deletePictureAsync(props.albumId, [targetFileName], props.dirId);
+      ctx.emit('requestReload');
+    };
 
     const { selectedImgSet, isInMultiSelectMode, toggleSelection, clearSelection, dispatchBulkOperation } =
       useGalleryMultiSelectState(toRef(props, 'albumId'), toRef(props, 'dirId'), () => {
@@ -186,6 +190,7 @@ const Body = defineComponent({
           onNext={onImageViewNext}
           onPrev={onImageViewPrev}
           onMoveDir={moveDir}
+          onMoveToTrash={moveToTrash}
         />
       </div>
     );

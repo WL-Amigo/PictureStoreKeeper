@@ -13,3 +13,9 @@ type MoveImagesResult struct {
 	Succeeded []string `json:"succeeded"`
 	Failed    []string `json:"failed"`
 }
+
+type TrashImagesInput struct {
+	AlbumID     string   `json:"albumId"`
+	SrcDirIndex int      `json:"srcDirIndex"`
+	FileNames   []string `json:"fileNames"`
+}

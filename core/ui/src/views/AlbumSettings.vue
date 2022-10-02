@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto py-8 px-2">
+  <div class="container mx-auto py-8 px-2 h-full overflow-y-auto">
     <div class="w-full bg-white rounded p-2">
       <loading v-if="album === undefined" label="読み込み中…" />
 

@@ -1,7 +1,7 @@
 import { vt } from '@/utils/Vue';
 import { windi } from '@/windi';
 import clsx from 'clsx';
-import { ButtonHTMLAttributes, Component, computed, DefineComponent, defineComponent } from 'vue';
+import { ButtonHTMLAttributes, computed, DefineComponent, defineComponent } from 'vue';
 
 const AllVariant = ['default', 'primary', 'danger'] as const;
 type Variant = typeof AllVariant[keyof typeof AllVariant];

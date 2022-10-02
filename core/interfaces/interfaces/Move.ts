@@ -7,7 +7,7 @@ export interface IMoveService {
   ): Promise<boolean>;
   deletePictureAsync(
     albumID: string,
-    fileName: string,
+    fileNames: readonly string[],
     sourceDirIndex: number
   ): Promise<boolean>;
 }

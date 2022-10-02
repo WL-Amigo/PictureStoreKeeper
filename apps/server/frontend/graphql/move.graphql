@@ -4,3 +4,10 @@ mutation moveImages($input: MoveImagesInput!) {
     failed
   }
 }
+
+mutation trashImages($input: TrashImagesInput!) {
+  trashImages(input: $input) {
+    succeeded
+    failed
+  }
+}

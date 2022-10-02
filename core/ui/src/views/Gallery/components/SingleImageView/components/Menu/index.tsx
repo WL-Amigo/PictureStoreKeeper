@@ -3,6 +3,7 @@ import { Popover } from '@/components/Popover';
 import { defineComponent, ref } from 'vue';
 import * as vt from 'vue-types';
 import { GalleryImageViewMoveMenu } from './Move';
+import { GalleryImageViewTrashMenu } from './Trash';
 
 export const GalleryImageViewMenuButton = defineComponent({
   name: 'GalleryImageViewMenuButton',
@@ -12,6 +13,7 @@ export const GalleryImageViewMenuButton = defineComponent({
   },
   emits: {
     moveDir: (destDirId: number) => true,
+    moveToTrash: () => true,
   },
   setup(props, ctx) {
     const buttonRef = ref<HTMLButtonElement | null>();
@@ -27,6 +29,9 @@ export const GalleryImageViewMenuButton = defineComponent({
     const onSelectDir = (id: number) => {
       ctx.emit('moveDir', id);
     };
+    const onConfirmMoveToTrash = () => {
+      ctx.emit('moveToTrash');
+    };
 
     return () => (
       <>
@@ -36,6 +41,7 @@ export const GalleryImageViewMenuButton = defineComponent({
         <Popover anchorEl={buttonRef.value} open={isOpen.value} onClickAway={close}>
           <div class="py-2">
             <GalleryImageViewMoveMenu onSelectDir={onSelectDir} albumId={props.albumId} />
+            <GalleryImageViewTrashMenu onConfirmed={onConfirmMoveToTrash} />
           </div>
         </Popover>
       </>

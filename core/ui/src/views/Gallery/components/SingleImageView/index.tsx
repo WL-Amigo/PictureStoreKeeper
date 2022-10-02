@@ -21,6 +21,7 @@ export const GallerySingleImageView = defineComponent({
     prev: () => true,
     close: () => true,
     moveDir: (_fileName: string, _destDirId: number) => true,
+    moveToTrash: (_fileName: string) => true,
   },
   setup(props, ctx) {
     const directoryService = useDependency(ServiceKeys.DirectoryAPIService);
@@ -36,6 +37,10 @@ export const GallerySingleImageView = defineComponent({
     const moveDir = (id: number) => {
       ctx.emit('close');
       ctx.emit('moveDir', props.currentImgFileName, id);
+    };
+    const moveToTrash = () => {
+      ctx.emit('close');
+      ctx.emit('moveToTrash', props.currentImgFileName);
     };
 
     const onOverscroll = (direction: 'left' | 'right') => (direction === 'left' ? ctx.emit('next') : ctx.emit('prev'));
@@ -55,7 +60,12 @@ export const GallerySingleImageView = defineComponent({
           <button onClick={emitPrev} disabled={!props.canGoPrev} class="p-2 bg-white bg-opacity-0 hover:bg-opacity-25">
             <ArrowLeftIcon class="w-10 h-10" />
           </button>
-          <GalleryImageViewMenuButton albumId={props.albumId} dirId={props.dirId} onMoveDir={moveDir} />
+          <GalleryImageViewMenuButton
+            albumId={props.albumId}
+            dirId={props.dirId}
+            onMoveDir={moveDir}
+            onMoveToTrash={moveToTrash}
+          />
           <button onClick={emitNext} disabled={!props.canGoNext} class="p-2 bg-white bg-opacity-0 hover:bg-opacity-25">
             <ArrowRightIcon class="w-10 h-10" />
           </button>

@@ -18,6 +18,15 @@ func (r *mutationResolver) MoveImages(ctx context.Context, input model.MoveImage
 	}, nil
 }
 
+func (r *mutationResolver) TrashImages(ctx context.Context, input model.TrashImagesInput) (*model.MoveImagesResult, error) {
+	succeededFileNames, failedFileNames := r.moveFileService.MoveFilesToTrash(input.AlbumID, input.SrcDirIndex, input.FileNames)
+
+	return &model.MoveImagesResult{
+		Succeeded: succeededFileNames,
+		Failed:    failedFileNames,
+	}, nil
+}
+
 // Mutation returns generated.MutationResolver implementation.
 func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
 

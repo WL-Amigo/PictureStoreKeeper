@@ -5,6 +5,12 @@ input MoveImagesInput {
   fileNames: [String!]!
 }
 
+input TrashImagesInput {
+  albumId: ID!
+  srcDirIndex: Int!
+  fileNames: [String!]!
+}
+
 type MoveImagesResult {
   succeeded: [String!]!
   failed: [String!]!
@@ -12,4 +18,5 @@ type MoveImagesResult {
 
 extend type Mutation {
   moveImages(input: MoveImagesInput!): MoveImagesResult!
+  trashImages(input: TrashImagesInput!): MoveImagesResult!
 }

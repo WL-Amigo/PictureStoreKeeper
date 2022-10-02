@@ -31,11 +31,17 @@ export type MoveImagesResult = {
 export type Mutation = {
   __typename?: 'Mutation';
   moveImages: MoveImagesResult;
+  trashImages: MoveImagesResult;
 };
 
 
 export type MutationMoveImagesArgs = {
   input: MoveImagesInput;
+};
+
+
+export type MutationTrashImagesArgs = {
+  input: TrashImagesInput;
 };
 
 export type Query = {
@@ -47,6 +53,12 @@ export type Query = {
 export type QueryDirsArgs = {
   includeHidden?: InputMaybe<Scalars['Boolean']>;
   root: Scalars['String'];
+};
+
+export type TrashImagesInput = {
+  albumId: Scalars['ID'];
+  fileNames: Array<Scalars['String']>;
+  srcDirIndex: Scalars['Int'];
 };
 
 export type GetDirsQueryVariables = Exact<{
@@ -63,6 +75,13 @@ export type MoveImagesMutationVariables = Exact<{
 
 export type MoveImagesMutation = { __typename?: 'Mutation', moveImages: { __typename?: 'MoveImagesResult', succeeded: Array<string>, failed: Array<string> } };
 
+export type TrashImagesMutationVariables = Exact<{
+  input: TrashImagesInput;
+}>;
+
+
+export type TrashImagesMutation = { __typename?: 'Mutation', trashImages: { __typename?: 'MoveImagesResult', succeeded: Array<string>, failed: Array<string> } };
+
 
 export const GetDirsDocument = gql`
     query getDirs($root: String!) {
@@ -72,6 +91,14 @@ export const GetDirsDocument = gql`
 export const MoveImagesDocument = gql`
     mutation moveImages($input: MoveImagesInput!) {
   moveImages(input: $input) {
+    succeeded
+    failed
+  }
+}
+    `;
+export const TrashImagesDocument = gql`
+    mutation trashImages($input: TrashImagesInput!) {
+  trashImages(input: $input) {
     succeeded
     failed
   }
@@ -90,6 +117,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     moveImages(variables: MoveImagesMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<MoveImagesMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<MoveImagesMutation>(MoveImagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'moveImages', 'mutation');
+    },
+    trashImages(variables: TrashImagesMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<TrashImagesMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<TrashImagesMutation>(TrashImagesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'trashImages', 'mutation');
     }
   };
 }

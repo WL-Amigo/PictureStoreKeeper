@@ -73,3 +73,36 @@ func (mf *MoveFileService) MoveFiles(albumId string, srcDirIdx int, destDirIdx i
 
 	return succeededFileNames, failedFileNames
 }
+
+func (mf *MoveFileService) getMoveSourceAndTrash(albumId string, srcDirIdx int) (string, string, error) {
+	album := mf.albumManager.Get(albumId)
+	if album == nil {
+		return "", "", errors.New("Album " + albumId + " not found")
+	}
+
+	if srcDirIdx < 0 || srcDirIdx >= len(album.AlbumPublic.DirEntries) {
+		return "", "", errors.New("srcDirIdx out of range")
+	}
+
+	return album.AlbumPublic.DirEntries[srcDirIdx].FullPath, album.AlbumPublic.WillBeDeletedDir, nil
+}
+
+func (mf *MoveFileService) MoveFilesToTrash(albumId string, srcDirIdx int, fileNames []string) ([]string, []string) {
+	srcPrefix, trashPrefix, err := mf.getMoveSourceAndTrash(albumId, srcDirIdx)
+	if err != nil {
+		return []string{}, fileNames
+	}
+
+	succeededFileNames := []string{}
+	failedFileNames := []string{}
+
+	for _, fileName := range fileNames {
+		if err = moveFileFromDirToDir(srcPrefix, trashPrefix, fileName); err != nil {
+			failedFileNames = append(failedFileNames, fileName)
+		} else {
+			succeededFileNames = append(succeededFileNames, fileName)
+		}
+	}
+
+	return succeededFileNames, failedFileNames
+}

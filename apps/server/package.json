@@ -5,6 +5,7 @@
   "description": "PictureStoreKeeper for server",
   "scripts": {
     "dev": "vite",
+    "preview": "vite preview",
     "gen:graphql": "graphql-codegen -c ./frontend/graphql/codegen.yml",
     "build": "pnpm build:script && pnpm build:frontend && pnpm build:linux-amd64 && pnpm build:linux-armv7 && pnpm build:windows-amd64",
     "build:frontend": "vite build",

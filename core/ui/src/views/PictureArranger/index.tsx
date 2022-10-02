@@ -64,7 +64,7 @@ export const PictureArrangerPage = defineComponent({
         return;
       }
 
-      moveAPIService.deletePictureAsync(currentAlbumId, targetImgFileName, currentDirId);
+      moveAPIService.deletePictureAsync(currentAlbumId, [targetImgFileName], currentDirId);
       imgSrcList.value.splice(0, 1);
     };
     const skip = () => {

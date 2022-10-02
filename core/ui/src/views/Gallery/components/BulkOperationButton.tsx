@@ -5,6 +5,7 @@ import { defineComponent, ref } from 'vue';
 import { GalleryBulkOperations } from '../viewModels/BulkOperation';
 import { GalleryButton } from './GalleryButton';
 import { GalleryImageViewMoveMenu } from './SingleImageView/components/Menu/Move';
+import { GalleryImageViewTrashMenu } from './SingleImageView/components/Menu/Trash';
 
 export const GalleryBulkOperationButton = defineComponent({
   props: {
@@ -12,7 +13,7 @@ export const GalleryBulkOperationButton = defineComponent({
     dirId: vt.number().isRequired,
   },
   emits: {
-    dispatchBulkAction: (op: GalleryBulkOperations) => true,
+    dispatchBulkAction: (_op: GalleryBulkOperations) => true,
     exitMultiSelect: () => true,
   },
   setup(props, ctx) {
@@ -33,6 +34,12 @@ export const GalleryBulkOperationButton = defineComponent({
       };
       ctx.emit('dispatchBulkAction', op);
     };
+    const onConfirmMoveToTrash = () => {
+      const op: GalleryBulkOperations = {
+        type: 'trash',
+      };
+      ctx.emit('dispatchBulkAction', op);
+    };
     const onExitMultiSelect = () => ctx.emit('exitMultiSelect');
 
     return () => (
@@ -46,6 +53,7 @@ export const GalleryBulkOperationButton = defineComponent({
         <Popover anchorEl={buttonRef.value} open={isOpen.value} onClickAway={close}>
           <div class="py-2 flex flex-col gap-y-2 w-60">
             <GalleryImageViewMoveMenu onSelectDir={onSelectDir} albumId={props.albumId} />
+            <GalleryImageViewTrashMenu onConfirmed={onConfirmMoveToTrash} />
             <button
               class="px-4 py-2 flex flex-row items-center gap-x-2 bg-white hover:bg-gray-100"
               onClick={onExitMultiSelect}

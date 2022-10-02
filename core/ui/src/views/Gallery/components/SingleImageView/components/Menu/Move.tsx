@@ -5,6 +5,7 @@ import { useAsyncState } from '@vueuse/core';
 import { ServiceKeys, useDependency } from '@/compositions/Dependency';
 import * as vt from 'vue-types';
 import { Button } from '@/components/parts/Button';
+import { MenuButtonClasses } from './Styles';
 
 export const GalleryImageViewMoveMenu = defineComponent({
   props: {
@@ -42,10 +43,7 @@ export const GalleryImageViewMoveMenu = defineComponent({
 
     return () => (
       <>
-        <button
-          class="px-4 py-2 flex flex-row items-center gap-x-2 bg-white hover:bg-gray-100"
-          onClick={onOpenDirSelector}
-        >
+        <button class={MenuButtonClasses} onClick={onOpenDirSelector}>
           <BoxFolderIcon class="w-6 h-6" />
           他のフォルダに移動
         </button>
