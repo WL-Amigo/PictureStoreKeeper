@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"picture-store-keeper-server/Model"
 	"picture-store-keeper-server/Services"
+	"picture-store-keeper-server/utils/utils_filter"
 	"strconv"
 	"strings"
 
@@ -118,6 +119,9 @@ func createFileListResponse(fileInfos []os.FileInfo) fileListResponse {
 	ret := fileListResponse{[]string{}}
 	for _, v := range fileInfos {
 		if v.IsDir() {
+			continue
+		}
+		if !utils_filter.IsKnownImageFiles(v.Name()) {
 			continue
 		}
 		ret.FileList = append(ret.FileList, v.Name())
