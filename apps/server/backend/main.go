@@ -1,6 +1,8 @@
 package main
 
 import (
+	"embed"
+	"io/fs"
 	"net/http"
 	"os"
 	"os/signal"
@@ -17,6 +19,9 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
+
+//go:embed static/*
+var staticContents embed.FS
 
 func main() {
 	e := echo.New()
@@ -69,7 +74,20 @@ func main() {
 	})
 
 	// register static file serving endpoint
-	e.Static("/", filepath.Join(filepath.Dir(ex), "frontend-dist"))
+	staticContentsFs, err := fs.Sub(staticContents, "static")
+	if err != nil {
+		panic(err)
+	}
+	staticContentsHandler := http.FileServer(http.FS(staticContentsFs))
+	e.GET("/assets/*", echo.WrapHandler(staticContentsHandler))
+	e.GET("/static/*", echo.WrapHandler(staticContentsHandler))
+	e.GET("/*", func(c echo.Context) error {
+		indexHtmlContents, err := fs.ReadFile(staticContentsFs, "index.html")
+		if err != nil {
+			return err
+		}
+		return c.HTMLBlob(http.StatusOK, indexHtmlContents)
+	})
 
 	go func() {
 		if err := e.Start(":1323"); err != nil && err != http.ErrServerClosed {

@@ -1,6 +1,7 @@
 .idea/
 build-release/
 dist/
+apps/server/backend/static/
 album.json
 node_modules/
 l_*

@@ -46,7 +46,6 @@ const buildBackend = (): Promise<void> => {
       `picture-store-keeper${targetOS === "windows" ? ".exe" : ""}`
     )
   );
-  await remove(pathResolve(distDir, "frontend-dist/"));
   await mkdirp(distDir);
   await move(
     "./backend/picture-store-keeper-backend",
@@ -55,7 +54,6 @@ const buildBackend = (): Promise<void> => {
       `picture-store-keeper${targetOS === "windows" ? ".exe" : ""}`
     )
   );
-  await copy("./frontend/dist/", pathJoin(distDir, "frontend-dist/"));
 })().catch((reason) => {
   console.error(reason);
   process.exit(1);

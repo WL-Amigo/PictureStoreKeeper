@@ -14,7 +14,7 @@ export default defineConfig({
         primary: Colors.blue,
       },
       backgroundImage: () => ({
-        'seamless-paper': "url('/seamless_paper_texture.png')",
+        'seamless-paper': "url('/static/images/seamless_paper_texture.png')",
       }),
       zIndex: {
         modal: '200',
